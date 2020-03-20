@@ -1,0 +1,19 @@
+div(class="col col-4")
+	div(class="card")
+		table
+			thead
+				tr
+					th ID
+					th Game naam
+					th Geeindigd op
+					th Gestart op
+					th Punten uitgegeven
+					th Aantal keer gespeeld
+			tbody
+					tr
+						td= history._id
+						td= history.game.name
+						td= history.gameStarted
+						td= history.gameEnded
+						td= history.points.length
+						td= histories.length

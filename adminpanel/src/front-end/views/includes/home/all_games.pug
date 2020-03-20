@@ -1,0 +1,15 @@
+div.card
+	h3.card-title Alle spellen
+	div.row
+		each val, index in games
+			div.col.col-lg-6
+				div.panel
+					h6.panel-head=val.name
+					div.panel-body
+						img(src="/games/"+val.image, alt="", srcset="").image
+					div.panel-footer
+						button.button-warning.button-small(href="/history/"+val._id) Geschiedenis
+						button.button-warning.button-small(href="/games/"+val._id) Uitgegeven punten: 
+							span=val.points.length
+						if current_game == false
+							button.button-success.button-small.float-right(onClick="start_game('"+val._id+"')") Snel starten

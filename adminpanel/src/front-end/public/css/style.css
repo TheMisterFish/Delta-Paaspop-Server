@@ -1,0 +1,44 @@
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+	z-index: 1;
+}
+.dropdown-content > li > a {
+	color: black;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.logo{
+	height: 100px;
+	position: absolute;
+	top: 5px;
+	left: 35px;
+	z-index: 1000000;
+}
+
+nav{
+	margin-bottom: 25px;
+}
+
+.absolute_bottom{
+	position: fixed;
+	bottom: 20px;
+}
+
+.image{
+	width: 100%;
+	height: 300px;
+	object-fit: cover;
+}

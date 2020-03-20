@@ -1,0 +1,7 @@
+if breadcrumbs
+	ul.breadcrumbs
+	each val, index in breadcrumbs
+		if val[1]
+			a(href="/"+val[1])= ' / '+val[0]
+		else
+			span=' / '+val[0]

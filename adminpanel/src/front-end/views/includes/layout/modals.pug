@@ -1,0 +1,9 @@
+script(type='text/javascript' src='/js/modals.js')
+div.modal-mask.display-none.animated.fadeIn.faster#model_mask
+	div.modal
+		div.modal-head
+			p.float-left.modal-title#model_title
+			span(onClick="closeModal()").float-right ✘
+		div.modal-body
+			p#model_text
+		div.modal-footer#model_footer

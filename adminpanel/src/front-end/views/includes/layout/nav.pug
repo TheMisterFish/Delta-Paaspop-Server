@@ -1,0 +1,18 @@
+nav
+	div(class="nav-container")
+		div(class="nav-logos")
+			img(src='/assets/logo.png').logo.float-left
+
+
+		ul(class="nav-links")
+			li
+				a(href="/" class=screen == 'home' ? "active" : "") home
+			li
+				a(href="/history" class=screen == 'histories' ? "active" : "") geschiedenis
+			li
+				a(href="/users" class=screen == 'users' ? "active" : "") gebruikers
+			div(class="dropdown")
+				a(href="/account") account
+				div(class="dropdown-content")
+					li(class="")
+						a(href="/logout") logout

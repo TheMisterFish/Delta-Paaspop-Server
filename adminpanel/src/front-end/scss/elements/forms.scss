@@ -1,0 +1,169 @@
+// FORMS
+// ==============================
+
+$input-bg-color: $color-white !default;
+$input-active-color: $brand-color !default;
+$input-border-color: $color-gray-400 !default;
+$input-invalid-color: $color-red-200 !default;
+$input-error-text-color: $color-red-500 !default;
+$input-placeholder-color: $color-gray-500 !default;
+
+.form-control {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.form-control-group {
+    display: flex;
+    justify-content: flex-start;
+
+    .form-control {
+        flex: 1;
+        padding-right: 15px;
+
+        &:last-of-type {
+            padding-right: 0;
+        }
+
+        &.grow-1x {
+            flex-grow: 1;
+        }
+
+        &.grow-2x {
+            flex-grow: 2;
+        }
+
+        &.grow-3x {
+            flex-grow: 3;
+        }
+    }
+}
+
+.validation-error {
+    margin-top: 2px;
+    font-size: 12px;
+    color: $input-error-text-color;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+input[type="color"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="email"],
+input[type="month"],
+input[type="number"],
+input[type="range"],
+input[type="search"],
+input[type="tel"],
+input[type="time"],
+input[type="url"],
+input[type="week"],
+input[type="text"],
+input[type="password"],
+select {
+    appearance: none;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    line-height: 20px;
+    font-size: 16px;
+    font-weight: inherit;
+    background: $input-bg-color;
+    border-radius: 5px;
+    border: 1px solid $input-border-color;
+}
+
+input, select, fieldset {
+    &::placeholder {
+        color: $input-placeholder-color;
+    }
+
+    &:focus {
+        outline: none;
+        border-color: $input-active-color;
+    }
+
+    &.invalid, &:invalid {
+        border-color: $input-error-text-color;
+    }
+}
+
+fieldset {
+    margin: 15px 0;
+    padding: 15px;
+    font-size: 14px;
+    border: 1px solid $input-border-color;
+    border-radius: 5px;
+
+    legend {
+        padding: 0 5px;
+    }
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    margin-right: 10px;
+}
+
+input[type="range"] {
+    appearance: range
+}
+
+input[type="color"] {
+    display: initial;
+    padding: 0 !important;
+    height: 42px;
+}
+
+select {
+    background-color: $input-bg-color;
+    background-image: linear-gradient(45deg, transparent 50%, $input-border-color 50%), linear-gradient(135deg, $input-border-color 50%, transparent 50%), linear-gradient(to right, $input-border-color, $input-border-color);
+    background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
+    background-size: 5px 5px, 5px 5px, 1px 1.5em;
+    background-repeat: no-repeat;
+    padding-right: 30px;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+    }
+
+    &:focus {
+        background-image: linear-gradient(45deg, transparent 50%, $input-active-color 50%), linear-gradient(135deg, $input-active-color 50%, transparent 50%), linear-gradient(to right, $input-active-color, $input-active-color);
+    }
+}
+
+textarea {
+    appearance: none;
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    min-height: 100px;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.4;
+    color: $color-black;
+    background-color: $input-bg-color;
+    border: 1px solid $input-border-color;
+    border-radius: 5px;
+
+    &::placeholder {
+        color: $input-placeholder-color;
+    }
+
+    &:focus {
+        outline: none;
+        border-color: $input-active-color;
+    }
+
+    &.invalid, &:invalid {
+        border-color: $input-invalid-color;
+    }
+}

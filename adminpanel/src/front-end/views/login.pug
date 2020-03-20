@@ -1,0 +1,23 @@
+doctype html
+html
+	head
+		style
+			include /css/mustard-ui.css
+			include /css/style.css
+
+	body
+		include includes/layout/nav
+
+		main
+			div(class="row")
+				div(class="card col-lg-6 col-lg-offset-3")
+					form(method='POST' action='/login')
+						div(class="form-control")
+							label Account:
+							input(type="text" name="username" placeholder="Account..")
+
+						div(class="form-control")
+							label Password:
+							input(type="password" name="password" placeholder="Password...")
+
+						button(class="button-primary" type="submit") Login

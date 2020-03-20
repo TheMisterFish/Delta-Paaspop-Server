@@ -1,0 +1,21 @@
+div(class="col col-4")
+	div(class="card")
+		table
+			thead
+				tr
+					th ID
+					th Game naam
+					th Gestart op
+					th Geeindigd op
+					th Punten uitgegeven
+					th
+			tbody
+				each history, index in histories
+					tr
+						td= history._id
+						td= history.game.name
+						td= history.gameStarted
+						td= history.gameEnded
+						td= history.points.length
+						td 
+							a(class="button button-warning button-small" href="/history/"+history._id) details

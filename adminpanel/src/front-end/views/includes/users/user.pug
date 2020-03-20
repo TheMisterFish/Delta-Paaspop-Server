@@ -1,0 +1,30 @@
+div(class="col col-4")
+	div(class="card")
+		table
+			thead
+				tr
+					th ID
+					th Gebruikersnaam
+					th Bijnaam
+					th Email
+			tbody
+				tr
+					td= user._id
+					td= user.username
+					td= user.nickname
+					td= user.email
+
+		script(type='text/javascript' src='/js/filter_points.js')
+		h3.card-title.float-left punten
+		h6.float-right Totaal:
+			span=user.points.length
+
+		input(type="text" placeholder="Zoeken..." id="filter_input" onkeyup="filterPoints()")
+		table(id="points_table")
+			thead
+				tr
+					th ID
+			tbody
+				each point, index in user.points
+					tr
+						th Punten

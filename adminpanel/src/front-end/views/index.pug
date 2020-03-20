@@ -1,0 +1,28 @@
+doctype html
+html
+	head
+		script(type='text/javascript' src='/js/game_controls.js')
+		style
+			include /css/mustard-ui.css
+			include /css/style.css
+			include /css/animated.css
+
+	body
+		include includes/layout/nav
+		main
+			div(class="container")
+				include includes/layout/breadcrumbs
+				if screen == 'home'
+					include includes/home/index
+				else if screen == 'users'
+					include includes/users/users
+				else if screen == 'user'
+					include includes/users/user
+				else if screen == 'histories'
+					include includes/history/histories
+				else if screen == 'history'
+					include includes/history/history
+				else
+					h1 Screen not found
+				include includes/layout/modals
+				include includes/layout/alerts
