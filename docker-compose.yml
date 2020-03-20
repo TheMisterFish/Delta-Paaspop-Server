@@ -1,0 +1,78 @@
+version: '3.7'
+
+networks:
+  paaspop_bridge:
+    name: paaspop_bridge
+    driver: bridge
+
+services:
+  # uwebsockets for socket connections
+  websocket_server:
+    build:
+      context: ./uwebsockets
+    ports:
+      - 9000:9000
+    networks:
+      - paaspop_bridge
+  # Admin panel vor VJ crew
+  admin_panel:
+    build:
+      context: ./adminpanel
+    container_name: admin_panel
+    depends_on:
+      - db
+      - nginx
+    networks:
+      - paaspop_bridge
+    expose:
+      - "8080"
+  # Client side app & games
+  client_app:
+    build:
+      context: ./clientapp
+    container_name: client_app
+    depends_on:
+      - db
+      - nginx
+    networks:
+      - paaspop_bridge
+    expose:
+      - "8080"
+  # maria DB & Adminner for database
+  db:
+    image: mariadb
+    restart: always
+    ports:
+      - 3306:3306
+    networks:
+      - paaspop_bridge
+    depends_on:
+      - nginx
+    environment:
+      MYSQL_ROOT_PASSWORD: Q*+wGDhC8N_@Kw!7Vuw9b=YDwgeubm^z
+      MYSQL_DATABASE: paaspop
+      MYSQL_USER: mariadb
+      MYSQL_PASSWORD: mmEEEaQ*a%q!p89&szsa^bg9fBrD_#rt
+
+  adminer:
+    image: adminer
+    restart: always
+    depends_on:
+      - db
+      - nginx
+    ports:
+      - 5876:5876
+  # Nginx as firewall + port control?
+  nginx:
+    build:
+      context: ./nginx
+    logging:
+      driver: syslog
+      options:
+        tag: "{{.DaemonName}}(image={{.ImageName}};name={{.Name}};id={{.ID}})"
+    networks:
+      - paaspop_bridge
+    ports:
+      - '80:80'
+      - '5454:5454'
+    restart: on-failure
