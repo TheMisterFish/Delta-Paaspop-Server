@@ -1,6 +1,6 @@
 <template>
 	<div class="bg-image" id="bg-image">
-		hoi
+		hoixd
 	</div>
 </template>
 
