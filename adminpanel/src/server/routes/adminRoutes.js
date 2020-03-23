@@ -2,10 +2,10 @@ import {
 	adminChecker
 } from '../middleware';
 
-import { AdminController } from '../controllers'
+import { AdminController, GameController, PointsController, WebsocketsController } from '../controllers'
 
 module.exports = function (app) {
-
+	// Admin controller
 	app.get('/login', AdminController.get_login);
 	app.post('/login', AdminController.login);
 	app.all('/logout', AdminController.logout)
@@ -13,5 +13,17 @@ module.exports = function (app) {
 	app.get('/users', adminChecker, AdminController.get_users)
 	app.get('/users/:id', adminChecker, AdminController.get_user)
 
-	//other routes..
+	// Game controller
+	app.post('/game/start', adminChecker, GameController.start_game);
+	app.post('/game/stop', adminChecker, GameController.stop_game);
+	app.get('/game/currently', adminChecker, GameController.get_current);
+	app.get('/history', adminChecker, GameController.histories)
+	app.get('/history/:id', adminChecker, GameController.history);
+	
+	// Points controller
+	app.get('/points/game/:id', adminChecker, PointsController.game);
+
+	// Websocket controller
+	app.get('/ws/test', adminChecker, WebsocketsController.test);
+	app.get('/ws/connected', adminChecker, WebsocketsController.ws_connected);
 }
