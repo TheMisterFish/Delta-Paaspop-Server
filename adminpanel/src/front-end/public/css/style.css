@@ -42,3 +42,11 @@ nav{
 	height: 300px;
 	object-fit: cover;
 }
+
+.websocket_chatbox{
+	height: calc(60vh - 120px);
+}
+
+.socketbutton{
+	margin-left: 20px;
+}

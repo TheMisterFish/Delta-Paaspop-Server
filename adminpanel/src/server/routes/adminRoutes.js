@@ -26,4 +26,6 @@ module.exports = function (app) {
 	// Websocket controller
 	app.get('/ws/test', adminChecker, WebsocketsController.test);
 	app.get('/ws/connected', adminChecker, WebsocketsController.ws_connected);
+	app.get('/ws/admin', adminChecker, WebsocketsController.adminSockets)
+	app.get('/ws/game', adminChecker, WebsocketsController.gameSockets)
 }
