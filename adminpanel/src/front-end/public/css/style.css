@@ -45,6 +45,7 @@ nav{
 
 .websocket_chatbox{
 	height: calc(60vh - 120px);
+	resize: vertical;
 }
 
 .socketbutton{
