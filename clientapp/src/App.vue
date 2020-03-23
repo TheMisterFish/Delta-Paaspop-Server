@@ -1,21 +1,32 @@
 <template>
   <div id="app">
-		<router-view></router-view>
+    <transition :name="transitionName">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
 <script>
 
 export default {
-  name: 'App',
+	name: 'App',
+	data() {
+		return {
+			transitionName: "slide-right"
+		}
+	},
+	watch: {
+  '$route' (to, from) {
+    console.log(to, from);
+  }
+}
 }
 </script>
 
 <style>
-	@import './assets/styles/paaspop_styling.css';
-	#app {
-		width: 100vw;
-		height: 100vh;
-		overflow: hidden;
-	}
+#app {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
 </style>

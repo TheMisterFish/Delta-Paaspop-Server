@@ -12,6 +12,9 @@ import Login from './components/pages/LoginComponent.vue'
 import Register from './components/pages/RegisterComponent.vue'
 
 import NotFound from './components/pages/NotFoundComponent.vue'
+
+import './assets/styles/paaspop_styling.scss'
+
 Vue.use(VueRouter)
 
 Vue.config.productionTip = false
@@ -61,7 +64,7 @@ router.beforeEach((to, from, next) => {
 			next()
 			return
 		}
-		next('/login')
+		next()
 	} else {
 		next()
 	}

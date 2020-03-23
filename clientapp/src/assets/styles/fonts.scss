@@ -1,0 +1,97 @@
+@font-face {
+	font-family: TTTunnels;
+	src: url(../fonts/tt_tunnels/TTTunnels-Regular.otf);
+}
+
+@font-face {
+	font-family: TTTunnels-Black;
+	src: url(../fonts/tt_tunnels/TTTunnels-Black.otf);
+}
+
+@font-face {
+	font-family: TTTunnels;
+	src: url(../fonts/tt_tunnels/TTTunnels-Bold.otf);
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: TTTunnels;
+	src: url(../fonts/tt_tunnels/TTTunnels-Light.otf);
+	font-weight: 100;
+}
+
+@font-face {
+	font-family: TTTunnels;
+	src: url(../fonts/tt_tunnels/TTTunnels-Thin.otf);
+	font-weight: lighter;
+}
+
+.tttunnels_regular {
+	font-family: TTTunnels;
+
+	&.bold {
+		font-weight: bold;
+		;
+	}
+
+	&.light {
+		font-weight: 100;
+	}
+
+	&.lighter {
+		font-weight: lighter;
+	}
+
+	&.black {
+		font-weight: 500;
+	}
+}
+
+@font-face {
+	font-family: Montserrat;
+	src: url(../fonts/montserrat/Montserrat-Regular.otf);
+	font-style: normal;
+}
+
+@font-face {
+	font-family: Montserrat-Thin;
+	src: url(../fonts/montserrat/Montserrat-Thin.otf);
+}
+
+
+@font-face {
+	font-family: Montserrat;
+	src: url(../fonts/montserrat/Montserrat-Italic.otf);
+	font-style: italic;
+}
+
+@font-face {
+	font-family: Montserrat;
+	src: url(../fonts/montserrat/Montserrat-Bold.otf);
+	font-style: bold;
+}
+
+@font-face {
+	font-family: Montserrat;
+	src: url(../fonts/montserrat/Montserrat-BoldItalic.otf);
+	font-weight: bold;
+	font-style: italic;
+}
+
+.montserrat_regular {
+	font-family: TTTunnels;
+
+	&.bold {
+		font-weight: bold;
+		;
+	}
+
+	&.italic {
+		font-style: italic;
+	}
+
+	&.bolditalic {
+		font-weight: bold;
+		font-style: italic;
+	}
+}
