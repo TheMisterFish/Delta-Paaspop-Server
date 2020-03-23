@@ -40,7 +40,7 @@ exports.adminSockets = async function (req, res) {
 	res.render('index', {
 		screen: 'ws_admin',
 		token: process.env.ADMIN_TOKEN,
-		route: '/game',
+		route: '/admin',
 		breadcrumbs: [['home',' '], ['admin kanaal']]
 	})
 }

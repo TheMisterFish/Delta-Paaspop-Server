@@ -3,10 +3,11 @@ var route = document.getElementById('route').innerText;
 var textbox = document.getElementById('socketChannel');
 var message = document.getElementById('message');
 
+console.log(route);
 let socket = new WebSocket('ws://localhost:9000' + route, ["token", token]);
 
 socket.onopen = function (e) {
-	addText("[status] Connected");
+	addText("[status] Connected to ws://localhost:9000" + route);
 };
 socket.onmessage = function (event) {
 	addText(`[message] Data received from server: ${event.data}`);
