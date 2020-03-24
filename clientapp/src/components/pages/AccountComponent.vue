@@ -21,7 +21,7 @@
             <div class="text-group">
               <div class="score_key">Score</div>
               <div class="score">512</div>
-							<div class="score_text">PAASPOP PUNTEN</div>
+              <div class="score_text">PAASPOP PUNTEN</div>
             </div>
           </div>
         </div>
@@ -46,24 +46,24 @@ export default {};
   font-family: "Montserrat";
   font-weight: lighter;
 }
-.score_key{
-	font-family: "Montserrat";
+.score_key {
+  font-family: "Montserrat";
   font-weight: bold;
 }
-.score{
-	font-family: "Montserrat";
-	font-weight: bolder;
-	font-size: 100px;
-	text-align: center;
-	color: $yellow;
+.score {
+  font-family: "Montserrat";
+  font-weight: bolder;
+  font-size: 100px;
+  text-align: center;
+  color: $yellow;
 }
-.score_text{
-	float: right;
-	margin-top: -28px;
-	margin-right: 40px;
-	font-family: TTTunnels-Black;
-	font-weight: lighter;
-	font-size: 20px;
-	color: $yellow;
+.score_text {
+  float: right;
+  margin-top: -28px;
+  margin-right: 40px;
+  font-family: TTTunnels-Black;
+  font-weight: lighter;
+  font-size: 20px;
+  color: $yellow;
 }
 </style>
