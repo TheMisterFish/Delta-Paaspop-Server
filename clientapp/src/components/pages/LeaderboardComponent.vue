@@ -42,12 +42,13 @@ export default {};
 </script>
 
 <style lang="scss" scoped>
+$maxHeight: calc(100vh - 140px - #{$navHeight});
 #bg-image {
   background-image: url("./../../assets/backgrounds/leaderboard_bg.png");
   height: 100vh;
 }
 .card {
-  height: calc(100vh - 180px);
+  height: $maxHeight;
   padding-top: 5px;
 }
 .card-body {
@@ -87,7 +88,7 @@ table {
 
 table tbody {
   display: block;
-  max-height: calc(100vh - 220px);
+  max-height: calc(#{$maxHeight} - 40px);
   overflow-y: scroll;
 }
 
@@ -95,6 +96,11 @@ table thead,
 tbody tr {
   display: table;
   width: 100%;
-  table-layout: fixed;
+	table-layout: fixed;
+	td{
+		border-bottom: 0.25px solid white;
+		padding-top: 7.5px;
+
+	}
 }
 </style>

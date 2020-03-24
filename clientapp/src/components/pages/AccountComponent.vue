@@ -23,6 +23,12 @@
               <div class="score">512</div>
               <div class="score_text">PAASPOP PUNTEN</div>
             </div>
+            <div class="text-group logout">
+              <button
+                class="btn"
+                @click="logout"
+              >Uitloggen</button>
+            </div>
           </div>
         </div>
       </div>
@@ -31,7 +37,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    logout() {
+      this.$store.dispatch("logout");
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -60,10 +72,14 @@ export default {};
 .score_text {
   float: right;
   margin-top: -28px;
-  margin-right: 40px;
+  margin-right: 42.5px;
   font-family: TTTunnels-Black;
   font-weight: lighter;
   font-size: 20px;
   color: $yellow;
+}
+.logout {
+  margin-top: 60px;
+  text-align: center;
 }
 </style>

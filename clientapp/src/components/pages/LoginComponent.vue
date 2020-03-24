@@ -9,33 +9,42 @@
       </div>
       <div class="row">
         <div class="card">
-          <div class="card-body">
-            <div class="form-group">
-              <input
-                type="text"
-                name="username"
-                id=""
-                placeholder="E-Mail adress"
-              >
-              <label for="username">Vul je email adress in</label>
+          <form @submit.prevent="login">
+            <div class="card-body">
+              <div class="form-group">
+                <input
+                  type="text"
+                  name="email"
+                  v-model="form.email"
+                  id=""
+                  placeholder="E-Mail adress"
+                  :disabled="sending"
+                >
+                <label for="email">Vul je email adress in</label>
+              </div>
+              <div class="form-group">
+                <input
+                  type="password"
+                  name="password"
+                  v-model="form.password"
+                  id=""
+                  placeholder="Wachtwoord"
+                  :disabled="sending"
+                >
+                <label for="password">Vul je email adress in</label>
+              </div>
+              <div class="">
+                <button
+                  type="submit"
+                  class="btn button-primary center"
+                >Login</button>
+              </div>
+              <div class="card-footer">
+                Nog geen account?
+                <router-link to="/register">Regristreren</router-link>
+              </div>
             </div>
-            <div class="form-group">
-              <input
-                type="password"
-                name="password"
-                id=""
-                placeholder="Wachtwoord"
-              >
-              <label for="password">Vul je email adress in</label>
-            </div>
-            <div class="">
-              <button class="btn button-primary center">Login</button>
-            </div>
-            <div class="card-footer">
-              Nog geen account?
-              <router-link to="/register">Regristreren</router-link>
-            </div>
-          </div>
+          </form>
         </div>
       </div>
       <div class="row">
@@ -51,7 +60,51 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      form: {
+        email: null,
+        password: null
+      },
+      sending: false,
+      errorStatus: false
+    };
+  },
+  computed: {
+    authStatus: function() {
+      return this.$store.getters.authStatus;
+    }
+  },
+  methods: {
+    clearForm() {
+      this.$v.$reset();
+      this.form.email = null;
+    },
+    login() {
+      this.sending = true;
+      var email = this.form.email;
+      var password = this.form.password;
+      this.$store
+        .dispatch("login", { email, password })
+        .then(() => {
+          if (this.authStatus == "success") {
+						this.sending = false;
+						
+          } else {
+            this.sending = false;
+            this.form.password = "";
+          }
+        })
+        .catch(err => {
+          this.$store.dispatch("error", err);
+        });
+    },
+    validateUser() {
+      this.saveUser();
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>

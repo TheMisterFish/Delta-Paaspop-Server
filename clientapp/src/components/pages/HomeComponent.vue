@@ -25,7 +25,10 @@
             class="game-button"
             v-if="true"
           >
-            <button class="start-btn">Speel mee</button>
+            <button
+              class="start-btn"
+              @click="test"
+            >Speel mee</button>
           </div>
         </div>
       </div>
@@ -35,7 +38,18 @@
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+export default {
+  methods: {
+    test() {
+      axios
+        .post("http://localhost:3000/api/test", {}, {
+          withCredentials: true
+        })
+        .then(response => response.data);
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -63,7 +77,7 @@ export default {};
   line-height: 47px;
 }
 .game-button {
-  margin-right: 5px;
+  margin-right: 10px;
 }
 .start-btn {
   background-color: $yellow;
@@ -84,9 +98,9 @@ export default {};
   font-family: TTTunnels-Black;
   font-weight: bolder;
   font-size: 60px;
-  -webkit-box-shadow: -5px 5px 0px 5px rgba(0, 0, 0, 1);
-  -moz-box-shadow: -5px 5px 0px 5px rgba(0, 0, 0, 1);
-  box-shadow: -5px 5px 0px 5px rgba(0, 0, 0, 1);
+  -webkit-box-shadow: -5px 5px 0px 2px rgba(0, 0, 0, 1);
+  -moz-box-shadow: -5px 5px 0px 2px rgba(0, 0, 0, 1);
+  box-shadow: -5px 5px 0px 2px rgba(0, 0, 0, 1);
 }
 
 .start-btn:hover {
@@ -96,20 +110,20 @@ export default {};
   transition: all 0.2s ease;
   margin-left: 4px;
   margin-bottom: 4px;
-  -webkit-box-shadow: -4px 4px 0px 4px rgba(0, 0, 0, 1);
-  -moz-box-shadow: -4px 4px 0px 4px rgba(0, 0, 0, 1);
-  box-shadow: -4px 4px 0px 4px rgba(0, 0, 0, 1);
+  -webkit-box-shadow: -4px 4px 0px 2px rgba(0, 0, 0, 1);
+  -moz-box-shadow: -4px 4px 0px 2px rgba(0, 0, 0, 1);
+  box-shadow: -4px 4px 0px 2px rgba(0, 0, 0, 1);
 }
 .start-btn:active {
   text-transform: uppercase;
   -webkit-transition: all 0.2s ease;
   -o-transition: all 0.2s ease;
   transition: all 0.2s ease;
-  margin-left: 0px;
-  margin-bottom: 0px;
-  -webkit-box-shadow: -0px 0px 0px 0px rgba(0, 0, 0, 1);
-  -moz-box-shadow: -0px 0px 0px 0px rgba(0, 0, 0, 1);
-  box-shadow: -0px 0px 0px 0px rgba(0, 0, 0, 1);
+  margin-left: -5px;
+  margin-bottom: -5px;
+  -webkit-box-shadow: 1px 0px 0px 0px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 1px 0px 0px 0px rgba(0, 0, 0, 1);
+  box-shadow: 1px 0px 0px 0px rgba(0, 0, 0, 1);
 }
 .row {
   height: 50vh;

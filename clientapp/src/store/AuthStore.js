@@ -12,53 +12,49 @@ Vue.use(Vuex)
 const AuthStore = {
 	state: {
 		status: '',
-		token: localStorage.getItem('token') || '',
-		user: {}
+		user: {},
+		logged_in: false
 	},
 	mutations: {
 		auth_request(state) {
-			console.log("auth_request")
 			state.status = 'loading'
 		},
-		auth_success(state, token, user) {
-			console.log("succes")
+		auth_success(state, user) {
 			state.status = 'success'
-			state.token = token
 			state.user = user
+			state.logged_in = true
 		},
 		auth_error(state, error) {
 			console.log("error")
 			state.status = error
 		},
 		logout(state) {
+			console.log('logout?');
 			state.status = ''
-			state.token = ''
+			state.user = {}
+			state.logged_in = false
 		},
 	},
 	actions: {
 		login({
 			commit
 		}, user) {
-			console.log("login fired")
-			console.log(user)
 			return AuthApi
 				.login(user)
 				.then(resp => {
-					console.log("resp:")
-					console.log(resp)
-					const token = resp.data.token
-					const user = resp.data.user
-					localStorage.setItem('token', token)
-					axios.defaults.headers.common['Authorization'] = token
-					commit('auth_success', token, user)
+					console.log(resp.headers);
+					let user = resp.data;
+					axios.defaults.headers.Cookie = resp.headers["set-cookie"];
+					commit('auth_success', user)
 				})
 				.catch(err => {
+					console.log(err);
 					if (err.response != undefined) {
 						commit('auth_error', err.response.data.error)
 					} else {
 						commit('auth_error', err);
 					}
-					localStorage.removeItem('token')
+					localStorage.removeItem('session')
 				})
 		},
 
@@ -68,17 +64,17 @@ const AuthStore = {
 			return AuthApi
 				.logout()
 				.then(resp => {
-					localStorage.removeItem('token')
-					delete axios.defaults.headers.common['Authorization']
+					delete axios.defaults.headers.Cookie;
 					commit('logout')
 				})
 				.catch(err => {
-					this.$store.dispatch("error", err)
+					commit('logout')
+					console.log(err);
 				});
 		}
 	},
 	getters: {
-		isLoggedIn: state => !!state.token,
+		isLoggedIn: state => !!state.logged_in,
 		authStatus: state => state.status,
 	}
 }

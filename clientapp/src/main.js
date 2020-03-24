@@ -23,6 +23,7 @@ Vue.config.productionTip = false
 const routes = [{
 		path: '/',
 		component: Home,
+		name: "home",
 		meta: {
 			requiresAuth: true
 		}
@@ -30,6 +31,7 @@ const routes = [{
 	{
 		path: '/account',
 		component: Account,
+		name: "account",
 		meta: {
 			requiresAuth: true
 		}
@@ -37,17 +39,26 @@ const routes = [{
 	{
 		path: '/leaderboard',
 		component: Leaderboard,
+		name: "leaderboard",
 		meta: {
 			requiresAuth: true
 		}
 	},
 	{
 		path: '/login',
-		component: Login
+		component: Login,
+		name: "login",
+		meta: {
+			requiresNoUser: true
+		}
 	},
 	{
 		path: '/register',
-		component: Register
+		component: Register,
+		name: "register",
+		meta: {
+			requiresNoUser: true
+		}
 	},
 	{
 		path: '*',
@@ -64,7 +75,13 @@ router.beforeEach((to, from, next) => {
 			next()
 			return
 		}
-		next()
+		next('/login')
+	} else if (to.matched.some(record => record.meta.requiresNoUser)) {
+		if (!store.getters.isLoggedIn) {
+			next()
+			return
+		}
+		next('/')
 	} else {
 		next()
 	}
