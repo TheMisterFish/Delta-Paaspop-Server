@@ -76,6 +76,10 @@ exports.get_home = async function (req, res) {
 			_id: req.session.admin
 		}).then(function (admin) {
 			data.name = admin.username;
+		}).catch((err) => {
+			res.clearCookie('user_sid');
+			req.session.destroy();
+			res.redirect('/login');
 		}),
 		Game.find({}, function (err, games) {
 			data.games = games;

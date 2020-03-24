@@ -8,20 +8,21 @@ exports.login = async function (req, res) {
 	 * @param { any } req
 	 * @param { any } res
 	 */
-	var username = req.body.username,
+	var email = req.body.email,
 		password = req.body.password;
 	User.findOne({
-		username: username
+		email: email
 	}).then(function (user) {
-		console.log(req.body.password);
 		if (!user) {
-			res.send("No user?F")
+			res.status(400).send(["Cannot log in"]);
 		} else if (!user.comparePassword(password)) {
-			res.send("Wrong pass?");
+			res.status(400).send(["Wrong password"]);
 		} else {
 			req.session.user = user._id;
-			res.send("logged in?");
+			res.send(user);
 		}
+	}).catch((err) => {
+		console.log(err);
 	});
 }
 exports.register = async function (req, res) {
@@ -96,4 +97,15 @@ exports.leaderboard = async function (req, res) {
 	}).select('nickname').select('points').populate('points').then(function (users) {
 		res.send(users);
 	})
+}
+exports.test = async function (req, res) {
+	/**
+	 * Get  /api/leaderboard
+	 * @export *
+	 * @param { any } req
+	 * @param { any } res
+	 * @return { res } json of usenickname & points rs sorted by amount of points
+	 */
+	console.log(req.headers);
+	res.send("HOI");
 }
