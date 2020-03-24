@@ -1,0 +1,59 @@
+@font-face {
+    font-family: tttunnels;
+    src: url("font/TTTunnels-Bold.otf");
+
+}
+
+*{
+    margin: 0;
+}
+
+main{
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+}
+
+#game{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+#overlay{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+#overlay-header{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 15vh;
+    background: red;
+    font-family: tttunnels;
+    color: white;
+    font-size: 10vh;
+    line-height: 15vh;
+    padding-left: 2vh;
+    
+}
+
+#overlay-footer{
+    position: absolute;
+    width: 100%;
+    height: 10vh;
+    background: lightcoral;
+    bottom: 0;
+    font-family: tttunnels;
+    color: white;
+    font-size: 5vh;
+}
+
+#transition{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
