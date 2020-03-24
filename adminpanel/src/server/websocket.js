@@ -9,7 +9,7 @@ admin.connection = {
 admin.name = 'admin';
 admin.on('connectFailed', function (error) {
 	admin.connection.connected = false;
-	retryAdminConnection()
+	// retryAdminConnection()
 });
 admin.on('connect', function (connection) {
 	admin.connection = connection;

@@ -7,7 +7,9 @@ const MongoStore = require('connect-mongo')(session);
 import adminSeeder from './seeders/adminSeeder'
 import gameSeeder from './seeders/gameSeeder'
 
-import { GameController } from '../controllers'
+import {
+	GameController
+} from '../controllers'
 
 mongoose.set('useCreateIndex', true);
 
@@ -33,5 +35,9 @@ module.exports = function (app) {
 		secret: 'somerandonstuffs',
 		resave: false,
 		saveUninitialized: false,
+		cookie: {
+			// sameSite: 'none', // THIS is the config you are looing for.
+			expires: 3 //259200 seconds = 3 days
+		}
 	}));
 }
