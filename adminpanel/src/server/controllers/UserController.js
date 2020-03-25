@@ -32,11 +32,13 @@ exports.register = async function (req, res) {
 	 * @param { any } req
 	 * @param { any } res
 	 */
+	console.log("came here");
+	console.log(req.body);
 	User.create({
-			username: req.body.username,
 			email: req.body.email,
 			password: req.body.password,
-			nickname: req.body.nickname
+			nickname: req.body.nickname,
+			verified: false
 		})
 		.then(user => {
 			req.session.user = user._id;
@@ -44,7 +46,7 @@ exports.register = async function (req, res) {
 		})
 		.catch(error => {
 			console.log(error);
-			res.send("Coulnd't register")
+			res.status(400).send(["Register error"]);
 		});
 }
 exports.logout = async function (req, res) {
@@ -108,4 +110,47 @@ exports.test = async function (req, res) {
 	 */
 	console.log(req.headers);
 	res.send("HOI");
+}
+exports.random_name = async function (req, res) {
+	let name = null;
+	do {
+		let newName = randomName();
+		let user = await User.findOne({
+			nickname: newName
+		})
+		if (!user)
+			name = newName;
+	} while (name == null);
+	res.send(name);
+}
+
+function randomName() {
+	let nickname = "";
+
+	var fs = require('fs'),
+		path = require('path'),
+		filePath = path.join(__dirname, '../random_names/');
+
+	let firstWordsList = ['de', 'de', 'een']
+	let secondWordsList = fs.readFileSync(filePath + 'secondword.txt').toString('utf-8').split("\n");
+	let thirdWordsList = fs.readFileSync(filePath + 'thirdword.txt').toString('utf-8').split("\n");
+
+	if (getRandomInt(4) != 1) {
+		nickname += capitalizeFirstLetter(firstWordsList[getRandomInt(firstWordsList.length)]);
+	}
+	nickname += capitalizeFirstLetter(secondWordsList[getRandomInt(secondWordsList.length)]);
+	if (getRandomInt(8) == 1) {
+		nickname += capitalizeFirstLetter(secondWordsList[getRandomInt(secondWordsList.length)]);
+	}
+	nickname += capitalizeFirstLetter(thirdWordsList[getRandomInt(thirdWordsList.length)]);
+
+	return nickname.replace(/\n/g, "").replace(/\r/g, "");
+}
+
+function getRandomInt(max) {
+	return Math.floor(Math.random() * Math.floor(max));
+}
+
+function capitalizeFirstLetter(string) {
+	return string.charAt(0).toUpperCase() + string.slice(1);
 }
