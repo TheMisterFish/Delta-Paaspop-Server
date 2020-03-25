@@ -89,8 +89,8 @@ export default {
         .dispatch("login", { email, password })
         .then(() => {
           if (this.authStatus == "success") {
-						this.sending = false;
-						
+            this.sending = false;
+            this.$router.push("/");
           } else {
             this.sending = false;
             this.form.password = "";

@@ -1,21 +1,25 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
 import store from './store/index'
+import VueRouter from 'vue-router'
+import Vue2TouchEvents from 'vue2-touch-events'
+import Vuelidate from 'vuelidate';
+import Vue from 'vue'
 
 import App from './App.vue'
 
 import Home from './components/pages/HomeComponent.vue'
 import Account from './components/pages/AccountComponent.vue'
 import Leaderboard from './components/pages/LeaderboardComponent.vue'
-
 import Login from './components/pages/LoginComponent.vue'
 import Register from './components/pages/RegisterComponent.vue'
-
 import NotFound from './components/pages/NotFoundComponent.vue'
 
 import './assets/styles/paaspop_styling.scss'
 
+
 Vue.use(VueRouter)
+Vue.use(Vue2TouchEvents)
+
+Vue.use(Vuelidate);
 
 Vue.config.productionTip = false
 

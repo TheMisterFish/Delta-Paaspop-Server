@@ -1,4 +1,5 @@
 import axios from 'axios'
+axios.defaults.withCredentials = true
 
 const AuthApi = {
 	login(user) {
@@ -6,16 +7,20 @@ const AuthApi = {
 			.post('http://localhost:3000/api/login', {
 				email: user.email,
 				password: user.password,
-			}, {
-				withCredentials: true,
 			}).then(response => response)
 	},
 	logout() {
 		return axios
-			.post('http://localhost:3000/api/logout', {}, {
-				withCredentials: true,
-			})
+			.post('http://localhost:3000/api/logout')
 			.then(response => response.data)
+	},
+	register(data) {
+		return axios
+			.post('http://localhost:3000/api/register', {
+				email: data.email,
+				password: data.password,
+				nickname: data.nickname
+			})
 	}
 }
 

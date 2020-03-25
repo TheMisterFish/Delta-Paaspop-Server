@@ -28,6 +28,7 @@
             <button
               class="start-btn"
               @click="test"
+              :class="button_class"
             >Speel mee</button>
           </div>
         </div>
@@ -39,14 +40,26 @@
 
 <script>
 import axios from "axios";
+axios.defaults.withCredentials = true;
 export default {
+  data() {
+    return {
+      button_class: ""
+    };
+  },
   methods: {
     test() {
+      this.button_class = "btn-pressed";
       axios
-        .post("http://localhost:3000/api/test", {}, {
-          withCredentials: true
+        .get("http://localhost:3000/api/game_status")
+        .then(data => {
+          console.log(data);
+          this.button_class = "";
         })
-        .then(response => response.data);
+        .catch(error => {
+          console.log(error);
+          this.button_class = "";
+        });
     }
   }
 };
@@ -115,6 +128,17 @@ export default {
   box-shadow: -4px 4px 0px 2px rgba(0, 0, 0, 1);
 }
 .start-btn:active {
+  text-transform: uppercase;
+  -webkit-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  margin-left: -5px;
+  margin-bottom: -5px;
+  -webkit-box-shadow: 1px 0px 0px 0px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 1px 0px 0px 0px rgba(0, 0, 0, 1);
+  box-shadow: 1px 0px 0px 0px rgba(0, 0, 0, 1);
+}
+.btn-pressed {
   text-transform: uppercase;
   -webkit-transition: all 0.2s ease;
   -o-transition: all 0.2s ease;

@@ -42,9 +42,11 @@ const AuthStore = {
 			return AuthApi
 				.login(user)
 				.then(resp => {
-					console.log(resp.headers);
+					console.log(resp);
 					let user = resp.data;
-					axios.defaults.headers.Cookie = resp.headers["set-cookie"];
+					let cookie = resp.headers["set-cookie"];
+					console.log(cookie);
+					axios.defaults.headers.Cookie = cookie;
 					commit('auth_success', user)
 				})
 				.catch(err => {

@@ -1,7 +1,10 @@
 <template>
-  <div id="app">
+  <div
+    id="app"
+    v-touch:swipe="swipeHandler"
+  >
     <transition
-      name="fade"
+      :name="transitionName"
       mode="out-in"
     >
       <router-view></router-view>
@@ -22,7 +25,7 @@ export default {
   },
   data() {
     return {
-      transitionName: "slide-right"
+      transitionName: "fade"
     };
   },
   computed: {
@@ -44,11 +47,40 @@ export default {
     },
     okError: function() {
       this.$store.dispatch("okError");
+    },
+    swipeHandler(direction) {
+      console.log(direction); // May be left / right / top / bottom'
+      if (this.$route.name == "home" && direction == "right") {
+        this.$router.push({ path: "/account" });
+      } else if (this.$route.name == "home" && direction == "left") {
+        this.$router.push({ path: "/leaderboard" });
+      } else if (this.$route.name == "account" && direction == "left") {
+        this.$router.push({ path: "/" });
+      } else if (this.$route.name == "leaderboard" && direction == "right") {
+        this.$router.push({ path: "/" });
+      }
     }
   },
   watch: {
     $route(to, from) {
-      console.log(to, from);
+      // console.log(to, from);
+      // meta: { transitionName: 'slide' },
+      let transitionName = this.transitionName;
+      if (from.name == "home" && to.name == "leaderboard") {
+        transitionName = "slide-left";
+      } else if (from.name == "home" && to.name == "account") {
+        transitionName = "slide-right";
+      } else if (from.name == "account" && to.name == "leaderboard") {
+        transitionName = "slide-left";
+      } else if (from.name == "account" && to.name == "home") {
+        transitionName = "slide-left";
+      } else if (from.name == "leaderboard" && to.name == "account") {
+        transitionName = "slide-right";
+      } else if (from.name == "leaderboard" && to.name == "home") {
+        transitionName = "slide-right";
+      }
+      this.transitionName = transitionName;
+      console.log(this.transitionName);
     }
   }
 };
@@ -59,5 +91,40 @@ export default {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+}
+// @import('./assets/styles/transitions');
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition-duration: 0.33s;
+  transition-property: height, opacity, transform;
+  transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
+  overflow: hidden;
+}
+
+.slide-left-enter,
+.slide-right-leave-active {
+  opacity: 0;
+  transform: translate(2em, 0);
+}
+
+.slide-left-leave-active,
+.slide-right-enter {
+  opacity: 0;
+  transform: translate(-2em, 0);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: height, opacity;
+  transition-timing-function: ease;
+  overflow: hidden;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
 }
 </style>
