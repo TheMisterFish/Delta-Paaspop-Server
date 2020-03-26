@@ -38,6 +38,7 @@ app.set('views', path.join(__dirname, '/front-end/views'));
 app.use(express.static(path.join(__dirname, '/front-end/public')));
 app.locals.basedir = path.join(__dirname, '/front-end/public');
 
+console.log("KAAAAAAAAS");
 // TEST
 const fs = require('fs');
 //joining path of directory 
