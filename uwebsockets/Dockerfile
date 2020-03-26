@@ -7,6 +7,6 @@ COPY package.json .
 RUN npm install uNetworking/uWebSockets.js#v17.3.0 
 
 EXPOSE 9000
-CMD [ "npm", "start" ]
+CMD npm run deploy
 
 COPY . .
