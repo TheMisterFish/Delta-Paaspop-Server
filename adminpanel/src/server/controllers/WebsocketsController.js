@@ -37,7 +37,7 @@ exports.adminSockets = async function (req, res) {
 	 * @param { any } res
 	 * @return { res } render index with users screen
 	 */
-	res.render('index', {
+	res.render('./index', {
 		screen: 'ws_admin',
 		token: process.env.ADMIN_TOKEN,
 		route: '/admin',
@@ -53,7 +53,7 @@ exports.gameSockets = async function (req, res) {
 	 * @return { res } render index with users screen
 	 */
 	
-	res.render('index', {
+	res.render('./index', {
 		screen: 'ws_game',
 		token: process.env.ADMIN_TOKEN,
 		route: '/game',
