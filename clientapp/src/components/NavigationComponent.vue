@@ -35,7 +35,7 @@
           :class="currentRouteName == 'leaderboard' ? 'active' : ''"
         ></span>
       </div>
-    </router-link>>
+    </router-link>
   </div>
 </template>
 
