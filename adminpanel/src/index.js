@@ -32,12 +32,13 @@ app.use(cookieParser());
 require('./server/db')(app);
 
 // Set frontend things
+const DIST_FOLDER = path.join(process.cwd(), 'dist');
+
 app.set('view engine', 'pug')
-app.set('public', path.join(__dirname, 'front-end/public'));
-app.set('views', path.join(__dirname, 'front-end/views'));
-app.use(express.static(path.join(__dirname, '/front-end/public')));
-app.use(express.static(path.join(__dirname, '/front-end/views')));
-app.locals.basedir = path.join(__dirname, 'front-end/public');
+app.set('public', path.join(DIST_FOLDER, 'front-end/public'));
+app.set('views', path.join(DIST_FOLDER, 'front-end/views'));
+app.use(express.static(path.join(DIST_FOLDER, '/front-end/public')));
+app.locals.basedir = path.join(DIST_FOLDER, 'front-end/public');
 
 // admin routes
 require('./server/routes/adminRoutes')(app);
