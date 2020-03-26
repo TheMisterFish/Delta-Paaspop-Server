@@ -4,7 +4,7 @@
   "description": "Admin panel for the paaspop mini-game project",
   "main": "index.js",
   "scripts": {
-    "build": "babel src -d dist",
+    "build": "babel src -d dist  --copy-files",
     "build-old": "rimraf dist/ && babel src/ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
     "start": "nodemon --ext pug,css,js,json --exec babel-node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
