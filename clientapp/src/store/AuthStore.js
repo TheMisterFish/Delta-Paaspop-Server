@@ -29,7 +29,6 @@ const AuthStore = {
 			state.status = error
 		},
 		logout(state) {
-			console.log('logout?');
 			state.status = ''
 			state.user = {}
 			state.logged_in = false
@@ -42,10 +41,8 @@ const AuthStore = {
 			return AuthApi
 				.login(user)
 				.then(resp => {
-					console.log(resp);
 					let user = resp.data;
 					let cookie = resp.headers["set-cookie"];
-					console.log(cookie);
 					axios.defaults.headers.Cookie = cookie;
 					commit('auth_success', user)
 				})

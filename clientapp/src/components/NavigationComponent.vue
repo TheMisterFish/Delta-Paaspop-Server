@@ -47,9 +47,6 @@ export default {
       return this.$route.name;
     }
   },
-  mounted() {
-    console.log(this.currentRouteName);
-  }
 };
 </script>
 
