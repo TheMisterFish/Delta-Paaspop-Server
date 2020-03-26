@@ -19,13 +19,15 @@
                 </tr>
               </thead>
               <tbody>
+                <tr v-if="users.length == 0">Geen gebruikers gevonden</tr>
                 <tr
-                  v-for="(item, index) in 200"
+                  v-else
+                  v-for="(user, index) in users"
                   :key="index"
                 >
-                  <td class="position">{{index + 1}}</td>
-                  <td class="user">paashaas</td>
-                  <td class="last">5</td>
+                  <td :class="user.nickname == me.nickname ? 'bold' : ''"  class="position">{{index + 1}}</td>
+                  <td :class="user.nickname == me.nickname ? 'bold' : ''" class="user">{{user.nickname}}</td>
+                  <td :class="user.nickname == me.nickname ? 'bold' : ''"  class="last">{{user.points}}</td>
                 </tr>
               </tbody>
             </table>
@@ -38,7 +40,22 @@
 </template>
 
 <script>
-export default {};
+import { UserApi } from "../../api";
+export default {
+  data() {
+    return {
+      users: [],
+			me: this.$store.getters.user,
+    };
+  },
+  mounted() {
+    UserApi.leaderboard().then(data => {
+      this.users = data.data;
+    }).catch((err)=>{
+			console.log(err);
+		});
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -55,6 +72,10 @@ $maxHeight: calc(100vh - 140px - #{$navHeight});
   height: 100%;
 }
 
+.bold{
+	font-family: Montserrat;
+	font-weight: bold;
+}
 table {
   text-align: left;
 
@@ -96,11 +117,12 @@ table thead,
 tbody tr {
   display: table;
   width: 100%;
-	table-layout: fixed;
-	td{
-		border-bottom: 0.25px solid white;
-		padding-top: 7.5px;
-
-	}
+  table-layout: fixed;
+  td {
+    border-bottom: 0.25px solid white;
+    padding-top: 7.5px;
+		word-wrap: break-word;         /* All browsers since IE 5.5+ */
+    overflow-wrap: break-word;     /* Renamed property in CSS3 draft spec */
+  }
 }
 </style>

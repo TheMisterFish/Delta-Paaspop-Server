@@ -12,15 +12,15 @@
           <div class="card-body">
             <div class="text-group">
               <div class="key">Email</div>
-              <div class="value">JohnDoe@gmail.com</div>
+              <div class="value">{{user.email}}</div>
             </div>
             <div class="text-group">
               <div class="key">Bijnaam</div>
-              <div class="value">DeEnigePaashaas</div>
+              <div class="value">{{user.nickname}}</div>
             </div>
             <div class="text-group">
               <div class="score_key">Score</div>
-              <div class="score">512</div>
+              <div class="score">{{points}}</div>
               <div class="score_text">PAASPOP PUNTEN</div>
             </div>
             <div class="text-group logout">
@@ -37,7 +37,21 @@
 </template>
 
 <script>
+import { UserApi } from "../../api";
 export default {
+	data() {
+		return {
+			user: this.$store.getters.user,
+			points: 0
+		}
+	},
+	mounted() {
+		UserApi.points().then((data) => {
+			this.points = data.points
+		}).catch((err) => {
+			console.log(err);
+		})
+	},
   methods: {
     logout() {
       this.$store.dispatch("logout").then(() => {

@@ -19,7 +19,11 @@ exports.login = async function (req, res) {
 			res.status(400).send(["Wrong password"]);
 		} else {
 			req.session.user = user._id;
-			res.send(user);
+			let this_user = {
+				email: user.email,
+				nickname: user.nickname
+			}
+			res.send(this_user);
 		}
 	}).catch((err) => {
 		console.log(err);
@@ -96,8 +100,24 @@ exports.leaderboard = async function (req, res) {
 	 */
 	User.find({}, {}, {
 		$sortByCount: 'points'
-	}).select('nickname').select('points').populate('points').then(function (users) {
-		res.send(users);
+	}).select('nickname').select('points').populate('point').then(function (users) {
+		let data = [];
+		for (let u = 0; u < users.length; u++) {
+			let user = users[u];
+			let points = 0;
+			for (let p = 0; p < user.points.length; p++) {
+				let point = user.points[p];
+				points += point.points;
+			}
+			let thisUser = {
+				nickname: user.nickname,
+				points: points
+			};
+			data.push(thisUser);
+		}
+		res.send({
+			data
+		});
 	})
 }
 exports.test = async function (req, res) {
