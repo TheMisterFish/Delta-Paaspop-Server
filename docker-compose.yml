@@ -67,7 +67,6 @@ services:
     build:
       context: ./nginx
     logging:
-      driver: syslog
       options:
         tag: "{{.DaemonName}}(image={{.ImageName}};name={{.Name}};id={{.ID}})"
     networks:
