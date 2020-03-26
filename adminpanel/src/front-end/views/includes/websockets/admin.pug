@@ -1,0 +1,14 @@
+span.display-none#token= token
+span.display-none#route= route
+
+div.card
+	div.form-control
+		label Admin socket kanaal
+		textarea.websocket_chatbox#socketChannel(disabled="true")
+	div.row
+		div.col.col-lg-10
+			input(type="text" placehold="Bericht...")#message
+		div.col.col-lg-2
+			button.button.button-success(onclick="sendText()") Verstuur
+
+script(type='text/javascript' src='/js/websockets.js')
