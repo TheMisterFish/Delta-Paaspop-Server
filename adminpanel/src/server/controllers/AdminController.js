@@ -11,7 +11,7 @@ exports.get_login = async function (req, res) {
 	 * @param { any } res
 	 * @return { render } Returns the login page
 	 */
-	res.render('login.pug');
+	res.render('/login');
 }
 exports.login = async function (req, res) {
 	/**
