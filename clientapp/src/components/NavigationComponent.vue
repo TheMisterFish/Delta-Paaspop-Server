@@ -35,7 +35,7 @@
           :class="currentRouteName == 'leaderboard' ? 'active' : ''"
         ></span>
       </div>
-    </router-link>>
+    </router-link>
   </div>
 </template>
 
@@ -47,9 +47,6 @@ export default {
       return this.$route.name;
     }
   },
-  mounted() {
-    console.log(this.currentRouteName);
-  }
 };
 </script>
 

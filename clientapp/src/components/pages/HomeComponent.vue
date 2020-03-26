@@ -52,7 +52,6 @@ export default {
   methods: {
     getStatus() {
       UserApi.game_status().then(data => {
-        console.log(data);
         if (data != false) {
           this.game = data;
           this.game_found = true;
@@ -103,7 +102,8 @@ export default {
   width: 60%;
   display: block;
   font-family: TTTunnels-Black;
-  line-height: 47px;
+	line-height: 47px;
+	text-transform: uppercase;
 }
 .game-button {
   margin-right: 10px;
