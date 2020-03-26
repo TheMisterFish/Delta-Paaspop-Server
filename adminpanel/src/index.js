@@ -10,8 +10,13 @@ var cors = require('cors')
 
 app.use(cors({
 	credentials: true,
-	origin: true
+	// origin: true
 }))
+app.use((req, res, next) => {
+	res.set('Content-Type', 'text/html')
+	console.log("HOI");
+	next();
+});
 // Import all database related things (models and stuff)
 import db from './server/db'
 
