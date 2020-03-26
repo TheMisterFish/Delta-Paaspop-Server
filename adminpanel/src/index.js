@@ -38,6 +38,23 @@ app.set('views', path.join(__dirname, '/front-end/views'));
 app.use(express.static(path.join(__dirname, '/front-end/public')));
 app.locals.basedir = path.join(__dirname, '/front-end/public');
 
+// TEST
+const fs = require('fs');
+//joining path of directory 
+const directoryPath = path.join(__dirname, '/front-end/public');
+//passsing directoryPath and callback function
+fs.readdir(directoryPath, function (err, files) {
+	//handling error
+	if (err) {
+		return console.log('Unable to scan directory: ' + err);
+	}
+	//listing all files using forEach
+	files.forEach(function (file) {
+		// Do whatever you want to do with the file
+		console.log(file);
+	});
+});
+// TEST
 // admin routes
 require('./server/routes/adminRoutes')(app);
 // user api routes
