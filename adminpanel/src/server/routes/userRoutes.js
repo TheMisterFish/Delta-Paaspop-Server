@@ -14,5 +14,6 @@ module.exports = function (app) {
 	app.post('/api/logout', sessionChecker, UserController.logout);
 	app.get('/api/game_status', sessionChecker, UserController.game_status);
 	app.get('/api/leaderboard', sessionChecker, UserController.leaderboard);
+	app.get('/api/points', sessionChecker, UserController.points)
 	app.post('/api/test', sessionChecker, UserController.test);
 }
