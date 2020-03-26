@@ -122,7 +122,7 @@ exports.histories = async function (req, res) {
 			'createdAt': -1
 		}
 	}).populate('game').then(function (histories) {
-		res.render('./index', {
+		res.render('index', {
 			screen: 'histories',
 			histories: histories
 		})
@@ -140,7 +140,7 @@ exports.history = async function (req, res) {
 		_id: req.params.id
 	}).populate('game').populate('points').then(function (history) {
 		History.find({game: history.game}).then(function(histories) {
-			res.render('./index', {
+			res.render('index', {
 				screen: 'history',
 				history: history,
 				histories: histories,

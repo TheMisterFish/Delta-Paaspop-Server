@@ -11,7 +11,7 @@ exports.get_login = async function (req, res) {
 	 * @param { any } res
 	 * @return { render } Returns the login page
 	 */
-	res.render('./login');
+	res.render('login.pug');
 }
 exports.login = async function (req, res) {
 	/**
@@ -104,7 +104,7 @@ exports.get_home = async function (req, res) {
 		} else {
 			data.next_game = data.games[Object.keys(data.games)[0]];
 		}
-		res.render('./index', data);
+		res.render('index', data);
 	})
 
 }
@@ -119,7 +119,7 @@ exports.get_users = async function (req, res) {
 	User.find({}, {}, {
 		$sortByCount: 'points'
 	}).then(function (users) {
-		res.render('./index', {
+		res.render('index', {
 			screen: 'users',
 			users: users
 		})
@@ -139,7 +139,7 @@ exports.get_user = async function (req, res) {
 		if (!user) {
 			res.send("no user found?")
 		} else {
-			res.render('./index', {
+			res.render('index', {
 				screen: 'user',
 				user: user,
 				breadcrumbs: [['gebruikers','users'], [user.email]]
