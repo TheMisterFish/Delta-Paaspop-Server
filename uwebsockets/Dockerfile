@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y git
 
 WORKDIR /usr/src/app
 COPY package.json .
-RUN npm install uNetworking/uWebSockets.js#v17.3.0 
+RUN npm install
 
 EXPOSE 9000
 CMD npm run deploy
