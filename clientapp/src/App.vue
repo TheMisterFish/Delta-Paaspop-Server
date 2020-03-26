@@ -49,7 +49,6 @@ export default {
       this.$store.dispatch("okError");
     },
     swipeHandler(direction) {
-      console.log(direction); // May be left / right / top / bottom'
       if (this.$route.name == "home" && direction == "right") {
         this.$router.push({ path: "/account" });
       } else if (this.$route.name == "home" && direction == "left") {
@@ -63,8 +62,6 @@ export default {
   },
   watch: {
     $route(to, from) {
-      // console.log(to, from);
-      // meta: { transitionName: 'slide' },
       let transitionName = this.transitionName;
       if (from.name == "home" && to.name == "leaderboard") {
         transitionName = "slide-left";
@@ -80,7 +77,6 @@ export default {
         transitionName = "slide-right";
       }
       this.transitionName = transitionName;
-      console.log(this.transitionName);
     }
   }
 };

@@ -77,6 +77,7 @@ const AuthStore = {
 	},
 	getters: {
 		isLoggedIn: state => !!state.logged_in,
+		user: state => state.user,
 		authStatus: state => state.status,
 	}
 }

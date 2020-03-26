@@ -17,17 +17,16 @@
         <div class="game-outer">
           <span
             class="game-status"
-            v-if="false"
+            v-if="!game_found"
           >
             Geen spel gaande...
           </span>
           <div
             class="game-button"
-            v-if="true"
+            v-if="game_found"
           >
             <button
               class="start-btn"
-              @click="test"
               :class="button_class"
             >Speel mee</button>
           </div>
@@ -39,28 +38,45 @@
 </template>
 
 <script>
-import axios from "axios";
-axios.defaults.withCredentials = true;
+import { UserApi } from "../../api";
+
 export default {
   data() {
     return {
-      button_class: ""
+      button_class: "",
+      interval: undefined,
+      game: {},
+      game_found: false
     };
   },
   methods: {
-    test() {
-      this.button_class = "btn-pressed";
-      axios
-        .get("http://localhost:3000/api/game_status")
-        .then(data => {
-          console.log(data);
-          this.button_class = "";
-        })
-        .catch(error => {
-          console.log(error);
-          this.button_class = "";
-        });
+    getStatus() {
+      UserApi.game_status().then(data => {
+        console.log(data);
+        if (data != false) {
+          this.game = data;
+          this.game_found = true;
+          clearInterval(this.interval);
+        }
+      });
     }
+  },
+  mounted: function() {
+    UserApi.game_status().then(data => {
+      if (data == false) {
+        this.$nextTick(function() {
+          this.interval = setInterval(() => {
+            this.getStatus();
+          }, 5000);
+        });
+      } else {
+        this.game = data;
+        this.game_found = true;
+      }
+    });
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   }
 };
 </script>

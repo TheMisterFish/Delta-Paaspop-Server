@@ -9,7 +9,12 @@ const UserApi = {
 	},
 	leaderboard() {
 		return axios
-			.post('http://localhost:3000/api/leaderboard')
+			.get('http://localhost:3000/api/leaderboard')
+			.then(response => response.data)
+	},
+	points() {
+		return axios
+			.get('http://localhost:3000/api/points')
 			.then(response => response.data)
 	}
 }

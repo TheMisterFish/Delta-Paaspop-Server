@@ -19,7 +19,11 @@ exports.login = async function (req, res) {
 			res.status(400).send(["Wrong password"]);
 		} else {
 			req.session.user = user._id;
-			res.send(user);
+			let this_user = {
+				email: user.email,
+				nickname: user.nickname
+			}
+			res.send(this_user);
 		}
 	}).catch((err) => {
 		console.log(err);
@@ -94,8 +98,24 @@ exports.leaderboard = async function (req, res) {
 	 */
 	User.find({}, {}, {
 		$sortByCount: 'points'
-	}).select('nickname').select('points').populate('points').then(function (users) {
-		res.send(users);
+	}).select('nickname').select('points').populate('point').then(function (users) {
+		let data = [];
+		for (let u = 0; u < users.length; u++) {
+			let user = users[u];
+			let points = 0;
+			for (let p = 0; p < user.points.length; p++) {
+				let point = user.points[p];
+				points += point.points;
+			}
+			let thisUser = {
+				nickname: user.nickname,
+				points: points
+			};
+			data.push(thisUser);
+		}
+		res.send({
+			data
+		});
 	})
 }
 exports.test = async function (req, res) {
@@ -108,4 +128,75 @@ exports.test = async function (req, res) {
 	 */
 	console.log(req.headers);
 	res.send("HOI");
+}
+exports.points = async function (req, res) {
+	/**
+	 * Get  /api/leaderboard
+	 * @export *
+	 * @param { any } req
+	 * @param { any } res
+	 * @return { res } json of usenickname & points rs sorted by amount of points
+	 */
+	User.findOne({
+		_id: req.session.user
+	}).populate('point').then(function (user) {
+		if (!user) {
+			res.status(400).send(["No user?"]);
+		} else {
+			let total_points = 0;
+			for (let y = 0; y < user.points.length; y++) {
+				const element = array[y];
+				total_points += element.points;
+			}
+			let data = {
+				points: total_points
+			}
+			res.send(data);
+		}
+	}).catch((err) => {
+		console.log(err);
+	});
+}
+exports.random_name = async function (req, res) {
+	let name = null;
+	do {
+		let newName = randomName();
+		let user = await User.findOne({
+			nickname: newName
+		})
+		if (!user)
+			name = newName;
+	} while (name == null);
+	res.send(name);
+}
+
+function randomName() {
+	let nickname = "";
+
+	var fs = require('fs'),
+		path = require('path'),
+		filePath = path.join(__dirname, '../random_names/');
+
+	let firstWordsList = ['de', 'de', 'een']
+	let secondWordsList = fs.readFileSync(filePath + 'secondword.txt').toString('utf-8').split("\n");
+	let thirdWordsList = fs.readFileSync(filePath + 'thirdword.txt').toString('utf-8').split("\n");
+
+	if (getRandomInt(4) != 1) {
+		nickname += capitalizeFirstLetter(firstWordsList[getRandomInt(firstWordsList.length)]);
+	}
+	nickname += capitalizeFirstLetter(secondWordsList[getRandomInt(secondWordsList.length)]);
+	if (getRandomInt(8) == 1) {
+		nickname += capitalizeFirstLetter(secondWordsList[getRandomInt(secondWordsList.length)]);
+	}
+	nickname += capitalizeFirstLetter(thirdWordsList[getRandomInt(thirdWordsList.length)]);
+
+	return nickname.replace(/\n/g, "").replace(/\r/g, "");
+}
+
+function getRandomInt(max) {
+	return Math.floor(Math.random() * Math.floor(max));
+}
+
+function capitalizeFirstLetter(string) {
+	return string.charAt(0).toUpperCase() + string.slice(1);
 }
