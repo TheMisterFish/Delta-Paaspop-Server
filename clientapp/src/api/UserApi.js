@@ -1,8 +1,7 @@
-require('dotenv').config()
-const adminport = process.env.ADMIN_PORT;
+const adminport = process.env.VUE_APP_ADMINPORT;
 import axios from 'axios'
 axios.defaults.withCredentials = true
-
+console.log(adminport);
 const UserApi = {
 	game_status() {
 		return axios
