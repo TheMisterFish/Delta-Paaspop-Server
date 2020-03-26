@@ -25,7 +25,7 @@ services:
     networks:
       - paaspop_bridge
     expose:
-      - "5454"
+      - "8080"
   # Client side app & games
   client_app:
     build:
