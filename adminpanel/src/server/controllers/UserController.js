@@ -36,11 +36,13 @@ exports.register = async function (req, res) {
 	 * @param { any } req
 	 * @param { any } res
 	 */
+	console.log("came here");
+	console.log(req.body);
 	User.create({
-			username: req.body.username,
 			email: req.body.email,
 			password: req.body.password,
-			nickname: req.body.nickname
+			nickname: req.body.nickname,
+			verified: false
 		})
 		.then(user => {
 			req.session.user = user._id;
@@ -48,7 +50,7 @@ exports.register = async function (req, res) {
 		})
 		.catch(error => {
 			console.log(error);
-			res.send("Coulnd't register")
+			res.status(400).send(["Register error"]);
 		});
 }
 exports.logout = async function (req, res) {
@@ -128,34 +130,6 @@ exports.test = async function (req, res) {
 	 */
 	console.log(req.headers);
 	res.send("HOI");
-}
-exports.points = async function (req, res) {
-	/**
-	 * Get  /api/leaderboard
-	 * @export *
-	 * @param { any } req
-	 * @param { any } res
-	 * @return { res } json of usenickname & points rs sorted by amount of points
-	 */
-	User.findOne({
-		_id: req.session.user
-	}).populate('point').then(function (user) {
-		if (!user) {
-			res.status(400).send(["No user?"]);
-		} else {
-			let total_points = 0;
-			for (let y = 0; y < user.points.length; y++) {
-				const element = array[y];
-				total_points += element.points;
-			}
-			let data = {
-				points: total_points
-			}
-			res.send(data);
-		}
-	}).catch((err) => {
-		console.log(err);
-	});
 }
 exports.random_name = async function (req, res) {
 	let name = null;

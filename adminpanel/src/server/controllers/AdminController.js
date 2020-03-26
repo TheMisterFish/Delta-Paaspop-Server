@@ -142,7 +142,7 @@ exports.get_user = async function (req, res) {
 			res.render('index', {
 				screen: 'user',
 				user: user,
-				breadcrumbs: [['gebruikers','users'], [user.username]]
+				breadcrumbs: [['gebruikers','users'], [user.email]]
 			})
 		}
 	})
