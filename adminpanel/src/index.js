@@ -42,7 +42,7 @@ console.log("KAAAAAAAAS");
 // TEST
 const fs = require('fs');
 //joining path of directory 
-const directoryPath = path.join(__dirname, '/front-end/public');
+const directoryPath = path.join(__dirname, '/front-end/views');
 //passsing directoryPath and callback function
 fs.readdir(directoryPath, function (err, files) {
 	//handling error
