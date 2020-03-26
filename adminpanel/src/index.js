@@ -32,6 +32,7 @@ app.use(cookieParser());
 require('./server/db')(app);
 
 // Set frontend things
+app.use(express.static(path.join(__dirname, './dist')));
 app.set('view engine', 'pug')
 app.set('public', path.join(__dirname, 'front-end/public'));
 app.set('views', path.join(__dirname, 'front-end/views'));
