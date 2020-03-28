@@ -6,7 +6,12 @@ const app = express()
 const port = process.env.PORT;
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+var cors = require('cors')
 
+app.use(cors({
+	credentials: true,
+	origin: true
+}))
 // Import all database related things (models and stuff)
 import db from './server/db'
 
@@ -24,7 +29,8 @@ app.use(cookieParser());
 
 // Require all the database logic
 require('./server/db')(app);
-console.log(path.join(__dirname, 'front-end/public'));
+
+// Set frontend things
 app.set('view engine', 'pug')
 app.set('public', path.join(__dirname, 'front-end/public'));
 app.set('views', path.join(__dirname, 'front-end/views'));
