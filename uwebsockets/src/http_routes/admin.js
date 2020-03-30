@@ -5,35 +5,49 @@ var middleware = require('../middleware')
 var storage = require('../storage');
 const admin_token = process.env.ADMIN_TOKEN;
 
+// check for debug mode
+const debug = process.env.DEBUG == "true";
+
 module.exports = function (app) {
 	app.post('/start_game', (res, req) => {
 		funcs.readJson(res, (obj) => {
 			console.log(obj);
-			storage.set_value('game_token',obj.game_token)
-			storage.set_value('game_name',obj.game_name)
-			res.end('Thanks for this json!');
+			storage.set_value('game_token', obj.game_token)
+			storage.set_value('game_name', obj.game_name)
+			if (debug) {
+				console.log("Stored game_token: ", obj.game_token);
+				console.log("Started game ", obj.game_name);
+			}
+			res.writeStatus('200');
+			res.end('Game started');
 		}, () => {
-			/* Request was prematurely aborted or invalid or missing, stop reading */
-			console.log('Invalid JSON or no data at all!'); //SEND ERROR RESPONSE HERE
+			if (debug)
+				console.log('Invalid JSON or no data at all!'); //SEND ERROR RESPONSE HERE
+			res.writeStatus('417');
+			res.end('Not valid request');
 		});
 	})
 	app.post('/stop_game', (res, req) => {
 		funcs.readJson(res, (obj) => {
 			console.log(obj);
 			storage.get_value('game_name').then((value) => {
-				if(value == obj.game_name){
+				if (value == obj.game_name) {
 					storage.del_value('game_name');
 					storage.del_value('game_token');
 				} else {
-					console.log("Game was not found?");
+					if (debug)
+						console.log("Game was not found?");
+					res.writeStatus('409');
+					res.end('No game was found');
 				}
 			})
-			// console.log(storage.getItem('token'));
-			// console.log(storage.getItem('game_name'));
+			res.writeStatus('200');
 			res.end('Thanks for this json!');
 		}, () => {
-			/* Request was prematurely aborted or invalid or missing, stop reading */
-			console.log('Invalid JSON or no data at all!'); //SEND ERROR RESPONSE HERE
+			if (debug)
+				console.log('Invalid JSON or no data at all!'); //SEND ERROR RESPONSE HERE
+			res.writeStatus('417');
+			res.end('Not valid request');
 		});
 	})
 }

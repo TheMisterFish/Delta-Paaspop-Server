@@ -1,6 +1,8 @@
 require('dotenv').config()
 const storage = require('node-persist');
 
+const debug = process.env.DEBUG == "true";
+
 storage.init({
 	dir: './storage/',
 	stringify: JSON.stringify,
@@ -20,7 +22,8 @@ module.exports = {
 	set_value: async function (key, value) {
 		return await storage.setItem(key, value)
 			.then(() => {
-				console.log('Stored successfully');
+				if (debug)
+					console.log('Stored ' + key + ' successfully');
 				return storage.getItem(key);
 			})
 			.catch(err => console.error(err));
@@ -30,12 +33,16 @@ module.exports = {
 			return value;
 		}));
 	},
-	del_value: async function(key) {
-		return await storage.removeItem(key).then(() =>{
+	del_value: async function (key) {
+		return await storage.removeItem(key).then(() => {
+			if (debug)
+				console.log('Removed ' + key + ' successfully');
 			return true;
 		}).catch(err => console.error(err))
 	},
-	clean_all: async function(key) {
+	clean_all: async function () {
+		if (debug)
+			console.log('Removed all storage');
 		return await storage.clear();
 	}
 }

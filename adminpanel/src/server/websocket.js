@@ -50,7 +50,7 @@ admin.on('connect', function (connection) {
 function retryAdminConnection() {
 	console.log("Admin webscoekt connection failed, retrying in 5 seconds");
 	setTimeout(() => {
-		admin.connect(url + '/admin', ["token", process.env.ADMIN_TOKEN])
+		admin.connect('ws://' + url + '/admin', ["token", process.env.ADMIN_TOKEN])
 	}, 5000);
 }
 
@@ -85,9 +85,9 @@ game.on('connect', function (connection) {
 
 exports.connect = function (client = "game") {
 	if (client == "admin") {
-		admin.connect(url + '/admin', ["token", process.env.ADMIN_TOKEN]);
+		admin.connect('ws://' + url + '/admin', ["token", process.env.ADMIN_TOKEN]);
 	} else {
-		game.connect(url + '/game', ["token", process.env.ADMIN_TOKEN]);
+		game.connect('ws://' + url + '/game', ["token", process.env.ADMIN_TOKEN]);
 	}
 };
 
@@ -115,8 +115,7 @@ exports.disconnect = function (client = "game") {
 	}
 }
 
-exports.send = function (client = "game", message = "XD") {
-	console.log(admin);
+exports.send = function (client = "game", message = "-") {
 	if (client == "admin" && admin.connection.connected) {
 		admin.sendUTF(message.toString());
 		return true;
