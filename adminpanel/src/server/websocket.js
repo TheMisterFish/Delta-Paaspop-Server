@@ -2,6 +2,14 @@ require('dotenv').config()
 const WebSocketClient = require('websocket').client;
 
 var reconnect = process.env.WEBSOCKET_AUTOCONNECT == "true";
+var debug = process.env.DEBUG_MODE == "true";
+
+var url;
+if (debug) {
+	url = process.env.WEBSOCKET_URL_DEBUG;
+} else {
+	url = process.env.WEBSOCKET_URL_PROD;
+}
 // Admin websocket connection
 var admin = new WebSocketClient();
 admin.connection = {
@@ -11,7 +19,7 @@ admin.name = 'admin';
 admin.on('connectFailed', function (error) {
 	admin.connection.connected = false;
 	console.log(error);
-	if(reconnect)
+	if (reconnect)
 		retryAdminConnection()
 });
 admin.on('connect', function (connection) {
@@ -21,14 +29,14 @@ admin.on('connect', function (connection) {
 	connection.on('error', function (error) {
 		admin.connection = connection;
 		console.log("Connection Error: " + error.toString());
-		if(reconnect)
+		if (reconnect)
 			retryAdminConnection()
 	});
 
 	connection.on('close', function () {
 		admin.connection = connection;
 		console.log('admin Connection Closed');
-		if(reconnect)
+		if (reconnect)
 			retryAdminConnection()
 	});
 
@@ -38,10 +46,11 @@ admin.on('connect', function (connection) {
 		}
 	});
 });
+
 function retryAdminConnection() {
 	console.log("Admin webscoekt connection failed, retrying in 5 seconds");
 	setTimeout(() => {
-		admin.connect('ws://localhost:9000/admin', ["token", process.env.ADMIN_TOKEN])
+		admin.connect(url + '/admin', ["token", process.env.ADMIN_TOKEN])
 	}, 5000);
 }
 
@@ -76,9 +85,9 @@ game.on('connect', function (connection) {
 
 exports.connect = function (client = "game") {
 	if (client == "admin") {
-		admin.connect('ws://localhost:9000/admin', ["token", process.env.ADMIN_TOKEN]);
+		admin.connect(url + '/admin', ["token", process.env.ADMIN_TOKEN]);
 	} else {
-		game.connect('ws://localhost:9000/game', ["token", process.env.ADMIN_TOKEN]);
+		game.connect(url + '/game', ["token", process.env.ADMIN_TOKEN]);
 	}
 };
 
