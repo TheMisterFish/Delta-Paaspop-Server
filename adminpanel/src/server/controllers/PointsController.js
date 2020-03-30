@@ -28,11 +28,11 @@ exports.apply_points = async function (req, res) {
 	History.findOne({
 		gameEnded: null
 	}).then(function (history) {
+		
+		if (!history)
+			return res.send("ERROR: No game is running.");//Error: No game is running.
+		
 		var game = history.game;
-		return game;
-		//TODO: Return error if no game is running
-		//if (!game)
-			//res.send(false);
 
 		//TODO: Convert points to specified paaspop-points
 
@@ -43,7 +43,7 @@ exports.apply_points = async function (req, res) {
 			points: req.body.points,
 			user: req.body.u_id
 		});
-
+		//return res.send("DEBUG: save functionality reached, but skipped");
 		newPoint.save()
 			.then(item => {
 				/*DEBUG*/console.log("##### Object Saved #####");
