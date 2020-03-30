@@ -48,15 +48,12 @@ export default {
 	mounted() {
 		UserApi.points().then((data) => {
 			this.points = data.points
-		}).catch((err) => {
-			console.log(err);
 		})
 	},
   methods: {
     logout() {
-      this.$store.dispatch("logout").then(() => {
-        this.$router.push("/login");
-      });
+			this.$store.dispatch("logout");
+			this.$router.push("/login");
     }
   }
 };

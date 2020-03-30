@@ -21,8 +21,12 @@ module.exports = function (app) {
 	app.get('/history/:id', adminChecker, GameController.history);
 	
 	// Points controller
+<<<<<<< HEAD
 	app.get('/points/game/:id', adminChecker, PointsController.game);
 	app.post('/points/apply', adminChecker, PointsController.apply_points)
+=======
+	app.post('/points/game/:id', adminChecker, PointsController.game);
+>>>>>>> client_app
 
 	// Websocket controller
 	app.get('/ws/test', adminChecker, WebsocketsController.test);
