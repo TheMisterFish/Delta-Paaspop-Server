@@ -10,19 +10,24 @@ exports.login = async function (req, res) {
 	 */
 	var email = req.body.email,
 		password = req.body.password;
+
+	if (!email || !password) {
+		res.status(406).send("Fill in something");
+		return;
+	}
 	User.findOne({
 		email: email
 	}).then(function (user) {
 		if (!user) {
-			res.status(400).send(["Cannot log in"]);
+			res.status(403).send("Cannot log in");
 		} else if (!user.comparePassword(password)) {
-			res.status(400).send(["Wrong password"]);
+			res.status(403).send("Wrong password");
 		} else {
 			req.session.user = user._id;
 			let this_user = {
 				email: user.email,
 				nickname: user.nickname
-			}
+			};
 			res.send(this_user);
 		}
 	}).catch((err) => {
@@ -36,22 +41,55 @@ exports.register = async function (req, res) {
 	 * @param { any } req
 	 * @param { any } res
 	 */
-	console.log("came here");
-	console.log(req.body);
+	var email = req.body.email,
+		password = req.body.password,
+		nickname = req.body.nickname
+
+	if (!email || !password || !nickname) {
+		res.status(406).send("Fill in all the fields");
+		return;
+	}
+
 	User.create({
-			email: req.body.email,
-			password: req.body.password,
-			nickname: req.body.nickname,
+			email: email,
+			password: password,
+			nickname: nickname,
 			verified: false
-		})
-		.then(user => {
+		}).then(user => {
 			req.session.user = user._id;
-			res.send("User registered")
+			res.status(201).send("User registered")
 		})
 		.catch(error => {
 			console.log(error);
-			res.status(400).send(["Register error"]);
+			res.status(400).send("Register error");
 		});
+}
+exports.checkEmail = async function (req, res) {
+	/**
+	 * POST /api/checkEmail endpoint *
+	 * @export *
+	 * @param { any } req
+	 * @param { any } res
+	 */
+	var email = req.body.email;
+	if(!email){
+		req.status(204).send("No email")
+		return;
+	}
+	User.find({
+		email: email
+	}).then(user => {
+		if(user.length == 0){
+			res.status(200).send(true)
+		} else {
+			console.log(user);
+			res.status(200).send(false)
+		}
+	}).catch((error) => {
+		res.status(500).send("error?");
+		console.log(error)
+	});
+	
 }
 exports.logout = async function (req, res) {
 	/**
@@ -63,9 +101,9 @@ exports.logout = async function (req, res) {
 	if (req.session.user && req.cookies.user_sid) {
 		res.clearCookie('user_sid');
 		req.session.destroy();
-		res.send("Logged out");
+		res.status(2020).send("Logged out");
 	} else {
-		res.send("No session");
+		res.status(410).send("Nog logged in");
 	}
 }
 exports.game_status = async function (req, res) {

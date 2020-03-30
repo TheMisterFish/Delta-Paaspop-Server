@@ -33,6 +33,12 @@
                 >
                 <label for="password">Vul je email adress in</label>
               </div>
+              <div
+                class="error-message"
+                v-if="errorStatus"
+              >
+                {{ errorMessage }}
+              </div>
               <div class="">
                 <button
                   type="submit"
@@ -68,7 +74,8 @@ export default {
         password: null
       },
       sending: false,
-      errorStatus: false
+      errorStatus: false,
+      errorMessage: null
     };
   },
   computed: {
@@ -76,6 +83,7 @@ export default {
       return this.$store.getters.authStatus;
     }
   },
+  mounted() {},
   methods: {
     clearForm() {
       this.$v.$reset();
@@ -84,7 +92,13 @@ export default {
     login() {
       this.sending = true;
       var email = this.form.email;
-      var password = this.form.password;
+			var password = this.form.password;
+			if(!email || !password){
+				this.errorMessage = "Vul je emailadress en wachtwoord in";
+				this.errorStatus = true;
+				this.sending = false;
+				return;
+			}
       this.$store
         .dispatch("login", { email, password })
         .then(() => {
@@ -96,8 +110,11 @@ export default {
             this.form.password = "";
           }
         })
-        .catch(err => {
-          this.$store.dispatch("error", err);
+        .catch(() => {
+          this.sending = false;
+          this.form.password = "";
+          this.errorMessage = "Kon niet inloggen.";
+          this.errorStatus = true;
         });
     },
     validateUser() {
@@ -111,5 +128,11 @@ export default {
 #bg-image {
   background-image: url("./../../assets/backgrounds/login_bg.png");
   height: 100vh;
+}
+.error-message {
+  text-align: center;
+  margin-bottom: 15px;
+	margin-top: 2.5px;
+	padding: 10px;
 }
 </style>
