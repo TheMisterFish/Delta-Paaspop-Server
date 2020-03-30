@@ -3,7 +3,6 @@ var route = document.getElementById('route').innerText;
 var textbox = document.getElementById('socketChannel');
 var message = document.getElementById('message');
 
-console.log(route);
 let socket = new WebSocket('ws://localhost:9000' + route, ["token", token]);
 
 socket.onopen = function (e) {
