@@ -15,21 +15,24 @@
       </div>
       <div class="row">
         <div class="game-outer">
-          <span
-            class="game-status"
-            v-if="!game_found"
-          >
-            Geen spel gaande...
-          </span>
-          <div
-            class="game-button"
-            v-if="game_found"
-          >
-            <button
-              class="start-btn"
-              :class="button_class"
-            >Speel mee</button>
-          </div>
+          <transition name="fade">
+            <span
+              class="game-status"
+              v-if="!game_found"
+            >
+              Geen spel gaande...
+            </span>
+            <div
+              class="game-button"
+              v-if="game_found"
+            >
+              <button
+                class="start-btn"
+                @click="startGame"
+                :class="button_class"
+              >Speel mee</button>
+            </div>
+          </transition>
         </div>
       </div>
 
@@ -51,28 +54,48 @@ export default {
   },
   methods: {
     getStatus() {
-      UserApi.game_status().then(data => {
-        if (data != false) {
-          this.game = data;
-          this.game_found = true;
-          clearInterval(this.interval);
-        }
-      });
+      UserApi.game_status()
+        .then(data => {
+          if (data != false) {
+            this.game = data;
+            this.game_found = true;
+          } else {
+            setTimeout(() => {
+              this.game = {};
+              this.game_found = false;
+            }, 1000);
+          }
+        })
+        .catch(() => {
+          setTimeout(() => {
+            this.game = {};
+            this.game_found = false;
+          }, 1000);
+        });
+    },
+    startGame() {
+      this.button_class = "btn-pressed";
+      setTimeout(() => {
+        this.button_class = "";
+      }, 1000);
     }
   },
   mounted: function() {
-    UserApi.game_status().then(data => {
-      if (data == false) {
-        this.$nextTick(function() {
-          this.interval = setInterval(() => {
-            this.getStatus();
-          }, 5000);
-        });
-      } else {
-        this.game = data;
-        this.game_found = true;
-      }
-    });
+    this.getStatus();
+    this.interval = setInterval(() => {
+      this.getStatus();
+    }, 5000);
+    // UserApi.game_status().then(data => {
+    //   if (data == false) {
+    //     this.$nextTick(function() {
+    //       this.interval = setInterval(() => {
+    //       }, 5000);
+    //     });
+    //   } else {
+    //     this.game = data;
+    //     this.game_found = true;
+    //   }
+    // });
   },
   beforeDestroy() {
     clearInterval(this.interval);
@@ -102,8 +125,8 @@ export default {
   width: 60%;
   display: block;
   font-family: TTTunnels-Black;
-	line-height: 47px;
-	text-transform: uppercase;
+  line-height: 47px;
+  text-transform: uppercase;
 }
 .game-button {
   margin-right: 10px;
