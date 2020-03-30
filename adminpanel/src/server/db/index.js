@@ -13,7 +13,6 @@ import {
 
 mongoose.set('useCreateIndex', true);
 
-
 const db_object = {
 	port: process.env.MONGO_PORT,
 	host: process.env.MONGO_URL,

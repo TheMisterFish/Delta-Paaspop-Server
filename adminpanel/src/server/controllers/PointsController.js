@@ -17,19 +17,19 @@ exports.game = async function (req, res) {
 }
 exports.apply_points = async function (req, res) {
 	/**
-	 * Post /points
+	 * Post /points/apply
 	 * @export *
 	 * @param { any } req
 	 * @param { any } res
 	 * @returns { boolean } Whether the points are applied to the game or not
 	 */
-
+	
 	//Find active game
-	History.find({
+	History.findOne({
 		gameEnded: null
 	}).then(function (history) {
-		var game = history[0].game;
-
+		var game = history.game;
+		return game;
 		//TODO: Return error if no game is running
 		//if (!game)
 			//res.send(false);
@@ -53,6 +53,6 @@ exports.apply_points = async function (req, res) {
 			.catch(err => {
 				/*DEBUG*/console.log(err);
 				res.send(err);
-			})
+			});
 	});
 }
