@@ -101,7 +101,7 @@ exports.logout = async function (req, res) {
 	if (req.session.user && req.cookies.user_sid) {
 		res.clearCookie('user_sid');
 		req.session.destroy();
-		res.status(2020).send("Logged out");
+		res.status(200).send("Logged out");
 	} else {
 		res.status(410).send("Nog logged in");
 	}

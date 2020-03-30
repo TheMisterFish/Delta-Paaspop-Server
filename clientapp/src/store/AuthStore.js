@@ -54,7 +54,13 @@ const AuthStore = {
 					delete axios.defaults.headers.Cookie;
 					commit('logout')
 				})
-				.catch(commit('logout'));
+				.catch();
+		},
+
+		errorLogout({
+			commit
+		}){
+			commit('logout');
 		}
 	},
 	getters: {
