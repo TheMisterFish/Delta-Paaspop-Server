@@ -13,9 +13,17 @@ import {
 
 mongoose.set('useCreateIndex', true);
 
-mongoose.connect(process.env.MONGO_URI, {
-		useUnifiedTopology: true,
-		useNewUrlParser: true,
+var debug = process.env.DEBUG_MODE == "true";
+var connection_string;
+if (debug) {
+	connection_string = process.env.MONGO_CONNECTION_STRING_DEBUG;
+} else {
+	connection_string = process.env.MONGO_CONNECTION_STRING_PROD;
+}
+
+
+mongoose.connect(connection_string, {
+		useNewUrlParser: true
 	})
 	.then(() => console.log('DB Connected!'))
 	.then(() => {

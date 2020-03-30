@@ -1,5 +1,14 @@
 require('dotenv').config()
 
+var debug = process.env.DEBUG_MODE == "true";
+
+var url;
+if (debug) {
+	url = process.env.WEBSOCKET_URL_DEBUG;
+} else {
+	url = process.env.WEBSOCKET_URL_PROD;
+}
+
 import websocket_connections from '../websocket'
 import Game from '../db/models/game'
 import History from '../db/models/history'
@@ -20,6 +29,7 @@ exports.start_game = async function (req, res) {
 		gameEnded: null
 	}).then(function (current_game) {
 		if (current_game && current_game.game) {
+			console.log("???");
 			return res.status(500).send('Er is al een spel gestart.');
 		}
 		Game.findOne({
@@ -31,7 +41,7 @@ exports.start_game = async function (req, res) {
 				gameStarted: new Date()
 			});
 
-			axios.post('http://localhost:9000/start_game', {
+			axios.post('http://' + url + '/start_game', {
 					token: process.env.ADMIN_TOKEN,
 					game_token: game_token,
 					game_name: game.name
@@ -39,9 +49,10 @@ exports.start_game = async function (req, res) {
 				.then(function (response) {
 					newHistory.save();
 					websocket_connections.connect();
-					res.send(response);
+					res.status(200).send(response);
 				})
 				.catch(function (error) {
+					console.log("??1?");
 					res.status(500).send(error);
 				});
 
@@ -62,7 +73,7 @@ exports.stop_game = async function (req, res) {
 		if (!current_game) {
 			return res.status(500).send('Geen spel gestart.');
 		} else {
-			axios.post('http://localhost:9000/stop_game', {
+			axios.post('http://' + url + '/stop_game', {
 					token: process.env.ADMIN_TOKEN,
 					game_name: current_game.game.name
 				})
@@ -139,14 +150,19 @@ exports.history = async function (req, res) {
 	History.findOne({
 		_id: req.params.id
 	}).populate('game').populate('points').then(function (history) {
-		History.find({game: history.game}).then(function(histories) {
+		History.find({
+			game: history.game
+		}).then(function (histories) {
 			res.render('index', {
 				screen: 'history',
 				history: history,
 				histories: histories,
-				breadcrumbs: [['geschiedenis','history'], [history.game.name]]
+				breadcrumbs: [
+					['geschiedenis', 'history'],
+					[history.game.name]
+				]
 			})
 		})
-		
+
 	})
 }

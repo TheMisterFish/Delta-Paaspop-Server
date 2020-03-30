@@ -24,16 +24,20 @@
                       id=""
                       placeholder="E-Mail adress"
                       :disabled="sending"
-                      @blur="email_touched = true"
+                      @blur="email_touched = true, email_exists = false"
                     >
                     <label
                       for="email"
                       v-if="!$v.form.email.required"
-                    >Vul je email adress in</label>
+                    >Vul je e-mailadres in</label>
                     <label
                       for="email"
                       v-else-if="!$v.form.email.email && email_touched"
-                    >Vul een geldig email adress in</label>
+                    > Geen geldig e-mailadres</label>
+                    <label
+                      for="email"
+                      v-else-if="email_exists && email_touched"
+                    > E-mailadres bestaat al</label>
                     <label
                       for="email"
                       v-else-if="$v.form.email.required && $v.form.email.email"
@@ -41,7 +45,7 @@
                     <label
                       for="email"
                       v-else
-                    >Vul je email adress in</label>
+                    >Vul je e-mailadres in</label>
 
                   </div>
                   <div class="form-group">
@@ -167,9 +171,14 @@
 </template>
 
 <script>
-import { AuthApi } from "../../api";
+import { AuthApi, UserApi } from "../../api";
 import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
-import axios from "axios";
+// const adminport = process.env.VUE_APP_ADMINPORT;
+
+// function shouldNotExist() {
+//   UserApi.emailCheck()
+// }
+
 export default {
   data() {
     return {
@@ -184,7 +193,8 @@ export default {
       show: "register",
       email_touched: false,
       password_touched: false,
-      password_repeat_toucher: false
+			password_repeat_toucher: false,
+			email_exists: false
     };
   },
   validations: {
@@ -197,30 +207,22 @@ export default {
     }
   },
   created() {
-    axios
-      .get("http://localhost:3000/api/random_name")
+    UserApi.randomName()
       .then(data => {
-        this.form.nickname = data.data;
+        this.form.nickname = data;
       })
-      .catch(error => {
-        console.log(error);
-        this.form.nickname = "";
-      });
+      .catch((this.form.nickname = ""));
   },
   methods: {
 		delay(ms) {
 			return new Promise(resolve => setTimeout(resolve, ms));
 		},
     newNickname() {
-      axios
-        .get("http://localhost:3000/api/random_name")
+      UserApi.randomName()
         .then(data => {
-          this.form.nickname = data.data;
+          this.form.nickname = data;
         })
-        .catch(error => {
-          console.log(error);
-          this.form.nickname = "";
-        });
+        .catch((this.form.nickname = ""));
     },
     register() {
       this.sending = true;
@@ -229,7 +231,12 @@ export default {
         this.sending = false;
         return;
       }
-      var email = this.form.email;
+			var email = this.form.email;
+
+			if(UserApi.emailCheck(email) == true){
+				this.email_exists = true;
+				return;
+			}
       var password = this.form.password;
       var nickname = this.form.nickname;
 
@@ -237,10 +244,7 @@ export default {
         .then(() => {
 					this.show = "success";          
         })
-        .catch(err => {
-          this.sending = false;
-          console.log(err);
-        });
+        .catch((this.sending = false));
     }
   }
 };

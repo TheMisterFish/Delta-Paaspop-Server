@@ -1,6 +1,15 @@
 require('dotenv').config()
 const WebSocketClient = require('websocket').client;
 
+var reconnect = process.env.WEBSOCKET_AUTOCONNECT == "true";
+var debug = process.env.DEBUG_MODE == "true";
+
+var url;
+if (debug) {
+	url = process.env.WEBSOCKET_URL_DEBUG;
+} else {
+	url = process.env.WEBSOCKET_URL_PROD;
+}
 // Admin websocket connection
 var admin = new WebSocketClient();
 admin.connection = {
@@ -9,7 +18,9 @@ admin.connection = {
 admin.name = 'admin';
 admin.on('connectFailed', function (error) {
 	admin.connection.connected = false;
-	retryAdminConnection()
+	console.log(error);
+	if (reconnect)
+		retryAdminConnection()
 });
 admin.on('connect', function (connection) {
 	admin.connection = connection;
@@ -18,13 +29,15 @@ admin.on('connect', function (connection) {
 	connection.on('error', function (error) {
 		admin.connection = connection;
 		console.log("Connection Error: " + error.toString());
-		retryAdminConnection()
+		if (reconnect)
+			retryAdminConnection()
 	});
 
 	connection.on('close', function () {
 		admin.connection = connection;
 		console.log('admin Connection Closed');
-		retryAdminConnection()
+		if (reconnect)
+			retryAdminConnection()
 	});
 
 	connection.on('message', function (message) {
@@ -33,10 +46,11 @@ admin.on('connect', function (connection) {
 		}
 	});
 });
+
 function retryAdminConnection() {
 	console.log("Admin webscoekt connection failed, retrying in 5 seconds");
 	setTimeout(() => {
-		admin.connect('ws://localhost:9000/admin', ["token", process.env.ADMIN_TOKEN])
+		admin.connect('ws://' + url + '/admin', ["token", process.env.ADMIN_TOKEN])
 	}, 5000);
 }
 
@@ -71,9 +85,9 @@ game.on('connect', function (connection) {
 
 exports.connect = function (client = "game") {
 	if (client == "admin") {
-		admin.connect('ws://localhost:9000/admin', ["token", process.env.ADMIN_TOKEN]);
+		admin.connect('ws://' + url + '/admin', ["token", process.env.ADMIN_TOKEN]);
 	} else {
-		game.connect('ws://localhost:9000/game', ["token", process.env.ADMIN_TOKEN]);
+		game.connect('ws://' + url + '/game', ["token", process.env.ADMIN_TOKEN]);
 	}
 };
 
@@ -101,8 +115,7 @@ exports.disconnect = function (client = "game") {
 	}
 }
 
-exports.send = function (client = "game", message = "XD") {
-	console.log(admin);
+exports.send = function (client = "game", message = "-") {
 	if (client == "admin" && admin.connection.connected) {
 		admin.sendUTF(message.toString());
 		return true;

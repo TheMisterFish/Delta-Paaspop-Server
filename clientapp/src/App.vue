@@ -9,19 +9,23 @@
     >
       <router-view></router-view>
     </transition>
+
     <div v-if="isLoggedIn">
       <bottom-nav></bottom-nav>
     </div>
+
+    <errorComponent></errorComponent>
   </div>
 </template>
 
 <script>
 import bottomNav from "./components/NavigationComponent.vue";
-
+import errorComponent from "./components/ErrorComponent.vue";
 export default {
   name: "App",
   components: {
-    bottomNav
+    bottomNav,
+    errorComponent
   },
   data() {
     return {
