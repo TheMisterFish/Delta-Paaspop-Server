@@ -24,12 +24,7 @@ const AuthStore = {
 			state.user = user
 			state.logged_in = true
 		},
-		auth_error(state, error) {
-			console.log("error")
-			state.status = error
-		},
 		logout(state) {
-			console.log('logout?');
 			state.status = ''
 			state.user = {}
 			state.logged_in = false
@@ -41,23 +36,13 @@ const AuthStore = {
 		}, user) {
 			return AuthApi
 				.login(user)
-				.then(resp => {
-					console.log(resp);
+				.then((resp) => {
 					let user = resp.data;
 					let cookie = resp.headers["set-cookie"];
-					console.log(cookie);
-					axios.defaults.headers.Cookie = cookie;
+					axios.defaults.headers.cookie = cookie;
 					commit('auth_success', user)
 				})
-				.catch(err => {
-					console.log(err);
-					if (err.response != undefined) {
-						commit('auth_error', err.response.data.error)
-					} else {
-						commit('auth_error', err);
-					}
-					localStorage.removeItem('session')
-				})
+				.catch(localStorage.removeItem('session'));
 		},
 
 		logout({
@@ -65,14 +50,17 @@ const AuthStore = {
 		}) {
 			return AuthApi
 				.logout()
-				.then(resp => {
+				.then(() => {
 					delete axios.defaults.headers.Cookie;
 					commit('logout')
 				})
-				.catch(err => {
-					commit('logout')
-					console.log(err);
-				});
+				.catch();
+		},
+
+		errorLogout({
+			commit
+		}){
+			commit('logout');
 		}
 	},
 	getters: {

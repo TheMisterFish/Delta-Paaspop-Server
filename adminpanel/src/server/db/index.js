@@ -13,9 +13,17 @@ import {
 
 mongoose.set('useCreateIndex', true);
 
-mongoose.connect(process.env.MONGO_URI, {
-		useUnifiedTopology: true,
-		useNewUrlParser: true,
+
+const db_object = {
+	port: process.env.MONGO_PORT,
+	host: process.env.MONGO_URL,
+	user: process.env.MONGO_USERNAME,
+	pass: process.env.MONGO_PASSWORD,
+}
+var connection_string = process.env.MONGO_CONNECTION_STRING;
+
+mongoose.connect(connection_string, {
+		useNewUrlParser: true
 	})
 	.then(() => console.log('DB Connected!'))
 	.then(() => {

@@ -1,6 +1,7 @@
 require('dotenv').config()
 const WebSocketClient = require('websocket').client;
 
+var reconnect = process.env.WEBSOCKET_AUTOCONNECT == "true";
 // Admin websocket connection
 var admin = new WebSocketClient();
 admin.connection = {
@@ -9,7 +10,9 @@ admin.connection = {
 admin.name = 'admin';
 admin.on('connectFailed', function (error) {
 	admin.connection.connected = false;
-	retryAdminConnection()
+	console.log(error);
+	if(reconnect)
+		retryAdminConnection()
 });
 admin.on('connect', function (connection) {
 	admin.connection = connection;
@@ -18,13 +21,15 @@ admin.on('connect', function (connection) {
 	connection.on('error', function (error) {
 		admin.connection = connection;
 		console.log("Connection Error: " + error.toString());
-		retryAdminConnection()
+		if(reconnect)
+			retryAdminConnection()
 	});
 
 	connection.on('close', function () {
 		admin.connection = connection;
 		console.log('admin Connection Closed');
-		retryAdminConnection()
+		if(reconnect)
+			retryAdminConnection()
 	});
 
 	connection.on('message', function (message) {
