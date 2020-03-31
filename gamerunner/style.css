@@ -49,7 +49,7 @@ main{
     bottom: 0;
     right: 0;
     height: 10vh;
-    border-radius: 5px 0 0 5px;
+    /* border-radius: 5px 0 0 5px; */
     font-size: 10vh;
     padding-left: 10vh;
     padding-right: 10vh;
@@ -64,4 +64,5 @@ main{
     height: 100%;
     width: 100%;
     visibility: hidden;
+    z-index: 999;
 }

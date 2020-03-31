@@ -7,8 +7,8 @@ var footerEnabled = false;
 var $transitionOpen, $transitionClose;
 
 var grinit = function(){
-    $transitionOpen = ;
-    $transitionClose = ;
+    $transitionOpen     =   document.getElementById('gr-transition-open');
+    $transitionClose    =   document.getElementById('gr-transition-close');
 }
 
 function establishNewConnection(){
@@ -203,13 +203,24 @@ function stopGame(){
 
 function loadGame(htmlFile){
     log("Gamerunner: Loading html file '" + htmlFile + "'");
+
     loadInTransition();
-    let $game = $("#gr-game");
-    $game.empty();
-    $game.load(htmlFile, function(){
-        log("Gamerunner: Loaded html file");
-    });
-    loadOutTransition();
+
+    setTimeout(() => {
+
+        let $game = $("#gr-game");
+        $game.empty();
+        $game.load(htmlFile, function(){
+            log("Gamerunner: Loaded html file");
+        });
+        loadOutTransition();
+
+        setTimeout(() => {
+            hideAllTransitions();
+        }, 1000);
+
+    }, 500);
+
 }
 
 var loadInTransition = function(){
