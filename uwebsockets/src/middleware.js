@@ -8,10 +8,17 @@ module.exports = {
 			return true
 		return false;
 	},
-	ws_is_user: function (ws, client) {
-		storage.get_value('game_token').then((value) => {
-			if (client.token == value)
+	ws_is_user: async function (ws, client) {
+		return await storage.get_value('game_token').then((value) => {
+			let token;
+			try {
+				token = client['sec-websocket-protocol'].split(":");
+			} catch (error) {
+				return false;
+			}
+			if (token[0] == "token" && token[1] == value){
 				return true
+			}
 			return false;
 		});
 	},

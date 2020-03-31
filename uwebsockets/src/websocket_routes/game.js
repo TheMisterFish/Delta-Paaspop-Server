@@ -10,20 +10,23 @@ module.exports = function (app) {
 	app.ws('/game', {
 		idleTimeout: 302400,
 		open: (ws, req) => {
+
 			let client = funcs.getHeaderObject(req);
 			middleware.game_running().then((game) => {
 				if (game != undefined) {
-					if (middleware.ws_is_user(ws, client)) {
-						ws.subscribe(game);
-						if(debug)
-							console.log("User joinend game channel: ", game)
-						ws.publish('admin', "User joined game channel: ", game);
-					} else if (middleware.ws_is_admin(ws, client)) {
+					if (middleware.ws_is_admin(ws, client)) {
 						ws.subscribe('game');
-						if(debug)
+						if (debug)
 							console.log("Admin joinend game channel: ", game)
 						ws.publish('admin', "Admin joined game channel: ", game)
+					} else if (middleware.ws_is_user(ws, client)) {
+						ws.subscribe(game);
+						if (debug)
+							console.log("User joinend game channel: ", game)
+						ws.publish('admin', "User joined game channel: ", game);
 					} else {
+						if (debug)
+							console.log("Client tried to join /game but failed");
 						ws.close();
 					}
 				} else {
@@ -36,8 +39,7 @@ module.exports = function (app) {
 			console.log(message);
 			ws.publish('game', message, isBinary);
 		},
-		close: (ws, code, message) => {
-		}
+		close: (ws, code, message) => {}
 
 	});
 }

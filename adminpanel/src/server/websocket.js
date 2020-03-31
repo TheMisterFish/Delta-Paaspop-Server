@@ -29,15 +29,13 @@ admin.on('connect', function (connection) {
 	connection.on('error', function (error) {
 		admin.connection = connection;
 		console.log("Connection Error: " + error.toString());
-		if (reconnect)
-			retryAdminConnection()
+
 	});
 
 	connection.on('close', function () {
 		admin.connection = connection;
 		console.log('admin Connection Closed');
-		if (reconnect)
-			retryAdminConnection()
+
 	});
 
 	connection.on('message', function (message) {
