@@ -14,8 +14,10 @@ module.exports = function (app) {
 			console.log(obj);
 			storage.set_value('game_token', obj.game_token)
 			storage.set_value('game_name', obj.game_name)
+			storage.set_value('join_mid_game', obj.join_mid_game == true ? "true" : "false")
 			if (debug) {
 				console.log("Stored game_token: ", obj.game_token);
+				console.log("Can join mid-game: ", obj.join_mid_game == true ? "True" : "False");
 				console.log("Started game ", obj.game_name);
 			}
 			res.writeStatus('200');
@@ -32,8 +34,9 @@ module.exports = function (app) {
 			console.log(obj);
 			storage.get_value('game_name').then((value) => {
 				if (value == obj.game_name) {
-					storage.del_value('game_name');
-					storage.del_value('game_token');
+					storage.clean_all();
+					if (debug)
+						console.log("Cleared all game data");
 				} else {
 					if (debug)
 						console.log("Game was not found?");

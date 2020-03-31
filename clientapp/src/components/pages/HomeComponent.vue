@@ -77,6 +77,7 @@ export default {
       this.button_class = "btn-pressed";
       setTimeout(() => {
         this.button_class = "";
+        this.$router.push({ name: "game", params: { game: this.game } });
       }, 1000);
     }
   },
@@ -85,17 +86,6 @@ export default {
     this.interval = setInterval(() => {
       this.getStatus();
     }, 5000);
-    // UserApi.game_status().then(data => {
-    //   if (data == false) {
-    //     this.$nextTick(function() {
-    //       this.interval = setInterval(() => {
-    //       }, 5000);
-    //     });
-    //   } else {
-    //     this.game = data;
-    //     this.game_found = true;
-    //   }
-    // });
   },
   beforeDestroy() {
     clearInterval(this.interval);

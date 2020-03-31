@@ -3,9 +3,11 @@ import Game from '../models/game'
 async function seedGames() {
 	var games = [{
 			name: 'test_game',
+			joinMidGame: true,
 		},
 		{
 			name: 'test_game2',
+			joinMidGame: false,
 		},
 	];
 	for (let index = 0; index < games.length; index++) {

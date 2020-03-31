@@ -1,6 +1,6 @@
 <template>
 	<div>
-		Buttons a b c or d 
+		Now exiting game.
 	</div>
 </template>
 

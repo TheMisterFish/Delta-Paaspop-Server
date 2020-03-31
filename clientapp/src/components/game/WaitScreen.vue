@@ -1,6 +1,6 @@
 <template>
 	<div>
-		Buttons a b c or d 
+		Waiting for game to start
 	</div>
 </template>
 

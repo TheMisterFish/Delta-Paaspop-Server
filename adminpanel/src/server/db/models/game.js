@@ -9,6 +9,10 @@ const GameSchema = mongoose.Schema({
 		type: String,
 		default: "default.jpg"
 	},
+	joinMidGame: {
+		type: Boolean,
+		default: true
+	},
 	histories: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'History'

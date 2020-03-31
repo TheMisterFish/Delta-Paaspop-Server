@@ -12,6 +12,7 @@ import Leaderboard from './components/pages/LeaderboardComponent.vue'
 import Login from './components/pages/LoginComponent.vue'
 import Register from './components/pages/RegisterComponent.vue'
 import NotFound from './components/pages/NotFoundComponent.vue'
+import Game from './components/game/GameComponent.vue'
 
 import './assets/styles/paaspop_styling.scss'
 
@@ -29,7 +30,7 @@ const routes = [{
 		component: Home,
 		name: "home",
 		meta: {
-			requiresAuth: true
+			requiresAuth: true,
 		}
 	},
 	{
@@ -37,7 +38,7 @@ const routes = [{
 		component: Account,
 		name: "account",
 		meta: {
-			requiresAuth: true
+			requiresAuth: true,
 		}
 	},
 	{
@@ -45,7 +46,7 @@ const routes = [{
 		component: Leaderboard,
 		name: "leaderboard",
 		meta: {
-			requiresAuth: true
+			requiresAuth: true,
 		}
 	},
 	{
@@ -62,6 +63,15 @@ const routes = [{
 		name: "register",
 		meta: {
 			requiresNoUser: true
+		}
+	},
+	{
+		path: '/game',
+		component: Game,
+		name: "game",
+		meta: {
+			requiresAuth: true,
+			requiresInGame: true
 		}
 	},
 	{
