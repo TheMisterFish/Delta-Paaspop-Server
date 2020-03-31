@@ -13,13 +13,14 @@ import {
 
 mongoose.set('useCreateIndex', true);
 
-const db_object = {
-	port: process.env.MONGO_PORT,
-	host: process.env.MONGO_URL,
-	user: process.env.MONGO_USERNAME,
-	pass: process.env.MONGO_PASSWORD,
+var debug = process.env.DEBUG_MODE == "true";
+var connection_string;
+if (debug) {
+	connection_string = process.env.MONGO_CONNECTION_STRING_DEBUG;
+} else {
+	connection_string = process.env.MONGO_CONNECTION_STRING_PROD;
 }
-var connection_string = process.env.MONGO_CONNECTION_STRING;
+
 
 mongoose.connect(connection_string, {
 		useNewUrlParser: true

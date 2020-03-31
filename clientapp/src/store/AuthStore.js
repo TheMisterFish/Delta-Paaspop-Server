@@ -39,7 +39,7 @@ const AuthStore = {
 				.then((resp) => {
 					let user = resp.data;
 					let cookie = resp.headers["set-cookie"];
-					axios.defaults.headers.Cookie = cookie;
+					axios.defaults.headers.cookie = cookie;
 					commit('auth_success', user)
 				})
 				.catch(localStorage.removeItem('session'));
@@ -54,7 +54,13 @@ const AuthStore = {
 					delete axios.defaults.headers.Cookie;
 					commit('logout')
 				})
-				.catch(commit('logout'));
+				.catch();
+		},
+
+		errorLogout({
+			commit
+		}){
+			commit('logout');
 		}
 	},
 	getters: {

@@ -20,8 +20,14 @@
             </div>
             <div class="text-group">
               <div class="score_key">Score</div>
-              <div class="score">{{points}}</div>
-              <div class="score_text">PAASPOP PUNTEN</div>
+              <div
+                class="score"
+                :class="error ? 'smallerfont' : ''"
+              >{{points}}</div>
+              <div
+                class="score_text"
+                :class="error ? 'hidden' : ''"
+              >PAASPOP PUNTEN</div>
             </div>
             <div class="text-group logout">
               <button
@@ -39,21 +45,27 @@
 <script>
 import { UserApi } from "../../api";
 export default {
-	data() {
-		return {
-			user: this.$store.getters.user,
-			points: 0
-		}
-	},
-	mounted() {
-		UserApi.points().then((data) => {
-			this.points = data.points
-		})
-	},
+  data() {
+    return {
+      user: this.$store.getters.user,
+      points: 0,
+      error: false
+    };
+  },
+  mounted() {
+    UserApi.points()
+      .then(data => {
+        this.points = data.points;
+      })
+      .catch(() => {
+        this.error = true;
+        this.points = "ERROR";
+      });
+  },
   methods: {
     logout() {
-			this.$store.dispatch("logout");
-			this.$router.push("/login");
+      this.$store.dispatch("logout");
+      this.$router.push("/login");
     }
   }
 };
@@ -64,8 +76,15 @@ export default {
   background-image: url("./../../assets/backgrounds/account_bg.png");
   height: 100vh;
 }
+
 .text-group {
   margin-bottom: 20px;
+  .smallerfont {
+    font-size: 60px !important;
+  }
+  .hidden {
+    display: none;
+  }
 }
 .value {
   font-family: "Montserrat";
@@ -82,6 +101,7 @@ export default {
   text-align: center;
   color: $yellow;
 }
+
 .score_text {
   float: right;
   margin-top: -28px;

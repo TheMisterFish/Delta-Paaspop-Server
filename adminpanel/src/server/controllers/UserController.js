@@ -72,14 +72,14 @@ exports.checkEmail = async function (req, res) {
 	 * @param { any } res
 	 */
 	var email = req.body.email;
-	if(!email){
+	if (!email) {
 		req.status(204).send("No email")
 		return;
 	}
 	User.find({
 		email: email
 	}).then(user => {
-		if(user.length == 0){
+		if (user.length == 0) {
 			res.status(200).send(true)
 		} else {
 			console.log(user);
@@ -89,7 +89,7 @@ exports.checkEmail = async function (req, res) {
 		res.status(500).send("error?");
 		console.log(error)
 	});
-	
+
 }
 exports.logout = async function (req, res) {
 	/**
@@ -101,7 +101,7 @@ exports.logout = async function (req, res) {
 	if (req.session.user && req.cookies.user_sid) {
 		res.clearCookie('user_sid');
 		req.session.destroy();
-		res.status(2020).send("Logged out");
+		res.status(200).send("Logged out");
 	} else {
 		res.status(410).send("Nog logged in");
 	}

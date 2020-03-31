@@ -24,6 +24,7 @@ const UserApi = {
 			.get(url + '/api/leaderboard')
 			.then(response => response.data)
 			.catch(err => {
+				console.log('err?')
 				ErrorBus.$emit('Error', err);
 			})
 	},

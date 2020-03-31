@@ -42,4 +42,4 @@ require('./server/routes/adminRoutes')(app);
 // user api routes
 require('./server/routes/userRoutes')(app);
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Admin panel listening on port ${port}!`))
