@@ -4,6 +4,13 @@ const debug = true;
 var socket;
 var footerEnabled = false;
 
+var $transitionOpen, $transitionClose;
+
+var grinit = function(){
+    $transitionOpen = ;
+    $transitionClose = ;
+}
+
 function establishNewConnection(){
     closeConnection();
 
@@ -197,7 +204,7 @@ function stopGame(){
 function loadGame(htmlFile){
     log("Gamerunner: Loading html file '" + htmlFile + "'");
     loadInTransition();
-    let $game = $("#game");
+    let $game = $("#gr-game");
     $game.empty();
     $game.load(htmlFile, function(){
         log("Gamerunner: Loaded html file");
@@ -205,38 +212,29 @@ function loadGame(htmlFile){
     loadOutTransition();
 }
 
-var loadInTransition = function(complete){
-    let $transition = $("#transition");
-    let $video = $transition.find("video").get(0);
-
-    $transition.show();
-    
-    $video.onended = function(){
-        $transition.hide();
-        try{
-            complete();
-        }catch(error){
-            //log("Gamerunner: load in transition complete function not defined!");
-        }
-    };
-
-    $video.play();
+var loadInTransition = function(){
+    $transitionOpen.style.visibility='hidden';
+    $transitionClose.style.visibility='visible';
+    $transitionClose.src='/transition-close.gif';
 }
 
-var loadOutTransition = function(complete){
-    try{
-        complete();
-    }catch(error){
-        //log("Gamerunner: load out transition complete function not defined!");
-    }
+var loadOutTransition = function(){
+    $transitionClose.style.visibility='hidden';
+    $transitionOpen.style.visibility='visible';
+    $transitionOpen.src='/transition-open.gif';
+}
+
+var hideAllTransitions = function(){
+    $transitionClose.style.visibility='hidden';
+    $transitionOpen.style.visibility='hidden';
 }
 
 var enableFooter = function(){
-    $("#overlay-footer").show();
+    $("#gr-overlay-footer").show();
 }
 
 var disableFooter = function(){
-    $("#overlay-footer").hide();
+    $("#gr-overlay-footer").hide();
 }
 
 var log = function(message){
@@ -244,3 +242,7 @@ var log = function(message){
         console.log(message);
     }
 }
+
+$(document).ready(function(){
+    grinit();
+});

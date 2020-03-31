@@ -6,6 +6,7 @@
 
 *{
     margin: 0;
+    overflow: hidden;
 }
 
 main{
@@ -14,46 +15,53 @@ main{
     width: 100vw;
 }
 
-#game{
+#gr-game{
     position: absolute;
     height: 100%;
     width: 100%;
 }
 
-#overlay{
+#gr-overlay{
     position: absolute;
     height: 100%;
     width: 100%;
 }
-
-#overlay-header{
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 15vh;
-    background: red;
-    font-family: tttunnels;
-    color: white;
-    font-size: 10vh;
-    line-height: 15vh;
-    padding-left: 2vh;
-    
-}
-
-#overlay-footer{
+#gr-overlay-footer{
     position: absolute;
     width: 100%;
     height: 10vh;
-    background: lightcoral;
     bottom: 0;
     font-family: tttunnels;
     color: white;
     font-size: 5vh;
+    z-index: 90;
 }
 
-#transition{
+#gr-transition{
     position: absolute;
     width: 100%;
     height: 100%;
-    display: none;
+}
+
+#gr-join{
+    background: #01014b;
+    color: #ffe600;
+    bottom: 0;
+    right: 0;
+    height: 10vh;
+    border-radius: 5px 0 0 5px;
+    font-size: 10vh;
+    padding-left: 10vh;
+    padding-right: 10vh;
+}
+
+.gr-transition{
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+    visibility: hidden;
 }

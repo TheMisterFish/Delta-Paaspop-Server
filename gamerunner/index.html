@@ -12,23 +12,21 @@
     </head>
     <body>
         <main>
-            <div id="game"></div>
-            <div id="overlay">
-                <div id="overlay-header">
-                    PAASPOP GAMES
-                </div>
-                <div id="overlay-footer">
-                    footer info blablablabla
-                    <button onclick="loadGame('gamemock.html')">Load</button>
-                    <button onclick="userInput('jurjen', 'HOI')">Mock user input</button>
-                    <button onclick="establishNewConnection()">Websocket</button>
+            <div id="gr-game"></div>
+            <div id="gr-overlay">
+
+                <div id="gr-overlay-footer">
+                    <div id="gr-join">
+                        SPEEL MEE! PAASPOP.NL/SPEELMEE
+                    </div>
                 </div>
             </div>
-            <div id="transition">
-                <video id="transitionvideo" width="100%" height="100%">
-                    <source src="paaspop-videos/wipe-paaspop.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+            <div id="gr-transition">
+                <!-- Transition open -->
+                <img id="gr-transition-open" class="gr-transition" src="transition-open.gif"/>
+                
+                <!-- Transition close -->
+                <img id="gr-transition-close" class="gr-transition" src="transition-close.gif"/>
             </div>
         </main>
     </body>

@@ -1,0 +1,66 @@
+{
+    "quizzes": [
+        {
+            "quizName": "Chef’Special",
+            "quizImagePath": "data/quiz_image/ChefSpecial.jfif",
+            "quizItems": [
+                {
+                    "question": "Welk nummer is niet van ons?",
+                    "imagePath": "data/quiz_images/ChefSpecial.jfif",
+                    "answers": [
+                        "Nicotine",
+                        "In Your Arms",
+                        "Streets"
+                    ],
+                    "correctAnswerIndex": 2
+                },
+                {
+                    "question": "Hoe heet het nieuwste album?",
+                    "imagePath": "data/quiz_images/ChefSpecial.jfif",
+                    "answers": [
+                        "Amigo",
+                        "Unfold",
+                        "Into The Future"
+                    ],
+                    "correctAnswerIndex": 1
+                }
+            ]
+        },
+        {
+            "quizName": "Maan",
+            "quizImagePath": "data/quiz_image/Maan-1.jpg",
+            "quizItems": [
+                {
+                    "question": "In welke show won ik?",
+                    "imagePath": "data/quiz_images/Maan-2.jpg",
+                    "answers": [
+                        "The Voice",
+                        "Idols",
+                        "Eurovision"
+                    ],
+                    "correctAnswerIndex": 0
+                },
+                {
+                    "question": "Welke studie zou ik gaan volgen?",
+                    "imagePath": "data/quiz_images/Maan-3.jpg",
+                    "answers": [
+                        "Diergeneeskunde",
+                        "Taalwetenschap",
+                        "Psychologie"
+                    ],
+                    "correctAnswerIndex": 2
+                },
+                {
+                    "question": "Welke studie zou ik gaan volgen?",
+                    "imagePath": "data/quiz_images/Maan-3.jpg",
+                    "answers": [
+                        "Diergeneeskunde",
+                        "Taalwetenschap",
+                        "Psychologie"
+                    ],
+                    "correctAnswerIndex": 2
+                }
+            ]
+        }
+    ]
+}
