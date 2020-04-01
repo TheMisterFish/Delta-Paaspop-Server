@@ -2,7 +2,7 @@ const socketurl = "ws://localhost:9000";
 const debug = true;
 
 var socket;
-var footerEnabled = false;
+var footerEnabled = true;
 
 var $transitionOpen, $transitionClose;
 
@@ -116,9 +116,18 @@ function userResults(result){
 
 /**
  * Called by game
+ * Send custom outcome to user ie position
+ */
+function userResultCustom(userid, result){
+    let data = {data: "result-custom", result: result, userid: userid};
+    let dataJSON = JSON.stringify(data);
+
+    wsSendData(dataJSON);
+}
+
+/**
+ * Called by game
  * Lets clients know next round has started, and show buttons given
- * @param {int} round 
- * @param {string[]} buttons 
  */
 function nextRound(round, buttons){
     let data = {data: "nextround", round: round, buttons: buttons};
@@ -182,9 +191,11 @@ function forceStop(){
  */
 function toggleFooter(){
     if(footerEnabled){
+        footerEnabled = false;
         disableFooter();
         return false;
     }else{
+        footerEnabled = true;
         enableFooter();
         return true;
     }
