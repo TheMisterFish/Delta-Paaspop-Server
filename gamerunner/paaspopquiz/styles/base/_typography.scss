@@ -1,0 +1,52 @@
+// -----------------------------------------------------------------------------
+// This file contains typography styles.
+// -----------------------------------------------------------------------------
+
+
+
+@mixin paaspop-typo-1{
+    font-family: 'TTTunnels-Black';
+    text-transform: uppercase;
+    color: $paaspop-white;
+}
+
+@mixin paaspop-typo-box-1{
+    @include paaspop-typo-1;
+    background-color: $paaspop-blue;
+    // padding: 0.20em 0.325em 0.15em 0.325em;
+    line-height: 1;
+    padding: 0.1em 0.2em 0.03em 0.2em;
+}
+
+
+
+@mixin paaspop-typo-2{
+    font-family: 'TTTunnels-Black';
+    text-transform: uppercase;
+    color: $paaspop-yellow;
+}
+
+@mixin paaspop-typo-box-2 {
+    @include paaspop-typo-2;
+    background-color: $paaspop-blue;
+    // padding: 0.20em 0.325em 0.15em 0.325em;
+    line-height: 1;
+    padding: 0.1em 0.2em 0.03em 0.2em;
+}
+
+
+
+@mixin paaspop-typo-3{
+    font-family: 'TTTunnels-Black';
+    text-transform: uppercase;
+    color: $paaspop-blue;
+}
+
+@mixin paaspop-typo-box-3{
+    @include paaspop-typo-3;
+    background-color: $paaspop-yellow;
+    // padding: 0.20em 0.325em 0.15em 0.325em;
+    line-height: 1;
+    padding: 0.1em 0.2em 0.03em 0.2em;
+
+}

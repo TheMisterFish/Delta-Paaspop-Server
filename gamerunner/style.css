@@ -1,18 +1,14 @@
 @font-face {
     font-family: tttunnels;
     src: url("font/TTTunnels-Bold.otf");
-
-}
-
-*{
-    margin: 0;
-    overflow: hidden;
 }
 
 main{
     position: relative;
     height: 100vh;
     width: 100vw;
+    overflow: hidden;
+    margin: 0;
 }
 
 #gr-game{
