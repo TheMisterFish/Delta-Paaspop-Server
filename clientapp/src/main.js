@@ -1,8 +1,10 @@
-import store from './store/index'
+import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Vue2TouchEvents from 'vue2-touch-events'
 import Vuelidate from 'vuelidate';
-import Vue from 'vue'
+import VueNativeSock from "vue-native-websocket";
+
+import store from './store/index'
 
 import App from './App.vue'
 
@@ -16,10 +18,11 @@ import Game from './components/game/GameComponent.vue'
 
 import './assets/styles/paaspop_styling.scss'
 
-
+Vue.use(VueNativeSock, "ws://localhost:9000", {
+	connectManually: true,
+});
 Vue.use(VueRouter)
 Vue.use(Vue2TouchEvents)
-
 Vue.use(Vuelidate);
 
 Vue.config.productionTip = false
