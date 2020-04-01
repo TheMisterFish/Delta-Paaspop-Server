@@ -3,10 +3,10 @@ var route = document.getElementById('route').innerText;
 var textbox = document.getElementById('socketChannel');
 var message = document.getElementById('message');
 
-let socket = new WebSocket('ws://localhost:9000' + route, ["token", token]);
+let socket = new WebSocket('ws://localhost:9000', ["token", token]);
 
 socket.onopen = function (e) {
-	addText("[status] Connected to ws://localhost:9000" + route);
+	addText("[status] Connected to ws://localhost:9000");
 };
 socket.onmessage = function (event) {
 	addText(`[message] Data received from server: ${event.data}`);
@@ -26,9 +26,9 @@ socket.onerror = function (error) {
 
 function addText(message) {
 	var d = new Date();
-	var datestring = ("0" + d.getDate()).slice(-2) + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" +
+	var datestring = ("0" + d.getDate()).slice(-2) + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" +
 		d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2);
-		
+
 	textbox.value += datestring + " " + message + '\n';
 	textbox.scrollTop = textbox.scrollHeight;
 }

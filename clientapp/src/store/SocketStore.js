@@ -13,13 +13,10 @@ const SocketStore = {
 	},
 	mutations: {
 		SOCKET_ONOPEN(state, event) {
-			console.log("SOCKET_ONOPEN");
 			Vue.prototype.$socket = event.currentTarget
 			state.socket.isConnected = true
 		},
-		SOCKET_ONCLOSE(state, event) {
-			console.log("SOCKET_ONCLOSE");
-			console.log(event);
+		SOCKET_ONCLOSE(state) {
 			state.socket.isConnected = false
 		},
 		SOCKET_ONERROR(state, event) {
@@ -28,8 +25,8 @@ const SocketStore = {
 		},
 		// default handler called for all methods
 		SOCKET_ONMESSAGE(state, message) {
-			console.log("SOCKET_ONMESSAGE");
-			state.socket.message = message
+			console.log("message: ", message);
+			state.socket.message = JSON.parse(message.data)
 		},
 		// mutations for reconnect methods
 		SOCKET_RECONNECT(state, count) {
@@ -44,15 +41,15 @@ const SocketStore = {
 	actions: {
 		sendMessage: function (context, message) {
 			// .....
-			console.log('sending');
-			console.log(context);
-			console.log(message);
-			Vue.prototype.$socket.send(message)
+			console.log('sending: ', message);
+			Vue.prototype.$socket.send(JSON.stringify(message))
 			// .....
 		}
 	},
 	getters: {
-		isSocketConnected: state => !!state.socket.isConnected,  
+		isSocketConnected: state => !!state.socket.isConnected,
+		socketMessage: state => state.socket.message,
+		socketReconnectError: state => state.socket.reconnectError
 	}
 }
 

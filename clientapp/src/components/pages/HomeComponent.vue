@@ -117,9 +117,11 @@ export default {
   font-family: TTTunnels-Black;
   line-height: 47px;
   text-transform: uppercase;
+	position: absolute;
 }
 .game-button {
   margin-right: 10px;
+	position: absolute;
 }
 .start-btn {
   background-color: $yellow;
@@ -180,5 +182,11 @@ export default {
 }
 .row {
   height: 50vh;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
