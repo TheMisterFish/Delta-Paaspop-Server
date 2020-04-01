@@ -83,9 +83,9 @@ game.on('connect', function (connection) {
 
 exports.connect = function (client = "game") {
 	if (client == "admin") {
-		admin.connect('ws://' + url + '/admin', ["token", process.env.ADMIN_TOKEN]);
+		admin.connect('ws://' + url + '/', ["token", process.env.ADMIN_TOKEN]);
 	} else {
-		game.connect('ws://' + url + '/game', ["token", process.env.ADMIN_TOKEN]);
+		game.connect('ws://' + url + '/', ["token", process.env.GAME_TOKEN]);
 	}
 };
 

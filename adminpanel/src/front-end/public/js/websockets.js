@@ -5,6 +5,15 @@ var message = document.getElementById('message');
 
 let socket = new WebSocket('ws://localhost:9000', ["token", token]);
 
+var input = document.getElementById("message");
+
+input.addEventListener("keyup", function(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    document.getElementById("sendbutton").click();
+  }
+}); 
+
 socket.onopen = function (e) {
 	addText("[status] Connected to ws://localhost:9000");
 };

@@ -66,7 +66,9 @@ export default {
       console.log("Connected: ", connected);
       if (connected) {
         this.$store.dispatch("joinGame", this.game);
-      }
+      } else {
+				this.$router.push("/");
+			}
     },
     SocketMessage(message) {
 			console.log("Message: ", message	);

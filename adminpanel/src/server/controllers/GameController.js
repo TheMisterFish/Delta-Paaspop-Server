@@ -44,7 +44,9 @@ exports.start_game = async function (req, res) {
 			axios.post('http://' + url + '/start_game', {
 					token: process.env.ADMIN_TOKEN,
 					game_token: game_token,
-					game_name: game.name
+					game_name: game.name,
+					join_mid_game: game.joinMidGame,
+					response_answer: game.responseAnswer
 				})
 				.then(function (response) {
 					newHistory.save();

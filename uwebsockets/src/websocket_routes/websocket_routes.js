@@ -1,5 +1,6 @@
 var funcs = require('../functions');
 var middleware = require('../middleware')
+var storage = require('../storage');
 
 // Check for debug mode
 require('dotenv').config()
@@ -27,7 +28,7 @@ module.exports = function (app) {
 						ws.role = "game";
 						ws.subscribe('game_channel');
 						if (debug)
-							console.log("User joinend user channel '/users' for the game: ", game)
+							console.log("Game joinend user channel '/game' for the game: ", game)
 						ws.publish('admin', "User joined user channel: ", game);
 					} else {
 						if (debug)
@@ -49,18 +50,30 @@ module.exports = function (app) {
 					if (debug)
 						console.log("Sending " + convertedMessage.replace("/game ", "") + " to /game channel")
 					ws.publish('game_channel', convertedMessage.replace("/game ", ""), false);
+					ws.send("Published to game_channel");
 				} else if (convertedMessage.startsWith("/users")) {
 					if (debug)
 						console.log("Sending " + convertedMessage.replace("/users ", "") + " to /users channel")
 					ws.publish('user_channel', convertedMessage.replace("/users ", ""), false);
+					ws.send("Published to user_channel");
 				} else {
 					ws.publish('admin_channel', convertedMessage, false)
 				}
 			} else if (ws.role == "user") {
 				if (debug)
 					console.log("Received '" + convertedMessage + "' on user_channel")
-				ws.publish('game_channel', convertedMessage, false);
-				ws.publish('admin_channel', 'user said: ' + convertedMessage, false);
+
+				storage.get_game().then((game) => {
+					if (game != undefined) {
+						console.log(game);
+						ws.publish('game_channel', convertedMessage, false);
+						ws.publish('admin_channel', 'user said: ' + convertedMessage, false);
+						let returnData = {
+							action: game.response_answer
+						}
+						ws.send(JSON.stringify(returnData))
+					}
+				});
 			} else if (ws.role == "game") {
 				if (debug)
 					console.log("Received '" + convertedMessage + "' on user_channel")
@@ -74,7 +87,7 @@ module.exports = function (app) {
 		},
 		close: (ws, code, message) => {
 			if (debug)
-					console.log(ws.role, "closed connection")
+				console.log(ws.role, "closed connection")
 		}
 
 	});

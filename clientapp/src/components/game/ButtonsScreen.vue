@@ -55,12 +55,10 @@ export default {
       console.log(button);
       this.disableButtons = true;
       this.buttonPressed = button;
-      let data = JSON.stringify({
+      let data ={
         user: this.$store.getters.user.nickname,
         answer: button
-      });
-      // let json = JSON.stringify(data)
-      // let send = "{'user':'"+this.$store.getters.user.nickname+"','answer':'"+button+"'}"
+      };
       this.$store.dispatch("sendMessage", { data });
     }
   }
