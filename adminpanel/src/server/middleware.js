@@ -18,9 +18,9 @@ exports.adminChecker = (req, res, next) => {
 };
 
 exports.gameTokenChecker = (req, res, next) => {
-	if (!req.body.token == pointsToken) {
+	if (req.body.token != pointsToken) {
 		res.status(401).send("Wrong credentials");
 	} else {
-		next()
+		next();
 	}
 }
