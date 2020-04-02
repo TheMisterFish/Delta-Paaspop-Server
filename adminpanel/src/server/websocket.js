@@ -29,15 +29,13 @@ admin.on('connect', function (connection) {
 	connection.on('error', function (error) {
 		admin.connection = connection;
 		console.log("Connection Error: " + error.toString());
-		if (reconnect)
-			retryAdminConnection()
+
 	});
 
 	connection.on('close', function () {
 		admin.connection = connection;
 		console.log('admin Connection Closed');
-		if (reconnect)
-			retryAdminConnection()
+
 	});
 
 	connection.on('message', function (message) {
@@ -85,9 +83,9 @@ game.on('connect', function (connection) {
 
 exports.connect = function (client = "game") {
 	if (client == "admin") {
-		admin.connect('ws://' + url + '/admin', ["token", process.env.ADMIN_TOKEN]);
+		admin.connect('ws://' + url + '/', ["token", process.env.ADMIN_TOKEN]);
 	} else {
-		game.connect('ws://' + url + '/game', ["token", process.env.ADMIN_TOKEN]);
+		game.connect('ws://' + url + '/', ["token", process.env.GAME_TOKEN]);
 	}
 };
 

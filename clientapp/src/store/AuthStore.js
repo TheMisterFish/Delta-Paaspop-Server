@@ -7,13 +7,11 @@ import {
 
 Vue.use(Vuex)
 
-/* eslint-disable */
-
 const AuthStore = {
 	state: {
 		status: '',
 		user: {},
-		logged_in: false
+		logged_in: false,
 	},
 	mutations: {
 		auth_request(state) {
@@ -61,7 +59,7 @@ const AuthStore = {
 			commit
 		}){
 			commit('logout');
-		}
+		},
 	},
 	getters: {
 		isLoggedIn: state => !!state.logged_in,

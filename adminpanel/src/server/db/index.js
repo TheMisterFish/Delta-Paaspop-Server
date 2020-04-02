@@ -23,6 +23,7 @@ if (debug) {
 
 
 mongoose.connect(connection_string, {
+		useUnifiedTopology: true,
 		useNewUrlParser: true
 	})
 	.then(() => console.log('DB Connected!'))
@@ -43,6 +44,6 @@ module.exports = function (app) {
 		secret: 'somerandonstuffs',
 		resave: false,
 		saveUninitialized: false,
-		
+
 	}));
 }
