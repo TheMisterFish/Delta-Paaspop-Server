@@ -9,6 +9,14 @@ const GameSchema = mongoose.Schema({
 		type: String,
 		default: "default.jpg"
 	},
+	joinMidGame: {
+		type: Boolean,
+		default: true
+	},
+	responseAnswer: {
+		type: String,
+		default: "wait"
+	},
 	histories: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'History'

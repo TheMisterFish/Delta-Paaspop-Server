@@ -1,8 +1,10 @@
-import store from './store/index'
+import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Vue2TouchEvents from 'vue2-touch-events'
 import Vuelidate from 'vuelidate';
-import Vue from 'vue'
+import VueNativeSock from "vue-native-websocket";
+
+import store from './store/index'
 
 import App from './App.vue'
 
@@ -12,13 +14,15 @@ import Leaderboard from './components/pages/LeaderboardComponent.vue'
 import Login from './components/pages/LoginComponent.vue'
 import Register from './components/pages/RegisterComponent.vue'
 import NotFound from './components/pages/NotFoundComponent.vue'
+import Game from './components/game/GameComponent.vue'
 
 import './assets/styles/paaspop_styling.scss'
 
-
+Vue.use(VueNativeSock, "ws://localhost:9000", {
+	connectManually: true,
+});
 Vue.use(VueRouter)
 Vue.use(Vue2TouchEvents)
-
 Vue.use(Vuelidate);
 
 Vue.config.productionTip = false
@@ -29,7 +33,7 @@ const routes = [{
 		component: Home,
 		name: "home",
 		meta: {
-			requiresAuth: true
+			requiresAuth: true,
 		}
 	},
 	{
@@ -37,7 +41,7 @@ const routes = [{
 		component: Account,
 		name: "account",
 		meta: {
-			requiresAuth: true
+			requiresAuth: true,
 		}
 	},
 	{
@@ -45,7 +49,7 @@ const routes = [{
 		component: Leaderboard,
 		name: "leaderboard",
 		meta: {
-			requiresAuth: true
+			requiresAuth: true,
 		}
 	},
 	{
@@ -62,6 +66,15 @@ const routes = [{
 		name: "register",
 		meta: {
 			requiresNoUser: true
+		}
+	},
+	{
+		path: '/game',
+		component: Game,
+		name: "game",
+		meta: {
+			requiresAuth: true,
+			requiresInGame: true
 		}
 	},
 	{
