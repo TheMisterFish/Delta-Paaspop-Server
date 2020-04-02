@@ -6,11 +6,8 @@ const port = process.env.PORT; //not used yet since it doesnt seem to work?
 const app = uws.App();
 
 // include websocket routes
-// require('./websocket_routes/game')(app);
-// require('./websocket_routes/users')(app);
-// require('./websocket_routes/admin')(app);
-
 require('./websocket_routes/websocket_routes')(app);
+
 // include http routes
 require('./http_routes/admin')(app);
 

@@ -54,7 +54,6 @@ exports.start_game = async function (req, res) {
 					res.status(200).send(response);
 				})
 				.catch(function (error) {
-					console.log("??1?");
 					res.status(500).send(error);
 				});
 

@@ -4,12 +4,12 @@
     :id="'bg-image_'+background_id"
   >
     <div class="header-container">
-      <span class="header">{{ header }}</span>
+      <span class="header">{{ game_data.header }}</span>
     </div>
 
     <div class="button-container">
       <div
-        v-for="button in buttons"
+        v-for="button in game_data.buttons"
         :key="button"
       >
         <div class="item">
@@ -17,9 +17,13 @@
             class="big-btn"
             @click="send(button)"
             :disabled="disableButtons"
-            :class="buttonPressed == button ? 'big-btn-pressed' : ''"
+            :class="[{ 'big-btn-pressed': button == buttonPressed }, 
+						{'correct': button == correctAnswer &&  correctAnswer != null},
+						{'incorrect': button != correctAnswer && button == buttonPressed  && correctAnswer != null}
+						]"
           >
             {{ button }}
+						
           </button>
         </div>
       </div>
@@ -30,21 +34,17 @@
 <script>
 export default {
   props: {
-    buttons: {
-      type: Array,
+    game_data: {
+      type: Object,
       required: true
-    },
-    header: {
-      type: String,
-      required: false,
-      default: ""
     }
   },
   data() {
     return {
       background_id: 1,
       disableButtons: false,
-      buttonPressed: null
+      buttonPressed: null,
+      correctAnswer: null
     };
   },
   mounted() {
@@ -52,14 +52,33 @@ export default {
   },
   methods: {
     send(button) {
-      console.log(button);
       this.disableButtons = true;
       this.buttonPressed = button;
-      let data ={
+      let data = {
         user: this.$store.getters.user.nickname,
         answer: button
       };
       this.$store.dispatch("sendMessage", { data });
+    }
+  },
+  watch: {
+    game_data: {
+      deep: true,
+      handler(gameData) {
+        if (gameData.action && this.buttonPressed != null) {
+          if (gameData.action == "again") {
+            gameData.action = "";
+            setTimeout(() => {
+              this.disableButtons = false;
+              this.buttonPressed = "";
+            }, 200);
+          }
+        }
+        if ("answer" in gameData) {
+          this.correctAnswer = gameData.answer;
+          this.disableButtons = true;
+        }
+      }
     }
   }
 };
@@ -105,7 +124,7 @@ export default {
 }
 
 .button-container > div {
-  flex: 1 0 50%;
+  min-width: 50vw;
 }
 
 .big-btn {
@@ -142,5 +161,11 @@ export default {
   -webkit-box-shadow: 1px 0px 0px 0px rgba(0, 0, 0, 1);
   -moz-box-shadow: 1px 0px 0px 0px rgba(0, 0, 0, 1);
   box-shadow: 1px 0px 0px 0px rgba(0, 0, 0, 1);
+}
+.correct {
+  background-color: rgb(0, 241, 88);
+}
+.incorrect {
+  background-color: rgb(255, 0, 0);
 }
 </style>
