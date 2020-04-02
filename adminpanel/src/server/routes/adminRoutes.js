@@ -1,5 +1,5 @@
 import {
-	adminChecker
+	adminChecker, gameTokenChecker
 } from '../middleware';
 
 import { AdminController, GameController, PointsController, WebsocketsController } from '../controllers'
@@ -21,7 +21,7 @@ module.exports = function (app) {
 	app.get('/history/:id', adminChecker, GameController.history);
 	
 	// Points controller
-	app.post('/points/game/:id', adminChecker, PointsController.game);
+	app.post('/points/game/:id', gameTokenChecker, PointsController.game);
 
 	// Websocket controller
 	app.get('/ws/test', adminChecker, WebsocketsController.test);
