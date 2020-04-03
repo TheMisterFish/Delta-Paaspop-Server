@@ -19,11 +19,12 @@
             :disabled="disableButtons"
             :class="[{ 'big-btn-pressed': button == buttonPressed }, 
 						{'correct': button == correctAnswer &&  correctAnswer != null},
-						{'incorrect': button != correctAnswer && button == buttonPressed  && correctAnswer != null}
+						{'incorrect': button != correctAnswer && button == buttonPressed  && correctAnswer != null},
+						{'single-btn': game_data.buttons.length == 1}
 						]"
           >
             {{ button }}
-						
+
           </button>
         </div>
       </div>
@@ -100,13 +101,15 @@ export default {
 
 .item {
   width: 100%;
-  padding: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .button-container {
   display: flex;
   flex-wrap: wrap;
   text-align: center;
+  margin: 0 auto;
 }
 
 .header-container {
@@ -135,8 +138,8 @@ export default {
   color: $dark;
   margin-left: 5px;
   margin-bottom: 5px;
-  width: 130px;
-  height: 130px;
+  width: 40vw;
+  height: 40vw;
   text-decoration: none;
   border: none;
   text-transform: uppercase;
@@ -149,6 +152,10 @@ export default {
   -webkit-box-shadow: -5px 5px 0px 2px rgba(0, 0, 0, 1);
   -moz-box-shadow: -5px 5px 0px 2px rgba(0, 0, 0, 1);
   box-shadow: -5px 5px 0px 2px rgba(0, 0, 0, 1);
+	&.single-btn{
+		width: 80vw!important;
+		height: 80vw!important;
+	}
 }
 
 .big-btn-pressed {

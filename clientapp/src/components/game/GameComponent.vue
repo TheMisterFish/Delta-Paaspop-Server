@@ -4,7 +4,7 @@
       <component
         :is="currentScreen"
         :game_data="game_data"
-				:key="componentKey"
+        :key="componentKey"
       ></component>
     </transition>
   </div>
@@ -29,8 +29,8 @@ export default {
   },
   data() {
     return {
-			currentScreen: "StatusScreen",
-			componentKey: 0,
+      currentScreen: "StatusScreen",
+      componentKey: 0,
       game: {},
       game_data: {
         buttons: [],
@@ -55,33 +55,41 @@ export default {
         protocol: "token:" + this.game.game_token,
         store: this.$store
       });
+      this.$store.dispatch("joinGame", this.game);
     } else if (this.$store.getters.inGame) {
       this.game = this.$store.getters.game;
       this.$connect("ws://localhost:9000/", {
         protocol: "token:" + this.game.game_token,
         store: this.$store
       });
-		}
-		this.game_data.status = "Wachten tot het spel <div class='game-title'>"+ this.game.game_name +"</div> gaat starten"
+    }
+    this.game_data.status =
+      "Wachten tot het spel <div class='game-title'>" +
+      this.game.game_name +
+      "</div> gaat starten";
   },
   destroyed() {
     if (this.$socket) this.$socket.close();
-  },
+	},
+	methods: {
+		stopGame(){
+			this.$store.dispatch("exitGame");
+			this.$disconnect();
+			this.$router.push("/");
+		}
+	},
   watch: {
     SocketConnect(connected) {
-      console.log("Connected: ", connected);
-      if (connected) {
-        this.$store.dispatch("joinGame", this.game);
-      } else {
+      if (!connected) {
         this.$router.push("/");
       }
     },
     SocketMessage(message) {
       if ("buttons" in message) {
-				this.game_data.buttons = message.buttons;
-				this.componentKey = this.componentKey + 1;
-				this.currentScreen = "ButtonsScreen";
-				this.game_data.anser = null;
+        this.game_data.buttons = message.buttons;
+        this.componentKey = this.componentKey + 1;
+        this.currentScreen = "ButtonsScreen";
+        this.game_data.anser = null;
       }
       if ("status" in message) {
         this.game_data.status = message.status;
@@ -95,6 +103,35 @@ export default {
       if ("answer" in message) {
         this.game_data.answer = message.answer;
       }
+      if ("userHeader" in message) {
+        let me = this.$store.getters.user.nickname;
+        if (message.userHeader[0] == me) {
+          this.game_data.header = message.userHeader[1];
+        }
+			}
+			if("stopGame" in message && message.stopGame == true){
+				this.stopGame();
+			}
+      if ("switchScreen" in message) {
+				let screen = message.switchScreen;
+				console.log('screen', screen);
+        switch (screen) {
+          case "buttons":
+            this.componentKey = this.componentKey + 1;
+            this.currentScreen = "ButtonsScreen";
+            break;
+          case "exit":
+            this.componentKey = this.componentKey + 1;
+            this.currentScreen = "ExitingScreen";
+            break;
+          case "status":
+            this.componentKey = this.componentKey + 1;
+            this.currentScreen = "StatusScreen";
+            break;
+          default:
+            break;
+        }
+      }
     },
     SocketReconnectError(reconnectError) {
       console.log("Reconnect error: ", reconnectError);
@@ -104,5 +141,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>

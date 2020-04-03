@@ -59,6 +59,9 @@ export default {
           if (data != false) {
             this.game = data;
             this.game_found = true;
+            if (this.$store.getters.inGame == true) {
+              this.$router.push({ name: "game", params: { game: this.game } });
+            }
           } else {
             setTimeout(() => {
               this.game = {};
@@ -117,11 +120,11 @@ export default {
   font-family: TTTunnels-Black;
   line-height: 47px;
   text-transform: uppercase;
-	position: absolute;
+  position: absolute;
 }
 .game-button {
   margin-right: 10px;
-	position: absolute;
+  position: absolute;
 }
 .start-btn {
   background-color: $yellow;
@@ -183,8 +186,9 @@ export default {
 .row {
   height: 50vh;
 }
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;

@@ -38,11 +38,8 @@ export default {
     this.interval = setInterval(
       function() {
         this.rotate = "rotate";
-        console.log("start rotate");
-
         setTimeout(() => {
           this.rotate = "";
-          console.log("stop rotate");
         }, 2510);
       }.bind(this),
       10000
