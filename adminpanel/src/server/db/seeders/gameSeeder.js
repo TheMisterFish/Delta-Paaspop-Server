@@ -4,12 +4,14 @@ async function seedGames() {
 	var games = [{
 			name: 'test_game',
 			joinMidGame: true,
-			responseAnswer: "wait"
+			responseAnswer: "wait",
+			image: "default.jpg"
 		},
 		{
 			name: 'test_game2',
 			joinMidGame: false,
-			responseAnswer: "again"
+			responseAnswer: "again",
+			image: "default.jpg"
 		},
 	];
 	for (let index = 0; index < games.length; index++) {

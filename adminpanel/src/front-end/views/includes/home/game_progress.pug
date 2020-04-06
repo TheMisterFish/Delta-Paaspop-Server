@@ -1,5 +1,5 @@
 div.card(class=current_game==true ? "display-none" : "")
-	small.float-right (ik luister naar OSC)
+	small.float-right="(OSC Status:"+osc_status+")"
 	h3.card-title Op het moment is er geen game gestart 
 	hr
 	div.row
@@ -22,7 +22,7 @@ div.card(class=current_game==true ? "" : "display-none")
 	div.row
 		h3.card-title.col.col-lg-8 Op het moment speelt 
 			strong=last_game.game.name
-		div.col.col-lg-4.align-right (ik luister naar OSC)
+		div.col.col-lg-4.align-right="(OSC Status:"+osc_status+")"
 	hr
 	div.row
 		div.col.col-lg-4
