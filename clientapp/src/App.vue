@@ -9,8 +9,7 @@
     >
       <router-view></router-view>
     </transition>
-
-    <div v-if="isLoggedIn">
+    <div v-if="isLoggedIn && $route.name != 'game'">
       <bottom-nav></bottom-nav>
     </div>
 
@@ -35,12 +34,6 @@ export default {
   computed: {
     isLoggedIn: function() {
       return this.$store.getters.isLoggedIn;
-    },
-    errorMessage: function() {
-      return this.$store.getters.ErrorMsg;
-    },
-    hasError: function() {
-      return this.$store.getters.hasError;
     }
   },
   methods: {

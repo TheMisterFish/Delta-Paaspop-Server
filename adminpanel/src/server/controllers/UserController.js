@@ -26,7 +26,8 @@ exports.login = async function (req, res) {
 			req.session.user = user._id;
 			let this_user = {
 				email: user.email,
-				nickname: user.nickname
+				nickname: user.nickname,
+				id: user._id
 			};
 			res.send(this_user);
 		}
@@ -118,10 +119,17 @@ exports.game_status = async function (req, res) {
 		gameEnded: null
 	}).populate('game').then(function (current) {
 		if (current && current.game) {
-			let game_data = {
-				game_token: current.game_token,
-				game_name: current.game.name
+			let game_data = {};
+			if (current.game.joinMidGame == false && current.roundStarted) {
+				game_data.cannot_join = true;
+				game_data.round_started = current.roundStarted;
+				game_data.game_name = current.game.name;
+			} else {
+				game_data.round_started = current.roundStarted;
+				game_data.game_token = current.game_token;
+				game_data.game_name = current.game.name;
 			}
+
 			res.send(game_data);
 		} else {
 			res.send(false);

@@ -44,7 +44,9 @@ exports.start_game = async function (req, res) {
 			axios.post('http://' + url + '/start_game', {
 					token: process.env.ADMIN_TOKEN,
 					game_token: game_token,
-					game_name: game.name
+					game_name: game.name,
+					join_mid_game: game.joinMidGame,
+					response_answer: game.responseAnswer
 				})
 				.then(function (response) {
 					newHistory.save();
@@ -52,7 +54,6 @@ exports.start_game = async function (req, res) {
 					res.status(200).send(response);
 				})
 				.catch(function (error) {
-					console.log("??1?");
 					res.status(500).send(error);
 				});
 
@@ -89,6 +90,24 @@ exports.stop_game = async function (req, res) {
 		}
 	});
 
+}
+exports.start_round = async function (req, res) {
+	console.log("?");
+	History.findOne({
+		gameEnded: null
+	}).then(function (current_game) {
+		if (current_game && current_game.game) {
+			current_game.roundStarted = true;
+			current_game.save().then(() => {
+				return res.status(200).send('Eerste ronde is gestart');
+			}).catch(() => {
+				console.log("Something whent wrong at 'game_started'");
+				return res.status(500).send('Iets ging fout.');
+			});
+		} else {
+			return res.status(500).send('Er geen spel gestart.');
+		}
+	});
 }
 exports.get_current = async function (req, res) {
 	/**

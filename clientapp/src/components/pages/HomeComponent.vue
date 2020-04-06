@@ -15,21 +15,30 @@
       </div>
       <div class="row">
         <div class="game-outer">
-          <span
-            class="game-status"
-            v-if="!game_found"
-          >
-            Geen spel gaande...
-          </span>
-          <div
-            class="game-button"
-            v-if="game_found"
-          >
-            <button
-              class="start-btn"
-              :class="button_class"
-            >Speel mee</button>
-          </div>
+          <transition name="fade">
+            <span
+              class="game-status"
+              v-if="!game_found"
+            >
+              Geen spel gaande...
+            </span>
+            <div
+              class="game-button"
+              v-if="game_found && can_join"
+            >
+              <button
+                class="start-btn"
+                @click="startGame"
+                :class="button_class"
+              >Speel mee</button>
+            </div>
+            <span
+              class="game-status"
+              v-if="game_found && !can_join"
+            >
+              Kan niet meespelen
+            </span>
+          </transition>
         </div>
       </div>
 
@@ -46,33 +55,58 @@ export default {
       button_class: "",
       interval: undefined,
       game: {},
-      game_found: false
+      game_found: false,
+      can_join: true
     };
   },
   methods: {
     getStatus() {
-      UserApi.game_status().then(data => {
-        if (data != false) {
-          this.game = data;
-          this.game_found = true;
-          clearInterval(this.interval);
-        }
-      });
+      UserApi.game_status()
+        .then(data => {
+          if (data != false) {
+            this.game = data;
+            this.game_found = true;
+            if (this.game.cannot_join) {
+              this.can_join = false;
+            } else {
+							this.can_join = true;
+              if (this.$store.getters.inGame == true) {
+                this.$router.push({
+                  name: "game",
+                  params: { game: this.game }
+                });
+              }
+            }
+          } else {
+            setTimeout(() => {
+              this.game = {};
+              this.game_found = false;
+            }, 1000);
+          }
+        })
+        .catch(() => {
+          setTimeout(() => {
+            this.game = {};
+            this.game_found = false;
+          }, 1000);
+        });
+    },
+    startGame() {
+			this.getStatus();
+			if(this.can_join){
+				this.button_class = "btn-pressed";
+				setTimeout(() => {
+					this.button_class = "";
+					this.$router.push({ name: "game", params: { game: this.game } });
+				}, 1000);
+			}
     }
   },
   mounted: function() {
-    UserApi.game_status().then(data => {
-      if (data == false) {
-        this.$nextTick(function() {
-          this.interval = setInterval(() => {
-            this.getStatus();
-          }, 5000);
-        });
-      } else {
-        this.game = data;
-        this.game_found = true;
-      }
-    });
+    this.getStatus();
+    this.interval = setInterval(() => {
+      this.getStatus();
+    }, 5000);
   },
   beforeDestroy() {
     clearInterval(this.interval);
@@ -102,11 +136,13 @@ export default {
   width: 60%;
   display: block;
   font-family: TTTunnels-Black;
-	line-height: 47px;
-	text-transform: uppercase;
+  line-height: 47px;
+  text-transform: uppercase;
+  position: absolute;
 }
 .game-button {
   margin-right: 10px;
+  position: absolute;
 }
 .start-btn {
   background-color: $yellow;
@@ -167,5 +203,12 @@ export default {
 }
 .row {
   height: 50vh;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

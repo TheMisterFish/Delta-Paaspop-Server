@@ -44,19 +44,3 @@ exports.adminSockets = async function (req, res) {
 		breadcrumbs: [['home',' '], ['admin kanaal']]
 	})
 }
-exports.gameSockets = async function (req, res) {
-	/**
-	 * GET / endpoint *
-	 * @export *
-	 * @param { any } req
-	 * @param { any } res
-	 * @return { res } render index with users screen
-	 */
-	
-	res.render('index', {
-		screen: 'ws_game',
-		token: process.env.ADMIN_TOKEN,
-		route: '/game',
-		breadcrumbs: [['home',' '], ['game kanaal']]
-	})
-}
