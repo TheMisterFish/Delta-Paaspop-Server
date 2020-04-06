@@ -36,12 +36,10 @@ exports.apply_points = async function (req, res) {
 
 		var game = history.game;
 
-		var convertedPointsArray = calculatePaaspopPoints(history, req.body.points);
-
-		var pointObjects = convertToPointObjectArray(game._id, req.body.reason, convertedPointsArray);
+		var convertedPointsArray = calculatePaaspopPoints(req.body.points);
 		
 		//Try to save the object into MongoDB
-		Point.insertMany(pointObjects)
+		Point.insertMany(convertToPointObjectArray(game._id, req.body.reason, convertedPointsArray))
 			.then(doc => res.status(200).send(doc))
 			.catch(err => res.status(500).send(err));
 	});
@@ -49,17 +47,32 @@ exports.apply_points = async function (req, res) {
 
 //Reads the property called 'points' in all array items.
 //Converts it to Paaspop Points and adds the result as a new property called 'paaspopPoints' 
-function calculatePaaspopPoints(gHistory, pointsArray)
+function calculatePaaspopPoints(pointsArray)
 {
-	var maxPoints = pointsArray.reduce((a,b) => a + b.points, 0);//Get the sum of all points.
-	var paaspopMaxPoints = 100;
+	var paaspopMaxPoints = 75;
+	var participationPercentage = 10;
+	var participationPoints = paaspopMaxPoints / 100 * participationPercentage;
 
-	pointsArray.forEach(user =>
+	var multipliedPointsArray = reduceCeil(pointsArray);
+
+	//Get the highest amount of points any user has recieved. (Score of the winner)
+	var maxPoints = multipliedPointsArray.reduce((previous,current) => (previous.points > current.points) ? previous : current).points
+					+ participationPoints;
+
+	multipliedPointsArray.forEach(user =>
 	{
-		var pointPercentage = user.points * 100 / maxPoints;
-		user.paaspopPoints = parseInt(pointPercentage / 100 * paaspopMaxPoints);
-	});
+		user.points += participationPoints;//Add 10% of participation points to the user.
 
+		var pointPercentage = user.points * 100 / maxPoints;
+		user.paaspopPoints = Math.ceil(pointPercentage / 100 * paaspopMaxPoints);
+	});
+	console.log(multipliedPointsArray);//dEBUG
+	return multipliedPointsArray;
+}
+
+function reduceCeil(pointsArray)
+{
+	pointsArray.forEach(user => user.points = user.points * 100);
 	return pointsArray;
 }
 
