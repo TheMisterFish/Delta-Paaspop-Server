@@ -37,7 +37,7 @@ exports.apply_points = async function (req, res) {
 		var game = history.game;
 
 		var convertedPointsArray = calculatePaaspopPoints(req.body.points);
-		
+
 		//Try to save the object into MongoDB
 		Point.insertMany(convertToPointObjectArray(game._id, req.body.reason, convertedPointsArray))
 			.then(doc => res.status(200).send(doc))
@@ -49,9 +49,9 @@ exports.apply_points = async function (req, res) {
 //Converts it to Paaspop Points and adds the result as a new property called 'paaspopPoints' 
 function calculatePaaspopPoints(pointsArray)
 {
-	var paaspopMaxPoints = 75;
-	var participationPercentage = 10;
-	var participationPoints = paaspopMaxPoints / 100 * participationPercentage;
+	const paaspopMaxPoints = 75;
+	const participationPercentage = 10;
+	const participationPoints = paaspopMaxPoints / 100 * participationPercentage;
 
 	var multipliedPointsArray = reduceCeil(pointsArray);
 
@@ -59,14 +59,15 @@ function calculatePaaspopPoints(pointsArray)
 	var maxPoints = multipliedPointsArray.reduce((previous,current) => (previous.points > current.points) ? previous : current).points
 					+ participationPoints;
 
+	let pointPercentage;
 	multipliedPointsArray.forEach(user =>
 	{
 		user.points += participationPoints;//Add 10% of participation points to the user.
 
-		var pointPercentage = user.points * 100 / maxPoints;
+		pointPercentage = user.points * 100 / maxPoints;
 		user.paaspopPoints = Math.ceil(pointPercentage / 100 * paaspopMaxPoints);
 	});
-	console.log(multipliedPointsArray);//dEBUG
+	
 	return multipliedPointsArray;
 }
 
@@ -80,9 +81,10 @@ function convertToPointObjectArray(gameId, reason, userPointArray)
 {
 	var output = [];
 
+	let newPoint;
 	userPointArray.forEach(el =>
 	{
-		var newPoint = new Point(
+		newPoint = new Point(
 		{
 			game: gameId,
 			reason: reason,
