@@ -24,7 +24,7 @@
             </span>
             <div
               class="game-button"
-              v-if="game_found"
+              v-if="game_found && can_join"
             >
               <button
                 class="start-btn"
@@ -32,6 +32,12 @@
                 :class="button_class"
               >Speel mee</button>
             </div>
+            <span
+              class="game-status"
+              v-if="game_found && !can_join"
+            >
+              Kan niet meespelen
+            </span>
           </transition>
         </div>
       </div>
@@ -49,7 +55,8 @@ export default {
       button_class: "",
       interval: undefined,
       game: {},
-      game_found: false
+      game_found: false,
+      can_join: true
     };
   },
   methods: {
@@ -59,6 +66,17 @@ export default {
           if (data != false) {
             this.game = data;
             this.game_found = true;
+            if (this.game.cannot_join) {
+              this.can_join = false;
+            } else {
+							this.can_join = true;
+              if (this.$store.getters.inGame == true) {
+                this.$router.push({
+                  name: "game",
+                  params: { game: this.game }
+                });
+              }
+            }
           } else {
             setTimeout(() => {
               this.game = {};
@@ -74,11 +92,14 @@ export default {
         });
     },
     startGame() {
-      this.button_class = "btn-pressed";
-      setTimeout(() => {
-        this.button_class = "";
-        this.$router.push({ name: "game", params: { game: this.game } });
-      }, 1000);
+			this.getStatus();
+			if(this.can_join){
+				this.button_class = "btn-pressed";
+				setTimeout(() => {
+					this.button_class = "";
+					this.$router.push({ name: "game", params: { game: this.game } });
+				}, 1000);
+			}
     }
   },
   mounted: function() {
@@ -117,11 +138,11 @@ export default {
   font-family: TTTunnels-Black;
   line-height: 47px;
   text-transform: uppercase;
-	position: absolute;
+  position: absolute;
 }
 .game-button {
   margin-right: 10px;
-	position: absolute;
+  position: absolute;
 }
 .start-btn {
   background-color: $yellow;
@@ -183,8 +204,9 @@ export default {
 .row {
   height: 50vh;
 }
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;

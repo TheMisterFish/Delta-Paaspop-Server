@@ -9,6 +9,11 @@ module.exports = {
 			return true
 		return false;
 	},
+	http_is_admin: function (obj) {
+		if (obj.token == admin_token)
+			return true;
+		return false;
+	},
 	ws_is_user: async function (ws, client) {
 		return await storage.get_value('game_token').then((value) => {
 			let token;
@@ -24,8 +29,14 @@ module.exports = {
 		});
 	},
 	ws_is_game: function (ws, client) {
-		if (client.token == game_token)
+		try {
+			token = client['sec-websocket-protocol'].split(":");
+		} catch (error) {
+			return false;
+		}
+		if (token[0] == "token" && token[1] == game_token) {
 			return true
+		}
 		return false;
 	},
 	game_running: async function () {

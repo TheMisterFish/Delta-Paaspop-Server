@@ -29,7 +29,6 @@ exports.start_game = async function (req, res) {
 		gameEnded: null
 	}).then(function (current_game) {
 		if (current_game && current_game.game) {
-			console.log("???");
 			return res.status(500).send('Er is al een spel gestart.');
 		}
 		Game.findOne({
@@ -51,13 +50,11 @@ exports.start_game = async function (req, res) {
 				.then(function (response) {
 					newHistory.save();
 					websocket_connections.connect();
-					res.status(200).send(response);
+					res.status(200).send("Started game");
 				})
 				.catch(function (error) {
-					console.log("??1?");
 					res.status(500).send(error);
 				});
-
 		})
 	})
 }
@@ -90,7 +87,24 @@ exports.stop_game = async function (req, res) {
 				});
 		}
 	});
-
+}
+exports.start_round = async function (req, res) {
+	console.log("?");
+	History.findOne({
+		gameEnded: null
+	}).then(function (current_game) {
+		if (current_game && current_game.game) {
+			current_game.roundStarted = true;
+			current_game.save().then(() => {
+				return res.status(200).send('Eerste ronde is gestart');
+			}).catch(() => {
+				console.log("Something whent wrong at 'game_started'");
+				return res.status(500).send('Iets ging fout.');
+			});
+		} else {
+			return res.status(500).send('Er geen spel gestart.');
+		}
+	});
 }
 exports.get_current = async function (req, res) {
 	/**
@@ -167,4 +181,93 @@ exports.history = async function (req, res) {
 		})
 
 	})
+}
+
+exports.osc_start_game = async function () {
+	/**
+	 * OSC start game function.
+	 * @returns { boolean } game started true/false
+	 */
+	let game_token = randomToken(16);
+
+	History.findOne({
+		gameEnded: null
+	}).then(function (current_game) {
+		if (current_game && current_game.game) {
+			return false;
+		}
+		const all_games = History.find({});
+		const last_game = History.findOne({}, {}, {
+			sort: {
+				'created_at': -1
+			}
+		});
+		let new_game;
+
+		for (let index = 0; index < all_games.length; index++) {
+			const game = all_games[index];
+			if (game._id == last_game._id) {
+				if (index == all_games.length) {
+					new_game = all_games[0];
+				} else {
+					new_game = all_games[index + 1];
+				}
+				break
+			}
+		}
+
+		Game.findOne({
+			_id: new_game._id
+		}).then(function (game) {
+			var newHistory = new History({
+				game: game,
+				game_token: game_token,
+				gameStarted: new Date()
+			});
+
+			axios.post('http://' + url + '/start_game', {
+					token: process.env.ADMIN_TOKEN,
+					game_token: game_token,
+					game_name: game.name,
+					join_mid_game: game.joinMidGame,
+					response_answer: game.responseAnswer
+				})
+				.then(function (response) {
+					newHistory.save();
+					websocket_connections.connect();
+					return true;
+				})
+				.catch(function (error) {
+					return false;
+				});
+		})
+	})
+}
+
+exports.osc_stop_game = async function () {
+	/**
+	 * OSC stop game function.
+	 * @returns { boolean } game started true/false
+	 */
+	History.findOne({
+		gameEnded: null
+	}).populate('game').then(function (current_game) {
+		if (!current_game) {
+			return false;
+		} else {
+			axios.post('http://' + url + '/stop_game', {
+					token: process.env.ADMIN_TOKEN,
+					game_name: current_game.game.name
+				})
+				.then(function (response) {
+					current_game.gameEnded = new Date();
+					current_game.save();
+					websocket_connections.disconnect();
+					return true;
+				})
+				.catch(function (error) {
+					return false;
+				});
+		}
+	});
 }

@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex);
-console.log("LAODED");
 const SocketStore = {
 	state: {
 		socket: {
@@ -25,7 +24,6 @@ const SocketStore = {
 		},
 		// default handler called for all methods
 		SOCKET_ONMESSAGE(state, message) {
-			console.log("message: ", message);
 			state.socket.message = JSON.parse(message.data)
 		},
 		// mutations for reconnect methods
@@ -40,10 +38,7 @@ const SocketStore = {
 	},
 	actions: {
 		sendMessage: function (context, message) {
-			// .....
-			console.log('sending: ', message);
 			Vue.prototype.$socket.send(JSON.stringify(message))
-			// .....
 		}
 	},
 	getters: {

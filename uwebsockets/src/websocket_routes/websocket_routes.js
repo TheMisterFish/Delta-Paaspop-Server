@@ -67,7 +67,7 @@ module.exports = function (app) {
 					if (game != undefined) {
 						console.log(game);
 						ws.publish('game_channel', convertedMessage, false);
-						ws.publish('admin_channel', 'user said: ' + convertedMessage, false);
+						ws.publish('admin_channel', 'user said: ' + convertedMessage);
 						let returnData = {
 							action: game.response_answer
 						}

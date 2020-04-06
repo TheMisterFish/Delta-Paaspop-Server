@@ -19,6 +19,9 @@ import db from './server/db'
 import websocket_connections from './server/websocket'
 websocket_connections.connect('admin');
 
+import osc_connection from './server/osc'
+osc_connection.osc_connect();
+
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
