@@ -38,7 +38,12 @@
 </template>
 
 <script>
+import {
+	ActionBus
+} from '../../busses/ActionBus';
+
 export default {
+	name: 'buttonScreen',
   props: {
     game_data: {
       type: Object,
@@ -54,7 +59,10 @@ export default {
     };
   },
   mounted() {
-    this.background_id = Math.floor(Math.random() * 3) + 1;
+		this.background_id = Math.floor(Math.random() * 3) + 1;
+		ActionBus.$on('action', action => {
+			this.action(action);
+		})
   },
   methods: {
     send(button) {
@@ -65,14 +73,10 @@ export default {
         answer: button
       };
       this.$store.dispatch("sendMessage", { data });
-    }
-  },
-  watch: {
-    game_data: {
-      deep: true,
-      handler(gameData) {
-        if (gameData.action && this.buttonPressed != null) {
-          if (gameData.action == "again") {
+		},
+		action(action){
+			if (action && this.buttonPressed != null) {
+          if (action == "again") {
             this.game_data.action = "";
             setTimeout(() => {
               this.disableButtons = false;
@@ -80,6 +84,12 @@ export default {
             }, 200);
           }
         }
+		}
+  },
+  watch: {
+    game_data: {
+      deep: true,
+      handler(gameData) {
         if ("answer" in gameData) {
           this.correctAnswer = gameData.answer;
           this.disableButtons = true;

@@ -1,11 +1,13 @@
 <template>
   <div>
     <div class="status-container">
+			<div class="status">
       <div
-        class="status"
+        class="status-inner"
         v-html="game_data.status"
       >
       </div>
+			</div>
 
       <div class="logo">
         <img
@@ -71,11 +73,18 @@ export default {
   padding: 20px;
   font-family: TTTunnels-Black;
   color: white;
-  text-align: center;
+	text-align: center;
+	flex-grow: 3;
+	display: flex;
+}
+.status-inner{
+	align-self: center;
 }
 .logo {
+	flex-grow: 1;
+
   img {
-    width: 100px;
+    width: 80px;
   }
 }
 </style>

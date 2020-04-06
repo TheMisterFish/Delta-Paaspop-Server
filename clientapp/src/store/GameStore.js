@@ -14,6 +14,7 @@ const GameStore = {
 			state.game = game;
 		},
 		exited_game(state) {
+			console.log("exit?");
 			state.in_game = false;
 			state.current_game = {};
 		}
@@ -32,7 +33,7 @@ const GameStore = {
 		}
 	},
 	getters: {
-		inGame: state => !!state.in_game,
+		inGame: state => state.in_game,
 		game: state => state.game,
 	}
 }

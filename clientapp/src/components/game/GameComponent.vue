@@ -5,7 +5,7 @@
         :is="currentScreen"
         :game_data="game_data"
         :key="componentKey"
-				ref="usernameInput"
+        ref="actionRef"
       ></component>
     </transition>
 
@@ -17,13 +17,22 @@
     </button>
 
     <transition name="fade">
-      <div class="exitModal card" v-if="showExit">
+      <div
+        class="exitModal card"
+        v-if="showExit"
+      >
         <div class="card-body">
           Weet je zeker dat je wilt stoppen?
 
         </div>
         <div class=" card-footer">
-          <button class="btn" @click="stopGame">Ja</button> <button class="btn" @click="hideExitModal">Nee</button>
+          <button
+            class="btn"
+            @click="stopGame"
+          >Ja</button> <button
+            class="btn"
+            @click="hideExitModal"
+          >Nee</button>
         </div>
       </div>
     </transition>
@@ -34,6 +43,10 @@
 import ExitingScreen from "./ExitingScreen";
 import ButtonsScreen from "./ButtonsScreen";
 import StatusScreen from "./StatusScreen";
+
+import {
+	ActionBus
+} from '../../busses/ActionBus';
 
 export default {
   computed: {
@@ -58,8 +71,8 @@ export default {
         header: "",
         action: "",
         answer: null
-			},
-			showExit: false
+      },
+      showExit: false,
     };
   },
   components: {
@@ -69,14 +82,14 @@ export default {
   },
   mounted() {
     if (!this.$route.params.game && !this.$store.getters.inGame) {
-      this.$router.push("/");
+      this.stopGame()
     } else if (this.$route.params.game) {
       this.game = this.$route.params.game;
       this.$connect("ws://localhost:9000/", {
         protocol: "token:" + this.game.game_token,
         store: this.$store
       });
-      this.$store.dispatch("joinGame", this.game);
+			this.$store.dispatch("joinGame", this.game);
     } else if (this.$store.getters.inGame) {
       this.game = this.$store.getters.game;
       this.$connect("ws://localhost:9000/", {
@@ -106,11 +119,11 @@ export default {
       this.$router.push("/");
     },
     showExitModal() {
-			this.showExit = true;
-		},
+      this.showExit = true;
+    },
     hideExitModal() {
       this.showExit = false;
-    }
+    },
   },
   watch: {
     SocketConnect(connected) {
@@ -119,9 +132,9 @@ export default {
       } else {
         let data = {
           userJoined: {
-						nickname: this.$store.getters.user.nickname,
-						id: this.$store.getters.user.id
-					} 
+            nickname: this.$store.getters.user.nickname,
+            id: this.$store.getters.user.id
+          }
         };
         this.$store.dispatch("sendMessage", { data });
       }
@@ -140,6 +153,7 @@ export default {
         this.game_data.header = message.header;
       }
       if ("action" in message) {
+				ActionBus.$emit('action', message.action)
         this.game_data.action = message.action;
       }
       if ("answer" in message) {
