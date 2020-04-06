@@ -3,7 +3,6 @@ require('dotenv').config()
 var funcs = require('../functions');
 var middleware = require('../middleware')
 var storage = require('../storage');
-const admin_token = process.env.ADMIN_TOKEN;
 
 // check for debug mode
 const debug = process.env.DEBUG == "true";
