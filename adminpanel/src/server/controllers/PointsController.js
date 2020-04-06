@@ -32,9 +32,10 @@ exports.apply_points = async function (req, res) {
 		if (!history)
 			return res.status(500).send("No game is running.");//Error: No game is running.
 		
+		//TODO: Check if input is correctly formatted
+
 		var game = history.game;
 
-		//TODO: Convert points to specified paaspop-points
 		var convertedPointsArray = calculatePaaspopPoints(history, req.body.points);
 		console.log(convertedPointsArray);
 
@@ -46,25 +47,19 @@ exports.apply_points = async function (req, res) {
 				game: game._id,
 				reason: req.body.reason,
 				points: el.paaspopPoints,
-				user: el.user_id//TODO: Parse to mongo objectId
+				user: el.user_id
 			});
 			points.push(newPoint);
 		});
 		console.log(points);
-		return res.send("kaas");
 		
-		return res.status(501).send("DEBUG: save functionality reached, but skipped");
-
-		//TODO: Use mongoose or mongoDB bulk insertion (insertmany)
-		newPoint.save()
-			.then(item => {
-				/*DEBUG*/console.log("##### Object Saved #####");
-				/*DEBUG*/console.log(item);
-				res.status(201).send("Record saved");
+		Point.insertMany(points)
+			.then(function(mongooseDocuments)
+			{
+				console.log(mongooseDocuments);
+				res.status(200).send("Points saved");
 			})
-			.catch(err => {
-				res.status(500).send(err);
-			});
+			.catch(err => res.status(500).send(err));
 	});
 }
 
@@ -72,7 +67,6 @@ exports.apply_points = async function (req, res) {
 //Converts it to Paaspop Points and adds the result as a new property called 'paaspopPoints' 
 function calculatePaaspopPoints(gHistory, pointsArray)
 {
-	//var userCount = gHistory.users.length;//TODO: Maybe change with pointsArray.length???
 	var maxPoints = pointsArray.reduce((a,b) => a + b.points, 0);//Get the sum of all points.
 	var paaspopMaxPoints = 100;
 
