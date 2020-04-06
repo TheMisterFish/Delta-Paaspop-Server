@@ -35,16 +35,24 @@ exports.apply_points = async function (req, res) {
 		var game = history.game;
 
 		//TODO: Convert points to specified paaspop-points
-		var convertedPoints = convertToPaaspopPoints(history, req.body.points);
-		console.log(convertedPoints);
+		var convertedPointsArray = calculatePaaspopPoints(history, req.body.points);
+		console.log(convertedPointsArray);
 
-		var newPoint = new Point(
+		var points = [];
+		convertedPointsArray.forEach(el =>
 		{
-			game: game._id,
-			reason: req.body.reason,
-			points: convertedPoints,
-			user: req.body.u_id
+			var newPoint = new Point(
+			{
+				game: game._id,
+				reason: req.body.reason,
+				points: el.paaspopPoints,
+				user: el.user_id//TODO: Parse to mongo objectId
+			});
+			points.push(newPoint);
 		});
+		console.log(points);
+		return res.send("kaas");
+		
 		return res.status(501).send("DEBUG: save functionality reached, but skipped");
 
 		//TODO: Use mongoose or mongoDB bulk insertion (insertmany)
@@ -60,17 +68,19 @@ exports.apply_points = async function (req, res) {
 	});
 }
 
-function convertToPaaspopPoints(gHistory, points)
+//Reads the property called 'points' in all array items.
+//Converts it to Paaspop Points and adds the result as a new property called 'paaspopPoints' 
+function calculatePaaspopPoints(gHistory, pointsArray)
 {
-	var userCount = gHistory.users.length;
-
-	//TODO: get all users and calucate all points that have been given.
-
-	var maxPoints = 500;//TODO: This is game independend, either receive it from DB or pass in by body.
+	//var userCount = gHistory.users.length;//TODO: Maybe change with pointsArray.length???
+	var maxPoints = pointsArray.reduce((a,b) => a + b.points, 0);//Get the sum of all points.
 	var paaspopMaxPoints = 100;
 
-	var pointPercentage = points * 100 / maxPoints;
-	var convertedPoints = pointPercentage / 100 * paaspopMaxPoints;
-	
-	return convertedPoints;
+	pointsArray.forEach(user =>
+	{
+		var pointPercentage = user.points * 100 / maxPoints;
+		user.paaspopPoints = parseInt(pointPercentage / 100 * paaspopMaxPoints);
+	});
+
+	return pointsArray;
 }
