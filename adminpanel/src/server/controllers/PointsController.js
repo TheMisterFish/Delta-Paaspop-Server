@@ -37,28 +37,12 @@ exports.apply_points = async function (req, res) {
 		var game = history.game;
 
 		var convertedPointsArray = calculatePaaspopPoints(history, req.body.points);
-		console.log(convertedPointsArray);
 
-		var points = [];
-		convertedPointsArray.forEach(el =>
-		{
-			var newPoint = new Point(
-			{
-				game: game._id,
-				reason: req.body.reason,
-				points: el.paaspopPoints,
-				user: el.user_id
-			});
-			points.push(newPoint);
-		});
-		console.log(points);
+		var pointObjects = convertToPointObjectArray(game._id, req.body.reason, convertedPointsArray);
 		
-		Point.insertMany(points)
-			.then(function(mongooseDocuments)
-			{
-				console.log(mongooseDocuments);
-				res.status(200).send("Points saved");
-			})
+		//Try to save the object into MongoDB
+		Point.insertMany(pointObjects)
+			.then(doc => res.status(200).send(doc))
 			.catch(err => res.status(500).send(err));
 	});
 }
@@ -77,4 +61,23 @@ function calculatePaaspopPoints(gHistory, pointsArray)
 	});
 
 	return pointsArray;
+}
+
+function convertToPointObjectArray(gameId, reason, userPointArray)
+{
+	var output = [];
+
+	userPointArray.forEach(el =>
+	{
+		var newPoint = new Point(
+		{
+			game: gameId,
+			reason: reason,
+			points: el.paaspopPoints,
+			user: el.user_id
+		});
+		output.push(newPoint);
+	});
+
+	return output;
 }
