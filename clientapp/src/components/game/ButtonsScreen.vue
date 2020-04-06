@@ -10,7 +10,7 @@
     <div class="button-container">
       <div
         v-for="button in game_data.buttons"
-        :key="button"
+        :key="button.id"
       >
         <div class="item">
           <button
@@ -29,6 +29,11 @@
         </div>
       </div>
     </div>
+
+		<div class="footer-container">
+      <span class="footer">{{ game_data.footer }}</span>
+    </div>
+
   </div>
 </template>
 
@@ -68,7 +73,7 @@ export default {
       handler(gameData) {
         if (gameData.action && this.buttonPressed != null) {
           if (gameData.action == "again") {
-            gameData.action = "";
+            this.game_data.action = "";
             setTimeout(() => {
               this.disableButtons = false;
               this.buttonPressed = "";

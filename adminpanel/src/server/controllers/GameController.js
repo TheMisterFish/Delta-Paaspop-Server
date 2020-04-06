@@ -91,6 +91,24 @@ exports.stop_game = async function (req, res) {
 	});
 
 }
+exports.start_round = async function (req, res) {
+	console.log("?");
+	History.findOne({
+		gameEnded: null
+	}).then(function (current_game) {
+		if (current_game && current_game.game) {
+			current_game.roundStarted = true;
+			current_game.save().then(() => {
+				return res.status(200).send('Eerste ronde is gestart');
+			}).catch(() => {
+				console.log("Something whent wrong at 'game_started'");
+				return res.status(500).send('Iets ging fout.');
+			});
+		} else {
+			return res.status(500).send('Er geen spel gestart.');
+		}
+	});
+}
 exports.get_current = async function (req, res) {
 	/**
 	 * Get /currently  endpoint for getting current game status

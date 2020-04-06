@@ -5,7 +5,27 @@
         :is="currentScreen"
         :game_data="game_data"
         :key="componentKey"
+				ref="usernameInput"
       ></component>
+    </transition>
+
+    <button
+      class="exitButton btn"
+      @click="showExitModal"
+    >
+      EXIT
+    </button>
+
+    <transition name="fade">
+      <div class="exitModal card" v-if="showExit">
+        <div class="card-body">
+          Weet je zeker dat je wilt stoppen?
+
+        </div>
+        <div class=" card-footer">
+          <button class="btn" @click="stopGame">Ja</button> <button class="btn" @click="hideExitModal">Nee</button>
+        </div>
+      </div>
     </transition>
   </div>
 </template>
@@ -38,7 +58,8 @@ export default {
         header: "",
         action: "",
         answer: null
-      }
+			},
+			showExit: false
     };
   },
   components: {
@@ -63,25 +84,46 @@ export default {
         store: this.$store
       });
     }
-    this.game_data.status =
-      "Wachten tot het spel <div class='game-title'>" +
-      this.game.game_name +
-      "</div> gaat starten";
+    if (this.game.round_started == true) {
+      this.game_data.status =
+        "Wachten op input van <div class='game-title'>" +
+        this.game.game_name +
+        "</div>";
+    } else {
+      this.game_data.status =
+        "Wachten tot het spel <div class='game-title'>" +
+        this.game.game_name +
+        "</div> gaat starten";
+    }
   },
   destroyed() {
     if (this.$socket) this.$socket.close();
-	},
-	methods: {
-		stopGame(){
-			this.$store.dispatch("exitGame");
-			this.$disconnect();
-			this.$router.push("/");
-		}
-	},
+  },
+  methods: {
+    stopGame() {
+      this.$store.dispatch("exitGame");
+      this.$disconnect();
+      this.$router.push("/");
+    },
+    showExitModal() {
+			this.showExit = true;
+		},
+    hideExitModal() {
+      this.showExit = false;
+    }
+  },
   watch: {
     SocketConnect(connected) {
       if (!connected) {
         this.$router.push("/");
+      } else {
+        let data = {
+          userJoined: {
+						nickname: this.$store.getters.user.nickname,
+						id: this.$store.getters.user.id
+					} 
+        };
+        this.$store.dispatch("sendMessage", { data });
       }
     },
     SocketMessage(message) {
@@ -89,7 +131,7 @@ export default {
         this.game_data.buttons = message.buttons;
         this.componentKey = this.componentKey + 1;
         this.currentScreen = "ButtonsScreen";
-        this.game_data.anser = null;
+        this.game_data.answer = null;
       }
       if ("status" in message) {
         this.game_data.status = message.status;
@@ -108,13 +150,12 @@ export default {
         if (message.userHeader[0] == me) {
           this.game_data.header = message.userHeader[1];
         }
-			}
-			if("stopGame" in message && message.stopGame == true){
-				this.stopGame();
-			}
+      }
+      if ("stopGame" in message && message.stopGame == true) {
+        this.stopGame();
+      }
       if ("switchScreen" in message) {
-				let screen = message.switchScreen;
-				console.log('screen', screen);
+        let screen = message.switchScreen;
         switch (screen) {
           case "buttons":
             this.componentKey = this.componentKey + 1;
@@ -141,4 +182,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.exitButton {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  font-size: 1rem;
+  padding: 1px 20px;
+}
+.exitModal {
+  position: absolute;
+  top: 10%;
+  color: white;
+  background-color: $blue;
+  min-height: 0px;
+}
+.card-body {
+  font-size: 2rem;
+  text-align: center;
+  font-family: TTTunnels-Black;
+}
 </style>

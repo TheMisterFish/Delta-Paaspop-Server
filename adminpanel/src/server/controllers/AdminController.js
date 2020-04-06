@@ -95,7 +95,7 @@ exports.get_home = async function (req, res) {
 		}
 	}).populate('game').then(function (history) {
 		if (history && history.game) {
-			data.last_game = history.game;
+			data.last_game = history;
 			if (history.gameEnded == null)
 				data.current_game = true;
 			for (var i = 0; i < data.games.length; i++)

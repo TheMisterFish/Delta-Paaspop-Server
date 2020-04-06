@@ -9,6 +9,11 @@ module.exports = {
 			return true
 		return false;
 	},
+	http_is_admin: function (obj) {
+		if (obj.token == admin_token)
+			return true;
+		return false;
+	},
 	ws_is_user: async function (ws, client) {
 		return await storage.get_value('game_token').then((value) => {
 			let token;
