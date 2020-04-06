@@ -20,6 +20,9 @@ import db from './server/db'
 import websocket_connections from './server/websocket'
 websocket_connections.connect('admin');
 
+import osc_connection from './server/osc'
+osc_connection.osc_connect();
+
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
@@ -43,4 +46,4 @@ require('./server/routes/adminRoutes')(app);
 // user api routes
 require('./server/routes/userRoutes')(app);
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Admin panel listening on port ${port}!`))

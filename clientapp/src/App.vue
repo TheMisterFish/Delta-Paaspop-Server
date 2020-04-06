@@ -9,19 +9,22 @@
     >
       <router-view></router-view>
     </transition>
-    <div v-if="isLoggedIn">
+    <div v-if="isLoggedIn && $route.name != 'game'">
       <bottom-nav></bottom-nav>
     </div>
+
+    <errorComponent></errorComponent>
   </div>
 </template>
 
 <script>
 import bottomNav from "./components/NavigationComponent.vue";
-
+import errorComponent from "./components/ErrorComponent.vue";
 export default {
   name: "App",
   components: {
-    bottomNav
+    bottomNav,
+    errorComponent
   },
   data() {
     return {
@@ -31,12 +34,6 @@ export default {
   computed: {
     isLoggedIn: function() {
       return this.$store.getters.isLoggedIn;
-    },
-    errorMessage: function() {
-      return this.$store.getters.ErrorMsg;
-    },
-    hasError: function() {
-      return this.$store.getters.hasError;
     }
   },
   methods: {

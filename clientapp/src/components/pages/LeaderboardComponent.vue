@@ -49,11 +49,9 @@ export default {
     };
   },
   mounted() {
-    UserApi.leaderboard().then(data => {
+    UserApi.leaderboard().then((data) => {
       this.users = data.data;
-    }).catch((err)=>{
-			console.log(err);
-		});
+    })
   }
 };
 </script>

@@ -1,5 +1,5 @@
 div.card(class=current_game==true ? "display-none" : "")
-	small.float-right (ik luister naar OSC)
+	small.float-right="(OSC Status:"+osc_status+")"
 	h3.card-title Op het moment is er geen game gestart 
 	hr
 	div.row
@@ -7,20 +7,38 @@ div.card(class=current_game==true ? "display-none" : "")
 			h6 Acties
 			button(onClick="start_game('"+next_game._id+"')").button.button-success.button-small spel starten
 			button(onClick="osc_toggle()").button.button-warning.button-small OSC uitzetten
-		div.col.col-lg-6=next_game.name
+		div.col.col-lg-6
+			div Volgende spel: 
+				b=next_game.name
+			div Kan meedoen tijdens spel: 
+				b=(next_game.joinMidGame == true ? "Ja" : "Nee") 
+			div Spel reageert met: 
+				b=next_game.responseAnswer
+			div
+				div Afbeelding:
+				img(src="/games/"+next_game.image, alt="" srcset="").prevImage
 
 div.card(class=current_game==true ? "" : "display-none")
 	div.row
 		h3.card-title.col.col-lg-8 Op het moment speelt 
-			strong=last_game.name
-		div.col.col-lg-4.align-right (ik luister naar OSC)
+			strong=last_game.game.name
+		div.col.col-lg-4.align-right="(OSC Status:"+osc_status+")"
 	hr
 	div.row
 		div.col.col-lg-4
 			h6 Acties
+			button(onClick="start_round()", disabled=last_game.roundStarted).button.button-success.button-small Start eerste ronde
 			button(onClick="openModal('stop_game')").button.button-danger.button-small Snel stoppen
 			button(onClick="osc_toggle()").button.button-warning.button-small OSC uitzetten
+
 		div.col.col-lg-8
 			h6 Progress
 			div.progress-bar.striped.animated
-				span.progress-bar-green(style={width: '80%'})
+				span.progress-bar-green(style={width: '100%'})
+			div Kan meedoen tijdens spel: 
+				b=(last_game.game.joinMidGame == true ? "Ja" : "Nee") 
+			div Spel reageert met: 
+				b=last_game.game.responseAnswer
+			div Eerste ronde gestart: 
+				b=(last_game.roundStarted == true ? "Ja" : "Nee") 
+				

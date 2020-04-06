@@ -6,7 +6,14 @@ div.card
 				div.panel
 					h6.panel-head=val.name
 					div.panel-body
-						img(src="/games/"+val.image, alt="", srcset="").image
+						div.row
+							div.col.col-lg-6
+								div Kan meedoen tijdens spel: 
+									b=(val.joinMidGame == true ? "Ja" : "Nee") 
+								div Spel reageert met: 
+									b=val.responseAnswer
+							div.col.col-lg-6 
+								img(src="/games/"+val.image, alt="" srcset="").image
 					div.panel-footer
 						button.button-warning.button-small(href="/history/"+val._id) Geschiedenis
 						button.button-warning.button-small(href="/games/"+val._id) Uitgegeven punten: 
