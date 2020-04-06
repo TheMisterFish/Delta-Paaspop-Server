@@ -84,8 +84,7 @@ export default {
 	flex-grow: 1;
 
   img {
-		width: 80px;
-		max-width: 30vw!important;
+    width: 80px;
   }
 }
 </style>

@@ -1,12 +1,10 @@
 <template>
   <div>
     <div class="status-container">
-      <div class="status">
-        <div
-          class="status-inner"
-          v-html="game_data.status"
-        >
-				</div>
+      <div
+        class="status"
+        v-html="game_data.status"
+      >
       </div>
 
       <div class="logo">
@@ -66,7 +64,7 @@ export default {
   align-items: center;
   justify-content: space-evenly;
   height: 100vh;
-  flex-direction: column;
+	flex-direction: column;
 }
 .status {
   font-size: 40px;
@@ -74,18 +72,10 @@ export default {
   font-family: TTTunnels-Black;
   color: white;
   text-align: center;
-  flex-grow: 1;
-  display: flex;
 }
-.status-inner {
-  align-self: center;
-}
-
 .logo {
-	flex-grow: 1;
   img {
-		width: 140px;
-		max-width: 40vw!important;
+    width: 100px;
   }
 }
 
