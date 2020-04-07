@@ -18,13 +18,13 @@ module.exports = function (app) {
 					ws.role = "admin";
 					ws.subscribe('admin_channel');
 				} else if (game != undefined) {
-					if (middleware.ws_is_user(ws, client)) {
+					if (middleware.ws_is_user(ws, client) == true) {
 						ws.role = "user";
 						ws.subscribe('user_channel');
 						if (debug)
 							console.log("User joinend user channel '/users' for the game: ", game)
 						ws.publish('admin', "User joined user channel: ", game);
-					} else if (middleware.ws_is_game(ws, client)) {
+					} else if (middleware.ws_is_game(ws, client) == true) {
 						ws.role = "game";
 						ws.subscribe('game_channel');
 						if (debug)
