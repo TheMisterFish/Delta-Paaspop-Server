@@ -12,7 +12,7 @@ var grinit = function(){
     $transitionClose    =   document.getElementById('gr-transition-close');
 }
 
-function establishNewConnection(){
+function connect(){
     closeConnection();
 
     log("Websocket: opening connection to '" + socketurl + "'....");
@@ -56,6 +56,14 @@ var wsMessage = function(event){
     }else if(messageJSON.stopGame != null 
         && messageJSON.stopGame == true){
         forceStop();
+    }else if(messageJSON.startGame != null){
+        let game = messageJSON.startGame;
+
+        if(game.includes(".html") === false){
+            game += ".html";
+        }
+
+        loadGame(game);
     }
 }
 
@@ -323,23 +331,23 @@ function loadGame(htmlFile){
         loadOutTransition();
 
         setTimeout(() => {
-            hideAllTransitions();
-        }, 1000);
+            //hideAllTransitions();
+        }, 2000);
 
     }, 500);
 
 }
 
 var loadInTransition = function(){
+    $transitionClose.src='/transition-close.gif';
     $transitionOpen.style.visibility='hidden';
     $transitionClose.style.visibility='visible';
-    $transitionClose.src='/transition-close.gif';
 }
 
 var loadOutTransition = function(){
+    $transitionOpen.src='/transition-open.gif';
     $transitionClose.style.visibility='hidden';
     $transitionOpen.style.visibility='visible';
-    $transitionOpen.src='/transition-open.gif';
 }
 
 var hideAllTransitions = function(){
@@ -363,4 +371,5 @@ var log = function(message){
 
 $(document).ready(function(){
     grinit();
+    connect();
 });
