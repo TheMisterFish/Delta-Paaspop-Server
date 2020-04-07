@@ -1,0 +1,105 @@
+@font-face {
+    font-family: tttunnels;
+    src: url("../../font/TTTunnels-Bold.otf");
+}
+
+
+$paaspop-white: #ffffff;
+$paaspop-yellow: #ffe600;
+$paaspop-darkblue: #00004a;
+
+
+.gr-overlay{
+    
+    &__footer{
+        opacity: 1;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        font-size: 1rem;
+        font-family: tttunnels;
+        width: 100vw;
+        height: 11em;
+        z-index: 90;
+
+        &__bar{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100vw;
+            height: 11em;
+            overflow: hidden;
+
+            &__slope{
+                position: relative;
+                bottom: -27.5%;
+                left: 0;
+                width: 110%;
+                height: 100%;
+                background-color: $paaspop-darkblue;
+                background-image: url(../assets/dots.png);
+                background-repeat: no-repeat;
+                background-size: contain;
+                transform: rotate(-0.7deg);
+            }
+
+            &__content{
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100vw;
+                height: 7em;
+                text-transform: uppercase;
+
+                &-inner{
+                    position: absolute;
+                    top: 50%;
+                    left: 0;
+                    transform: translate(0, -50%);
+                    width: calc(100% - 14em);
+                    margin: 0 6em;
+
+                    &__text{
+                        font-size: 4.5em;
+
+                        &--first{
+                            color: $paaspop-white;
+                            margin-right: 0.4em;
+                        }
+
+                        &--second{
+                            color: $paaspop-yellow;
+                        }
+
+                    }
+                    
+                }
+
+            }
+
+        }
+
+        &__corner{
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            border-top: 11em solid transparent;
+            border-right: 13em solid $paaspop-yellow;
+            
+            &__brandsymbol{
+                position: absolute;
+                bottom: 0;
+                left: 6em;
+                width: 6em;
+                height: 6em;
+                background-image: url(../assets/brandsymbol.gif);
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+
+        }
+
+    }
+
+}

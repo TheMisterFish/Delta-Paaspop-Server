@@ -3,6 +3,8 @@ import User from '../db/models/user'
 import Game from '../db/models/game'
 import History from '../db/models/history'
 
+import osc_connection from '../osc'
+
 exports.get_login = async function (req, res) {
 	/**
 	 * GET / login endpoint *
@@ -68,7 +70,8 @@ exports.get_home = async function (req, res) {
 		games: [],
 		last_game: {},
 		current_game: false,
-		next_game: null
+		next_game: null,
+		osc_status: "NOT CONNECTED"
 	}
 
 	await Promise.all([
@@ -104,6 +107,8 @@ exports.get_home = async function (req, res) {
 		} else {
 			data.next_game = data.games[Object.keys(data.games)[0]];
 		}
+		data.osc_status = osc_connection.osc_status();
+		
 		res.render('index', data);
 	})
 
