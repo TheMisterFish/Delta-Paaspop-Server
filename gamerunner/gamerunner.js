@@ -41,7 +41,21 @@ var registerEventListeners = function(socket){
 
 var wsMessage = function(event){
     let message = event.data;
-    log("Websocket: '" + message + "'");
+    let messageJSON = JSON.parse(message);
+    log(messageJSON);
+
+    if(messageJSON.data != null 
+        && messageJSON.data.user != null 
+        && messageJSON.data.answer != null){
+        
+        let nickname = messageJSON.data.user;
+        let answer = messageJSON.data.answer;
+
+        userInput(nickname, answer);
+    }else if(messageJSON.stopGame != null 
+        && messageJSON.stopGame == true){
+        forceStop();
+    }
 }
 
 var wsOpen = function(){
@@ -73,6 +87,10 @@ var wsSendData = function(data){
     return sent;
 }
 
+
+
+
+
 var closeConnection = function(){
     if(this.socket != null){
         log("Gamerunner: Closing websocket connection...");
@@ -94,6 +112,8 @@ var startGame = function(name){
 /**
  * Called by websockets
  * Sends user input to game
+ * @param {String} user nickname
+ * @param {int} data button pressed
  */
 var userInput = function(user, data){
     try {
@@ -108,7 +128,7 @@ var userInput = function(user, data){
  * Sends outcome to users ie correct answer
  */
 function userResults(result){
-    let data = {data: "result", result: result};
+    let data = {answer: result};
     let dataJSON = JSON.stringify(data);
 
     wsSendData(dataJSON);
@@ -119,6 +139,8 @@ function userResults(result){
  * Send custom outcome to user ie position
  */
 function userResultCustom(userid, result){
+
+    // Ask vincent if possible
     let data = {data: "result-custom", result: result, userid: userid};
     let dataJSON = JSON.stringify(data);
 
@@ -128,9 +150,11 @@ function userResultCustom(userid, result){
 /**
  * Called by game
  * Lets clients know next round has started, and show buttons given
+ * @param {String} round
+ * @param {String[]} buttons
  */
 function nextRound(round, buttons){
-    let data = {data: "nextround", round: round, buttons: buttons};
+    let data = {buttons: buttons};
     let dataJSON = JSON.stringify(data);
 
     wsSendData(dataJSON);
@@ -139,16 +163,16 @@ function nextRound(round, buttons){
 /**
  * Called by game
  * Set value of live header on user phone
- * If userId specified send to specific user, else send to everyone
+ * If userNickname specified send to specific user, else send to everyone
  * @param {string} header 
- * @param {string} userId (optional)
+ * @param {string} userNickname (optional)
  */
-function setLiveHeader(header, userId){
+function setLiveHeader(header, userNickname){
     let data;
-    if(userId == null){
-        data = {data: "setliveheader", header: header};
+    if(userNickname == null){
+        data = {header: header};
     }else{
-        data = {data: "setliveheader", header: header, userId: userId};
+        data = {userHeader: [userNickname, header]};
     }
     let dataJSON = JSON.stringify(data);
 
@@ -158,15 +182,15 @@ function setLiveHeader(header, userId){
 /**
  * Called by game
  * Clear live header
- * If userId specified send to specific user, else send to everyone
- * @param {string} userId 
+ * If userNickname specified send to specific user, else send to everyone
+ * @param {String} userNickname 
  */
-function clearLiveHeader(userId){
+function clearLiveHeader(userNickname){
     let data;
     if(userId == null){
-        data = {data: "clearliveheader"};
+        data = {header: ""};
     }else{
-        data = {data: "clearliveheader", userId: userId};
+        data = {userHeader: [userNickname, ""]};
     }
     let dataJSON = JSON.stringify(data);
 
@@ -206,7 +230,7 @@ function toggleFooter(){
  * Stop game
  */
 function stopGame(){
-    let data = {data: "stopgame"};
+    let data = {stopGame: true};
     let dataJSON = JSON.stringify(data);
 
     wsSendData(dataJSON);
