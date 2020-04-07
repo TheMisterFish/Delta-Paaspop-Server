@@ -1,0 +1,54 @@
+@font-face {
+    font-family: tttunnels;
+    src: url("font/TTTunnels-Bold.otf");
+}
+
+main{
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    margin: 0;
+}
+
+#gr-game{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+#gr-overlay{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+#gr-transition{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#gr-join{
+    background: #01014b;
+    color: #ffe600;
+    bottom: 0;
+    right: 0;
+    height: 10vh;
+    /* border-radius: 5px 0 0 5px; */
+    font-size: 10vh;
+    padding-left: 10vh;
+    padding-right: 10vh;
+}
+
+.gr-transition{
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+    visibility: hidden;
+    z-index: 999;
+}

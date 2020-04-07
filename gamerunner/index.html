@@ -1,34 +1,48 @@
+<!DOCTYPE html>
 <html>
     <head>
         <title>Paaspop Games</title>
-        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" type="text/css" href="gamerunner.css">
+        <link rel="stylesheet" type="text/css" href="footer/style/footer.css">
         <script
             src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/seethru@4/dist/seeThru.min.js"></script> <!--For transparent videos-->
 
-        <script src="script.js"></script>
+        <script src="gamerunner.js"></script>
     </head>
-    <body>
+    <body style="overflow: hidden; margin: 0;">
         <main>
-            <div id="game"></div>
-            <div id="overlay">
-                <div id="overlay-header">
-                    PAASPOP GAMES
+            <div id="gr-game"></div>
+            <div id="gr-overlay">
+
+                <!-- Footer start  -->
+                <div id="gr-overlay-footer" class="gr-overlay__footer">
+                    <div class="gr-overlay__footer__bar">
+                        <div class="gr-overlay__footer__bar__slope"></div>
+                        <div class="gr-overlay__footer__bar__content">
+                            <div class="gr-overlay__footer__bar__content-inner">
+                                <div class="gr-overlay__footer__bar__content-inner__text">
+                                    <span class="gr-overlay__footer__bar__content-inner__text--first"> Doe jij ook mee? </span>
+                                    <span class="gr-overlay__footer__bar__content-inner__text--second"> paaspop.nl/meespelen </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gr-overlay__footer__corner">
+                        <div class="gr-overlay__footer__corner__brandsymbol"></div>
+                    </div>
                 </div>
-                <div id="overlay-footer">
-                    footer info blablablabla
-                    <button onclick="loadGame('gamemock.html')">Load</button>
-                    <button onclick="userInput('jurjen', 'HOI')">Mock user input</button>
-                    <button onclick="establishNewConnection()">Websocket</button>
-                </div>
+                <!-- Footer end  -->
+                
             </div>
-            <div id="transition">
-                <video id="transitionvideo" width="100%" height="100%">
-                    <source src="paaspop-videos/wipe-paaspop.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+            <div id="gr-transition">
+                <!-- Transition open -->
+                <img id="gr-transition-open" class="gr-transition" src="transition-open.gif"/>
+                
+                <!-- Transition close -->
+                <img id="gr-transition-close" class="gr-transition" src="transition-close.gif"/>
             </div>
         </main>
     </body>
