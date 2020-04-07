@@ -81,11 +81,22 @@ game.on('connect', function (connection) {
 	});
 });
 
-exports.connect = function (client = "game") {
+exports.connect = async function (client = "game") {
+
 	if (client == "admin") {
-		admin.connect('ws://' + url + '/', ["token", process.env.ADMIN_TOKEN]);
+		return new Promise((resolve, reject) => {
+			admin.connect('ws://' + url + '/', ["token", process.env.ADMIN_TOKEN]);
+			setTimeout(function () {
+				resolve(admin.connection.connected) // Yay! Everything went well!
+			}, 500)
+		})
 	} else {
-		game.connect('ws://' + url + '/', ["token", process.env.GAME_TOKEN]);
+		return new Promise((resolve, reject) => {
+			game.connect('ws://' + url + '/', ["token", process.env.GAME_TOKEN]);
+			setTimeout(function () {
+				resolve(game.connection.connected) // Yay! Everything went well!
+			}, 500)
+		})
 	}
 };
 
@@ -115,10 +126,10 @@ exports.disconnect = function (client = "game") {
 
 exports.send = function (client = "game", message = "-") {
 	if (client == "admin" && admin.connection.connected) {
-		admin.sendUTF(message.toString());
+		admin.connection.sendUTF(message.toString());
 		return true;
 	} else if (client == "game" && game.connection.connected) {
-		game.sendUTF(message.toString());
+		game.connection.sendUTF(message.toString());
 		return true;
 	}
 	return false;

@@ -8,6 +8,8 @@ module.exports = {
 		let role = "";
 		if (client.token == admin_token) {
 			role = "admin";
+		} else if(client.token == game_token){
+			role = "game";
 		} else if (client['sec-websocket-protocol'] != undefined) {
 			let token;
 			try {
