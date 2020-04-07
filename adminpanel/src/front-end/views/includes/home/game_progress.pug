@@ -18,27 +18,28 @@ div.card(class=current_game==true ? "display-none" : "")
 				div Afbeelding:
 				img(src="/games/"+next_game.image, alt="" srcset="").prevImage
 
-div.card(class=current_game==true ? "" : "display-none")
-	div.row
-		h3.card-title.col.col-lg-8 Op het moment speelt 
-			strong=last_game.game.name
-		div.col.col-lg-4.align-right="(OSC Status:"+osc_status+")"
-	hr
-	div.row
-		div.col.col-lg-4
-			h6 Acties
-			button(onClick="start_round()", disabled=last_game.roundStarted).button.button-success.button-small Start eerste ronde
-			button(onClick="openModal('stop_game')").button.button-danger.button-small Snel stoppen
-			button(onClick="osc_toggle()").button.button-warning.button-small OSC uitzetten
+if last_game.game
+	div.card(class=current_game==true ? "" : "display-none")
+		div.row
+			h3.card-title.col.col-lg-8 Op het moment speelt 
+				strong=last_game.game.name
+			div.col.col-lg-4.align-right="(OSC Status:"+osc_status+")"
+		hr
+		div.row
+			div.col.col-lg-4
+				h6 Acties
+				button(onClick="start_round()", disabled=last_game.roundStarted).button.button-success.button-small Start eerste ronde
+				button(onClick="openModal('stop_game')").button.button-danger.button-small Snel stoppen
+				button(onClick="osc_toggle()").button.button-warning.button-small OSC uitzetten
 
-		div.col.col-lg-8
-			h6 Progress
-			div.progress-bar.striped.animated
-				span.progress-bar-green(style={width: '100%'})
-			div Kan meedoen tijdens spel: 
-				b=(last_game.game.joinMidGame == true ? "Ja" : "Nee") 
-			div Spel reageert met: 
-				b=last_game.game.responseAnswer
-			div Eerste ronde gestart: 
-				b=(last_game.roundStarted == true ? "Ja" : "Nee") 
+			div.col.col-lg-8
+				h6 Progress
+				div.progress-bar.striped.animated
+					span.progress-bar-green(style={width: '100%'})
+				div Kan meedoen tijdens spel: 
+					b=(last_game.game.joinMidGame == true ? "Ja" : "Nee") 
+				div Spel reageert met: 
+					b=last_game.game.responseAnswer
+				div Eerste ronde gestart: 
+					b=(last_game.roundStarted == true ? "Ja" : "Nee") 
 				
