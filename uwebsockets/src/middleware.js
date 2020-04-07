@@ -32,12 +32,13 @@ module.exports = {
 		});
 	},
 	ws_is_game: function (ws, client) {
+		console.log(client);
 		if (client['sec-websocket-protocol'] == undefined) {
 			return false;
 		}
 		let token;
 		try {
-			token = client['sec-websocket-protocol'].split(":");
+			token = client['sec-websocket-protocol'].split(".");
 			if (token[0] == "token" && token[1] == game_token) {
 				return true
 			}
