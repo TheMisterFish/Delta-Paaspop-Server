@@ -8,20 +8,31 @@ exports.login = async function (req, res) {
 	 * @param { any } req
 	 * @param { any } res
 	 */
-	var username = req.body.username,
+	var email = req.body.email,
 		password = req.body.password;
+
+	if (!email || !password) {
+		res.status(406).send("Fill in something");
+		return;
+	}
 	User.findOne({
-		username: username
+		email: email
 	}).then(function (user) {
-		console.log(req.body.password);
 		if (!user) {
-			res.send("No user?F")
+			res.status(403).send("Cannot log in");
 		} else if (!user.comparePassword(password)) {
-			res.send("Wrong pass?");
+			res.status(403).send("Wrong password");
 		} else {
 			req.session.user = user._id;
-			res.send("logged in?");
+			let this_user = {
+				email: user.email,
+				nickname: user.nickname,
+				id: user._id
+			};
+			res.send(this_user);
 		}
+	}).catch((err) => {
+		console.log(err);
 	});
 }
 exports.register = async function (req, res) {
@@ -31,20 +42,55 @@ exports.register = async function (req, res) {
 	 * @param { any } req
 	 * @param { any } res
 	 */
+	var email = req.body.email,
+		password = req.body.password,
+		nickname = req.body.nickname
+
+	if (!email || !password || !nickname) {
+		res.status(406).send("Fill in all the fields");
+		return;
+	}
+
 	User.create({
-			username: req.body.username,
-			email: req.body.email,
-			password: req.body.password,
-			nickname: req.body.nickname
-		})
-		.then(user => {
+			email: email,
+			password: password,
+			nickname: nickname,
+			verified: false
+		}).then(user => {
 			req.session.user = user._id;
-			res.send("User registered")
+			res.status(201).send("User registered")
 		})
 		.catch(error => {
 			console.log(error);
-			res.send("Coulnd't register")
+			res.status(400).send("Register error");
 		});
+}
+exports.checkEmail = async function (req, res) {
+	/**
+	 * POST /api/checkEmail endpoint *
+	 * @export *
+	 * @param { any } req
+	 * @param { any } res
+	 */
+	var email = req.body.email;
+	if (!email) {
+		req.status(204).send("No email")
+		return;
+	}
+	User.find({
+		email: email
+	}).then(user => {
+		if (user.length == 0) {
+			res.status(200).send(true)
+		} else {
+			console.log(user);
+			res.status(200).send(false)
+		}
+	}).catch((error) => {
+		res.status(500).send("error?");
+		console.log(error)
+	});
+
 }
 exports.logout = async function (req, res) {
 	/**
@@ -56,9 +102,9 @@ exports.logout = async function (req, res) {
 	if (req.session.user && req.cookies.user_sid) {
 		res.clearCookie('user_sid');
 		req.session.destroy();
-		res.send("Logged out");
+		res.status(200).send("Logged out");
 	} else {
-		res.send("No session");
+		res.status(410).send("Nog logged in");
 	}
 }
 exports.game_status = async function (req, res) {
@@ -73,10 +119,17 @@ exports.game_status = async function (req, res) {
 		gameEnded: null
 	}).populate('game').then(function (current) {
 		if (current && current.game) {
-			let game_data = {
-				game_token: current.game_token,
-				game_name: current.game.name
+			let game_data = {};
+			if (current.game.joinMidGame == false && current.roundStarted) {
+				game_data.cannot_join = true;
+				game_data.round_started = current.roundStarted;
+				game_data.game_name = current.game.name;
+			} else {
+				game_data.round_started = current.roundStarted;
+				game_data.game_token = current.game_token;
+				game_data.game_name = current.game.name;
 			}
+
 			res.send(game_data);
 		} else {
 			res.send(false);
@@ -93,7 +146,94 @@ exports.leaderboard = async function (req, res) {
 	 */
 	User.find({}, {}, {
 		$sortByCount: 'points'
-	}).select('nickname').select('points').populate('points').then(function (users) {
-		res.send(users);
+	}).select('nickname').select('points').populate('point').then(function (users) {
+		let data = [];
+		for (let u = 0; u < users.length; u++) {
+			let user = users[u];
+			let points = 0;
+			for (let p = 0; p < user.points.length; p++) {
+				let point = user.points[p];
+				points += point.points;
+			}
+			let thisUser = {
+				nickname: user.nickname,
+				points: points
+			};
+			data.push(thisUser);
+		}
+		res.send({
+			data
+		});
 	})
+}
+exports.points = async function (req, res) {
+	/**
+	 * Get  /api/leaderboard
+	 * @export *
+	 * @param { any } req
+	 * @param { any } res
+	 * @return { res } json of usenickname & points rs sorted by amount of points
+	 */
+	User.findOne({
+		_id: req.session.user
+	}).populate('point').then(function (user) {
+		if (!user) {
+			res.status(400).send(["No user?"]);
+		} else {
+			let total_points = 0;
+			for (let y = 0; y < user.points.length; y++) {
+				const element = array[y];
+				total_points += element.points;
+			}
+			let data = {
+				points: total_points
+			}
+			res.send(data);
+		}
+	}).catch((err) => {
+		console.log(err);
+	});
+}
+exports.random_name = async function (req, res) {
+	let name = null;
+	do {
+		let newName = randomName();
+		let user = await User.findOne({
+			nickname: newName
+		})
+		if (!user)
+			name = newName;
+	} while (name == null);
+	res.send(name);
+}
+
+function randomName() {
+	let nickname = "";
+
+	var fs = require('fs'),
+		path = require('path'),
+		filePath = path.join(__dirname, '../random_names/');
+
+	let firstWordsList = ['de', 'de', 'een']
+	let secondWordsList = fs.readFileSync(filePath + 'secondword.txt').toString('utf-8').split("\n");
+	let thirdWordsList = fs.readFileSync(filePath + 'thirdword.txt').toString('utf-8').split("\n");
+
+	if (getRandomInt(4) != 1) {
+		nickname += capitalizeFirstLetter(firstWordsList[getRandomInt(firstWordsList.length)]);
+	}
+	nickname += capitalizeFirstLetter(secondWordsList[getRandomInt(secondWordsList.length)]);
+	if (getRandomInt(8) == 1) {
+		nickname += capitalizeFirstLetter(secondWordsList[getRandomInt(secondWordsList.length)]);
+	}
+	nickname += capitalizeFirstLetter(thirdWordsList[getRandomInt(thirdWordsList.length)]);
+
+	return nickname.replace(/\n/g, "").replace(/\r/g, "");
+}
+
+function getRandomInt(max) {
+	return Math.floor(Math.random() * Math.floor(max));
+}
+
+function capitalizeFirstLetter(string) {
+	return string.charAt(0).toUpperCase() + string.slice(1);
 }

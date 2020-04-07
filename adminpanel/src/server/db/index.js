@@ -7,13 +7,24 @@ const MongoStore = require('connect-mongo')(session);
 import adminSeeder from './seeders/adminSeeder'
 import gameSeeder from './seeders/gameSeeder'
 
-import { GameController } from '../controllers'
+import {
+	GameController
+} from '../controllers'
 
 mongoose.set('useCreateIndex', true);
 
-mongoose.connect(process.env.MONGO_URI, {
+var debug = process.env.DEBUG_MODE == "true";
+var connection_string;
+if (debug) {
+	connection_string = process.env.MONGO_CONNECTION_STRING_DEBUG;
+} else {
+	connection_string = process.env.MONGO_CONNECTION_STRING_PROD;
+}
+
+
+mongoose.connect(connection_string, {
 		useUnifiedTopology: true,
-		useNewUrlParser: true,
+		useNewUrlParser: true
 	})
 	.then(() => console.log('DB Connected!'))
 	.then(() => {
@@ -33,5 +44,6 @@ module.exports = function (app) {
 		secret: 'somerandonstuffs',
 		resave: false,
 		saveUninitialized: false,
+
 	}));
 }

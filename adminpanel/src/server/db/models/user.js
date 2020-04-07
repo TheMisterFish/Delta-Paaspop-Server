@@ -4,14 +4,6 @@ const bcrypt = require('bcrypt'),
 	SALT_WORK_FACTOR = 10;
 
 const UserSchema = mongoose.Schema({
-	username: {
-		type: String,
-		lowercase: true,
-		unique: true,
-		required: [true, "can't be blank"],
-		match: [/^[a-zA-Z0-9]+$/, 'is invalid'],
-		index: true
-	},
 	email: {
 		type: String,
 		lowercase: true,
@@ -24,10 +16,16 @@ const UserSchema = mongoose.Schema({
 		type: String,
 		required: true,
 		unique: true,	
+		index: true
 	},
 	password: {
 		type: String,
 		required: true,
+	},
+	verified: {
+		type: Boolean,
+		default: false,
+		required: true
 	},
 	points: [{
 		type: mongoose.Schema.Types.ObjectId,

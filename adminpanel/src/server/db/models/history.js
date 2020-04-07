@@ -24,6 +24,10 @@ const HistorySchema = mongoose.Schema({
 	gameEnded: {
 		type: Date,
 		default: null
+	},
+	roundStarted:{
+		type: Boolean,
+		default: false
 	}
 }, {
 	timestamps: true

@@ -1,16 +1,26 @@
+require('dotenv').config()
+var pointsToken = process.env.POINTS_TOKEN;
+
 exports.sessionChecker = (req, res, next) => {
-	if (!req.session.user && !req.cookies.user_sid) {
-			res.statusCode = 401;
-			res.send("Not logged in");
+	if (!req.session.user || !req.cookies.user_sid) {
+		res.status(401).send("Not logged in");
 	} else {
-			next();
-	}    
+		next();
+	}
 };
 
 exports.adminChecker = (req, res, next) => {
-	if (!req.session.admin && !req.cookies.user_sid) {
-			res.redirect('/login');
+	if (!req.session.admin || !req.cookies.user_sid) {
+		res.redirect('/login');
 	} else {
-			next();
-	}    
+		next();
+	}
 };
+
+exports.gameTokenChecker = (req, res, next) => {
+	if (req.body.token != pointsToken) {
+		res.status(401).send("Wrong credentials");
+	} else {
+		next();
+	}
+}

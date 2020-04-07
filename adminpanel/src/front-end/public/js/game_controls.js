@@ -61,3 +61,25 @@ function stop_game() {
 	request.send();
 	event.preventDefault();
 }
+
+function start_round(){
+	console.log("starting round");
+	var url = "/game/admin_round_start";
+	var request = new XMLHttpRequest();
+	request.open('POST', url, true);
+	request.onload = function () {
+		if (request.status == 200){
+			openSuccess(request.responseText, 4000)
+			setTimeout(() => {
+				location.reload();
+			}, 4000);
+		}
+		if (request.status == 500)
+			openDanger(request.responseText, 5000)
+	};
+	request.onerror = function (err) {
+		openDanger(err, 10000)
+	};
+	request.send();
+	event.preventDefault();
+}

@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 import websocket_connections from '../websocket'
 
 exports.test = async function (req, res) {
@@ -12,7 +14,6 @@ exports.test = async function (req, res) {
 	websocket_connections.send("dit word verstuurd op het moment dat de pagina /test word bezocht");
 	res.send("dit word verstuurd op het moment dat de pagina /test word bezocht");
 }
-
 exports.ws_connected = async function (req, res) {
 	/**
 	 * Get /ws_connected  endpoint *
@@ -26,4 +27,20 @@ exports.ws_connected = async function (req, res) {
 		game: websocket_connections.connected('game')
 	}
 	res.send(connections);
+}
+
+exports.adminSockets = async function (req, res) {
+	/**
+	 * GET / endpoint *
+	 * @export *
+	 * @param { any } req
+	 * @param { any } res
+	 * @return { res } render index with users screen
+	 */
+	res.render('index', {
+		screen: 'ws_admin',
+		token: process.env.ADMIN_TOKEN,
+		route: '/admin',
+		breadcrumbs: [['home',' '], ['admin kanaal']]
+	})
 }
