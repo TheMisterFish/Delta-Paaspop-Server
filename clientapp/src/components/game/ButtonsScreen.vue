@@ -69,7 +69,8 @@ export default {
       this.disableButtons = true;
       this.buttonPressed = button;
       let data = {
-        user: this.$store.getters.user.nickname,
+				user: this.$store.getters.user.nickname,
+				id: this.$store.getters.user.id,
         answer: button
       };
       this.$store.dispatch("sendMessage", { data });

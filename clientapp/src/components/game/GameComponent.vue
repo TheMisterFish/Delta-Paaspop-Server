@@ -148,6 +148,12 @@ export default {
       }
       if ("status" in message) {
         this.game_data.status = message.status;
+			}
+			if ("userStatus" in message) {
+				let me = this.$store.getters.user.nickname;
+        if (message.userStatus[0] == me) {
+					this.game_data.status = message.userStatus[1];
+				}
       }
       if ("header" in message) {
         this.game_data.header = message.header;
