@@ -45,7 +45,7 @@ exports.apply_points = async function (req, res) {
 			.then(function(doc)
 			{
 				updateGameUsersHistory(doc, history);
-				console.log(doc);
+				
 				res.status(200).send(doc);
 			})
 			.catch(err => res.status(500).send(err));
@@ -69,7 +69,6 @@ function calculatePaaspopPoints(pointsArray)
 	multipliedPointsArray.forEach(user =>
 	{
 		pointPercentage = user.points * 100 / maxPoints;
-		console.log(pointPercentage);
 		user.paaspopPoints = Math.ceil(pointPercentage / 100 * paaspopMaxPoints);
 
 		user.paaspopPoints += participationPoints;//Add 10% of participation points to the user.
@@ -81,7 +80,6 @@ function calculatePaaspopPoints(pointsArray)
 function reduceCeil(pointsArray)
 {
 	pointsArray.forEach(user => user.points = user.points * 100);
-	console.log(pointsArray);
 	return pointsArray;
 }
 
