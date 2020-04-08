@@ -45,7 +45,7 @@ exports.apply_points = async function (req, res) {
 			.then(function(doc)
 			{
 				updateGameUsersHistory(doc, history);
-				console.log(doc);
+				
 				res.status(200).send(doc);
 			})
 			.catch(err => res.status(500).send(err));
@@ -63,8 +63,7 @@ function calculatePaaspopPoints(pointsArray)
 	var multipliedPointsArray = reduceCeil(pointsArray);
 
 	//Get the highest amount of points any user has recieved. (Score of the winner)
-	var maxPoints = multipliedPointsArray.reduce((previous,current) => (previous.points > current.points) ? previous : current).points
-					+ participationPoints;
+	var maxPoints = multipliedPointsArray.reduce((previous,current) => (previous.points > current.points) ? previous : current).points;
 
 	let pointPercentage;
 	multipliedPointsArray.forEach(user =>
