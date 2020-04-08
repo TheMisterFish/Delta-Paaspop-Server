@@ -33,6 +33,8 @@ app.use(cookieParser());
 // Require all the database logic
 require('./server/db')(app);
 
+// Set momentJS
+app.locals.moment = require('moment');
 // Set frontend things
 app.set('view engine', 'pug')
 app.set('public', path.join(__dirname, 'front-end/public'));
