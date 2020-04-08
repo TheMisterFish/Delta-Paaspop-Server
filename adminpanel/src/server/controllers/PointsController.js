@@ -63,13 +63,13 @@ function calculatePaaspopPoints(pointsArray)
 	var multipliedPointsArray = reduceCeil(pointsArray);
 
 	//Get the highest amount of points any user has recieved. (Score of the winner)
-	var maxPoints = multipliedPointsArray.reduce((previous,current) => (previous.points > current.points) ? previous : current).points
-					+ participationPoints;
+	var maxPoints = multipliedPointsArray.reduce((previous,current) => (previous.points > current.points) ? previous : current).points;
 
 	let pointPercentage;
 	multipliedPointsArray.forEach(user =>
 	{
 		pointPercentage = user.points * 100 / maxPoints;
+		console.log(pointPercentage);
 		user.paaspopPoints = Math.ceil(pointPercentage / 100 * paaspopMaxPoints);
 
 		user.paaspopPoints += participationPoints;//Add 10% of participation points to the user.
@@ -81,6 +81,7 @@ function calculatePaaspopPoints(pointsArray)
 function reduceCeil(pointsArray)
 {
 	pointsArray.forEach(user => user.points = user.points * 100);
+	console.log(pointsArray);
 	return pointsArray;
 }
 
