@@ -1,5 +1,7 @@
 import Point from '../db/models/point'
 import History from '../db/models/history'
+import Game from '../db/models/game'
+import User from '../db/models/user'
 
 exports.game = async function (req, res) {
 	/**
@@ -37,10 +39,15 @@ exports.apply_points = async function (req, res) {
 		var game = history.game;
 
 		var convertedPointsArray = calculatePaaspopPoints(req.body.points);
-
+		
 		//Try to save the object into MongoDB
 		Point.insertMany(convertToPointObjectArray(game._id, req.body.reason, convertedPointsArray))
-			.then(doc => res.status(200).send(doc))
+			.then(function(res)
+			{
+				updateGameUsersHistory(res, history);
+				
+				res.status(200).send(res);
+			})
 			.catch(err => res.status(500).send(err));
 	});
 }
@@ -67,7 +74,7 @@ function calculatePaaspopPoints(pointsArray)
 		pointPercentage = user.points * 100 / maxPoints;
 		user.paaspopPoints = Math.ceil(pointPercentage / 100 * paaspopMaxPoints);
 	});
-	
+
 	return multipliedPointsArray;
 }
 
@@ -95,4 +102,49 @@ function convertToPointObjectArray(gameId, reason, userPointArray)
 	});
 
 	return output;
+}
+
+async function updateGameUsersHistory(points,history)
+{
+	var ids = points.map(p => p._id);
+	var gameId = points[0].game;
+	var historyId = history._id;
+
+	//Save points into Games
+	Game.updateOne({_id: gameId},
+	{
+		$push:{
+			"points": ids
+		}
+	},
+	function(err, res)
+	{
+		if(err) throw err;
+		console.log(res);
+	});
+
+	//Save points into Users
+	for (const obj of points)
+	{
+		let user = await User.findById(obj.user);
+
+		if(!user)
+			continue;
+
+		user.points.push(obj._id);
+		user.save();
+	}
+
+	//Save points into Histories
+	History.updateOne({_id: history._id },
+	{
+		$push:{
+			"points": ids
+		}
+	},
+	function(err, res)
+	{
+		if(err) throw err;
+		console.log(res);
+	});
 }
