@@ -23,7 +23,7 @@ exports.apply_points = async function (req, res) {
 	 * @export *
 	 * @param { any } req
 	 * @param { any } res
-	 * @returns { boolean } Whether the points are applied to the game or not
+	 * @returns { HttpResponse } Whether the points are applied to the game or not
 	 */
 	
 	//Find active game
@@ -45,7 +45,7 @@ exports.apply_points = async function (req, res) {
 			.then(function(doc)
 			{
 				updateGameUsersHistory(doc, history);
-				
+				console.log(doc);
 				res.status(200).send(doc);
 			})
 			.catch(err => res.status(500).send(err));
@@ -69,10 +69,10 @@ function calculatePaaspopPoints(pointsArray)
 	let pointPercentage;
 	multipliedPointsArray.forEach(user =>
 	{
-		user.points += participationPoints;//Add 10% of participation points to the user.
-
 		pointPercentage = user.points * 100 / maxPoints;
 		user.paaspopPoints = Math.ceil(pointPercentage / 100 * paaspopMaxPoints);
+
+		user.paaspopPoints += participationPoints;//Add 10% of participation points to the user.
 	});
 
 	return multipliedPointsArray;
