@@ -61,8 +61,6 @@ exports.apply_points = async function (req, res) {
 	});
 	var pointArray = convertToPointObjectArray(history.game._id, reason, points)
 
-	console.log(pointArray);
-
 	for (let y = 0; y < pointArray.length; y++) {
 		const point = pointArray[y];
 		let user = await User.findById(point.user);

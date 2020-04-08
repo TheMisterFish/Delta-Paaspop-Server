@@ -108,7 +108,7 @@ exports.get_home = async function (req, res) {
 			data.next_game = data.games[Object.keys(data.games)[0]];
 		}
 		data.osc_status = osc_connection.osc_status();
-		
+
 		res.render('index', data);
 	})
 
@@ -124,18 +124,22 @@ exports.get_users = async function (req, res) {
 	User.find({}, {}, {
 		$sortByCount: 'points'
 	}).populate('points').exec().then(function (users) {
-		for (let q = 0; q < users.length; q++) {
-			const element = users[q];
+		var transformedUsers = users.map(function (user) {
+			return user.toJSON();
+		});
+		for (let q = 0; q < transformedUsers.length; q++) {
+			const element = transformedUsers[q];
 			let total_points = 0;
 			element.points.forEach(points => {
-				total_points += parseFloat(points.points);
+				total_points += points.points;
 			});
-			users[q].totalPoints = total_points;
-			console.log(users[q])
+			transformedUsers[q].totalPoints = total_points;
 		}
+		console.log(transformedUsers);
+
 		res.render('index', {
 			screen: 'users',
-			users: users
+			users: transformedUsers
 		})
 	})
 }
@@ -156,7 +160,10 @@ exports.get_user = async function (req, res) {
 			res.render('index', {
 				screen: 'user',
 				user: user,
-				breadcrumbs: [['gebruikers','users'], [user.email]]
+				breadcrumbs: [
+					['gebruikers', 'users'],
+					[user.email]
+				]
 			})
 		}
 	})

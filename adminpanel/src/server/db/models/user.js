@@ -56,6 +56,13 @@ UserSchema.pre('save', function (next) {
 	});
 });
 
+UserSchema.options.toJSON = {
+	transform: function(doc, ret, options) {
+			delete ret.__v;
+			return ret;
+	}
+};
+
 UserSchema.methods.comparePassword = function (password) {
 	return bcrypt.compareSync(password, this.password);
 };
