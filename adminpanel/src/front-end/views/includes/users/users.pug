@@ -8,7 +8,6 @@ div(class="card")
 		thead
 			tr
 				th ID
-				th Gebruikersnaam
 				th Bijnaam
 				th Email
 				th punten
@@ -19,6 +18,6 @@ div(class="card")
 					td= user._id
 					td= user.nickname
 					td= user.email
-					td= user.points.length
+					td= user.total_points
 					td 
 						a(class="button button-warning button-small" href="/users/"+user._id) details

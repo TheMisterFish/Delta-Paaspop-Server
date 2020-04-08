@@ -25,68 +25,75 @@ exports.apply_points = async function (req, res) {
 	 * @param { any } res
 	 * @returns { HttpResponse } Whether the points are applied to the game or not
 	 */
-	
-	//Find active game
-	History.findOne({
-		gameEnded: null
-	}).then(function (history) {
-		
-		if (!history)
-			return res.status(500).send("No game is running.");//Error: No game is running.
-		
-		//TODO: Check if input is correctly formatted
 
-		var game = history.game;
-
-		var convertedPointsArray = calculatePaaspopPoints(req.body.points);
-		
-		//Try to save the object into MongoDB
-		Point.insertMany(convertToPointObjectArray(game._id, req.body.reason, convertedPointsArray))
-			.then(function(doc)
-			{
-				updateGameUsersHistory(doc, history);
-				
-				res.status(200).send(doc);
-			})
-			.catch(err => res.status(500).send(err));
-	});
-}
-
-//Reads the property called 'points' in all array items.
-//Converts it to Paaspop Points and adds the result as a new property called 'paaspopPoints' 
-function calculatePaaspopPoints(pointsArray)
-{
 	const paaspopMaxPoints = 75;
 	const participationPercentage = 10;
 	const participationPoints = paaspopMaxPoints / 100 * participationPercentage;
+	//set points
+	var points = req.body.points;
+	var reason = req.body.reason;
 
-	//Multiplies all user points by 100 to prevent miscalculation of the percentages  
-	var multipliedPointsArray = pointsArray.forEach(user => user.points = user.points * 100);
+	if (!points)
+		return res.status(400).send("No points."); //Error: No game is running.
+	if (!Array.isArray(points))
+		return res.status(405).send("Points are not in array format")
 
-	//Get the highest amount of points any user has recieved. (Score of the winner)
-	var maxPoints = multipliedPointsArray.reduce((previous,current) => (previous.points > current.points) ? previous : current).points;
+	const maxPoints = points.reduce((previous, current) => (previous.points > current.points) ? previous : current).points;
 
-	let pointPercentage;
-	multipliedPointsArray.forEach(user =>
-	{
+	//Find active game
+	var history = await History.findOne({
+		gameEnded: null
+	}).populate('game').exec();
+
+	if (!history)
+		return res.status(409).send("No game is running."); //Error: No game is running.
+
+	if (!reason)
+		reason = "Points for game" + history.game.name
+	//TODO: Check if input is correctly formatted
+
+	let pointPercentage, fullPoints;
+	points.forEach(user => {
 		pointPercentage = user.points * 100 / maxPoints;
-		user.paaspopPoints = Math.ceil(pointPercentage / 100 * paaspopMaxPoints);
-
-		user.paaspopPoints += participationPoints;//Add 10% of participation points to the user.
+		fullPoints = Math.ceil(pointPercentage / 100 * paaspopMaxPoints);
+		fullPoints += participationPoints;
+		user.paaspopPoints = Math.ceil(fullPoints)
 	});
+	var pointArray = convertToPointObjectArray(history.game._id, reason, points)
 
-	return multipliedPointsArray;
+	console.log(pointArray);
+
+	for (let y = 0; y < pointArray.length; y++) {
+		const point = pointArray[y];
+		let user = await User.findById(point.user);
+		if (!user) {
+			pointArray.splice(y, 1);
+		} else {
+			user.points.push(point._id);
+			user.save();
+		}
+	}
+
+	Point.insertMany(pointArray)
+		.then(async function (doc) {
+			history.points.push(pointArray.map(p => p._id));
+			let game = await Game.findOne({
+				_id: history.game._id
+			});
+			game.points.push(pointArray.map(p => p._id));
+			history.save();
+			game.save();
+			res.status(200).send(doc);
+		}).catch((error) => {
+			res.status(500).send(error);
+		})
 }
 
-function convertToPointObjectArray(gameId, reason, userPointArray)
-{
+function convertToPointObjectArray(gameId, reason, userPointArray) {
 	var output = [];
-
 	let newPoint;
-	userPointArray.forEach(el =>
-	{
-		newPoint = new Point(
-		{
+	userPointArray.forEach(el => {
+		newPoint = new Point({
 			game: gameId,
 			reason: reason,
 			points: el.paaspopPoints,
@@ -94,41 +101,5 @@ function convertToPointObjectArray(gameId, reason, userPointArray)
 		});
 		output.push(newPoint);
 	});
-
 	return output;
-}
-
-async function updateGameUsersHistory(points,history)
-{
-	var ids = points.map(p => p._id);
-	var gameId = points[0].game;
-	var historyId = history._id;
-
-	//Save points into Games
-	Game.updateOne({_id: gameId},
-	{
-		$push:{
-			"points": ids
-		}
-	});
-
-	//Save points into Users
-	for (const obj of points)
-	{
-		let user = await User.findById(obj.user);
-
-		if(!user)
-			continue;
-
-		user.points.push(obj._id);
-		user.save();
-	}
-
-	//Save points into Histories
-	History.updateOne({_id: history._id },
-	{
-		$push:{
-			"points": ids
-		}
-	});
 }

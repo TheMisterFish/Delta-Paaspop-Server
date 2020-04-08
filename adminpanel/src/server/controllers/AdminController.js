@@ -123,7 +123,16 @@ exports.get_users = async function (req, res) {
 	 */
 	User.find({}, {}, {
 		$sortByCount: 'points'
-	}).then(function (users) {
+	}).populate('points').exec().then(function (users) {
+		for (let q = 0; q < users.length; q++) {
+			const element = users[q];
+			let total_points = 0;
+			element.points.forEach(points => {
+				total_points += parseFloat(points.points);
+			});
+			users[q].totalPoints = total_points;
+			console.log(users[q])
+		}
 		res.render('index', {
 			screen: 'users',
 			users: users
