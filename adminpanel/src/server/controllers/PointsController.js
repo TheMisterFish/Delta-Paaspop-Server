@@ -42,11 +42,11 @@ exports.apply_points = async function (req, res) {
 		
 		//Try to save the object into MongoDB
 		Point.insertMany(convertToPointObjectArray(game._id, req.body.reason, convertedPointsArray))
-			.then(function(res)
+			.then(function(doc)
 			{
-				updateGameUsersHistory(res, history);
+				updateGameUsersHistory(doc, history);
 				
-				res.status(200).send(res);
+				res.status(200).send(doc);
 			})
 			.catch(err => res.status(500).send(err));
 	});
@@ -116,11 +116,6 @@ async function updateGameUsersHistory(points,history)
 		$push:{
 			"points": ids
 		}
-	},
-	function(err, res)
-	{
-		if(err) throw err;
-		console.log(res);
 	});
 
 	//Save points into Users
@@ -141,10 +136,5 @@ async function updateGameUsersHistory(points,history)
 		$push:{
 			"points": ids
 		}
-	},
-	function(err, res)
-	{
-		if(err) throw err;
-		console.log(res);
 	});
 }
