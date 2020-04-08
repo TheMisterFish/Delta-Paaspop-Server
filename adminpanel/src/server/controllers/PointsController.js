@@ -59,10 +59,11 @@ function calculatePaaspopPoints(pointsArray)
 	const paaspopMaxPoints = 75;
 	const participationPercentage = 10;
 	const participationPoints = paaspopMaxPoints / 100 * participationPercentage;
-
-	//Multiplies all user points by 100 to prevent miscalculation of the percentages  
-	var multipliedPointsArray = pointsArray.forEach(user => user.points = user.points * 100);
-
+console.log(pointsArray);
+	//Multiplies all user points by 100 to prevent miscalculation of the percentages
+	var multipliedPointsArray = pointsArray;
+	multipliedPointsArray.forEach(user => user.points = user.points * 100);
+	console.log(multipliedPointsArray);
 	//Get the highest amount of points any user has recieved. (Score of the winner)
 	var maxPoints = multipliedPointsArray.reduce((previous,current) => (previous.points > current.points) ? previous : current).points;
 
@@ -110,6 +111,10 @@ async function updateGameUsersHistory(points,history)
 		$push:{
 			"points": ids
 		}
+	},
+	function(err, res)
+	{
+		if(err) console.log(err);
 	});
 
 	//Save points into Users
@@ -125,10 +130,14 @@ async function updateGameUsersHistory(points,history)
 	}
 
 	//Save points into Histories
-	History.updateOne({_id: history._id },
+	History.updateOne({_id: historyId },
 	{
 		$push:{
 			"points": ids
 		}
+	},
+	function(err, res)
+	{
+		if(err) console.log(err);
 	});
 }
