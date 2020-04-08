@@ -68,6 +68,7 @@ export default {
           10000
         );
       } else if (error == "401") {
+				this.$store.dispatch("exitGame");
 				this.$store.dispatch("errorLogout");
 				this.$router.push("/login");
       }

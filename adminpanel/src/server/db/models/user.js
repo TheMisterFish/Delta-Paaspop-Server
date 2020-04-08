@@ -57,9 +57,9 @@ UserSchema.pre('save', function (next) {
 });
 
 UserSchema.options.toJSON = {
-	transform: function (doc, ret, options) {
-		delete ret.__v;
-		return ret;
+	transform: function(doc, ret, options) {
+			delete ret.__v;
+			return ret;
 	}
 };
 

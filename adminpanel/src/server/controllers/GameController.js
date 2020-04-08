@@ -50,6 +50,8 @@ exports.start_game = async function (req, res) {
 				.then(function (response) {
 					newHistory.save();
 					websocket_connections.connect();
+					websocket_connections.send("admin", "/game {startGame: " + game.name + "}");
+
 					res.status(200).send("Started game");
 				})
 				.catch(function (error) {

@@ -8,19 +8,21 @@ module.exports = {
 		let role = "";
 		if (client.token == admin_token) {
 			role = "admin";
+		} else if(client.token == game_token){
+			role = "game";
 		} else if (client['sec-websocket-protocol'] != undefined) {
 			let token;
 			try {
-				token = client['sec-websocket-protocol'].split(":");
+				token = client['sec-websocket-protocol'].split(".");
+				console.log(token);
+				if (token[0] == "token" && token[1] == game_token) {
+					role = "game"
+				} else if (token[0] == "token" && token[1] == await storage.get_value('game_token')) {
+					role = "user";
+				}
 			} catch (error) {
 				if(debug)
 					console.log(error)
-			}
-
-			if (token[0] == "token" && token[1] == game_token) {
-				role = "game"
-			} else if (token[0] == "token" && token[1] == await storage.get_value('game_token')) {
-				role = "user";
 			}
 		}
 		return role;

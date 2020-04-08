@@ -144,7 +144,7 @@ exports.leaderboard = async function (req, res) {
 	 * @param { any } res
 	 * @return { res } json of usenickname & points rs sorted by amount of points
 	 */
-	User.find().select('nickname').select('points').populate('points').then(function (users) {
+	User.find().select('nickname').select('points').populate('points').exec(function (err, users) {
 		let data = [];
 		for (let u = 0; u < users.length; u++) {
 			let user = users[u];
@@ -159,9 +159,7 @@ exports.leaderboard = async function (req, res) {
 			};
 			data.push(thisUser);
 		}
-		data.sort((a, b) => {
-			return a.points < b.points
-		})
+		data.sort((a, b) => { return a.points < b.points })
 		res.send({
 			data
 		});
@@ -179,13 +177,13 @@ exports.points = async function (req, res) {
 	 */
 	User.findOne({
 		_id: req.session.user
-	}).populate('point').then(function (user) {
+	}).populate('points').then(function (user) {
 		if (!user) {
 			res.status(400).send(["No user?"]);
 		} else {
 			let total_points = 0;
 			for (let y = 0; y < user.points.length; y++) {
-				const element = array[y];
+				const element = user.points[y];
 				total_points += element.points;
 			}
 			let data = {

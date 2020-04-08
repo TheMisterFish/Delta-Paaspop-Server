@@ -108,7 +108,7 @@ exports.get_home = async function (req, res) {
 			data.next_game = data.games[Object.keys(data.games)[0]];
 		}
 		data.osc_status = osc_connection.osc_status();
-		
+
 		res.render('index', data);
 	})
 
@@ -138,7 +138,7 @@ exports.get_users = async function (req, res) {
 
 		res.render('index', {
 			screen: 'users',
-			users: users
+			users: transformedUsers
 		})
 	})
 }
