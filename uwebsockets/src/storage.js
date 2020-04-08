@@ -20,12 +20,11 @@ const admin_token = process.env.ADMIN_TOKEN;
 
 module.exports = {
 	set_value: async function (obj) {
-
 		storage.setItem('game_token', obj.game_token);
 		storage.setItem('game_name', obj.game_name);
 		storage.setItem('join_mid_game', obj.join_mid_game);
 		storage.setItem('response_answer', obj.response_answer);
-		return storage.getItem(game_name);
+		return storage.getItem('game_name');
 	},
 	get_value: async function (key) {
 		return await storage.getItem(key).then((value => {

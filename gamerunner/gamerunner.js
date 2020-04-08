@@ -1,4 +1,5 @@
 const socketurl = "ws://localhost:9000";
+const wsgametoken = "klw0xrls0yHEmvdyZnWhrRRCsEjlD7mk";
 const debug = true;
 
 var socket;
@@ -11,12 +12,12 @@ var grinit = function(){
     $transitionClose    =   document.getElementById('gr-transition-close');
 }
 
-function establishNewConnection(){
+function connect(){
     closeConnection();
 
     log("Websocket: opening connection to '" + socketurl + "'....");
 
-    this.socket = new WebSocket(socketurl);
+    this.socket = new WebSocket(socketurl, "token." + wsgametoken);
 
     registerEventListeners(this.socket);
 }
@@ -55,6 +56,14 @@ var wsMessage = function(event){
     }else if(messageJSON.stopGame != null 
         && messageJSON.stopGame == true){
         forceStop();
+    }else if(messageJSON.startGame != null){
+        let game = messageJSON.startGame;
+
+        if(game.includes(".html") === false){
+            game += ".html";
+        }
+
+        loadGame(game);
     }
 }
 
@@ -119,16 +128,16 @@ var userInput = function(user, data){
     try {
         gameUserInput(user, data);
     } catch (error) {
-        log("Gamerunner: unexpected data '" + data + "' from user '" + user.name + "'");
+        log("Gamerunner: sent data '" + data + "' from user '" + user + "' to game, but noones listening :(");
     }
 }
 
 /**
  * Called by game
- * Sends outcome to users ie correct answer
+ * Sends answer to all users
  */
-function userResults(result){
-    let data = {answer: result};
+function sendAnswer(answer){
+    let data = {answer: answer};
     let dataJSON = JSON.stringify(data);
 
     wsSendData(dataJSON);
@@ -150,10 +159,9 @@ function userResultCustom(userid, result){
 /**
  * Called by game
  * Lets clients know next round has started, and show buttons given
- * @param {String} round
  * @param {String[]} buttons
  */
-function nextRound(round, buttons){
+function nextRound( buttons){
     let data = {buttons: buttons};
     let dataJSON = JSON.stringify(data);
 
@@ -187,11 +195,59 @@ function setLiveHeader(header, userNickname){
  */
 function clearLiveHeader(userNickname){
     let data;
-    if(userId == null){
+    if(userNickname == null){
         data = {header: ""};
     }else{
         data = {userHeader: [userNickname, ""]};
     }
+    let dataJSON = JSON.stringify(data);
+
+    wsSendData(dataJSON);
+}
+
+/**
+ * Called by game
+ * Set value of live footer on user phone
+ * If userNickname specified send to specific user, else send to everyone
+ * @param {string} footer 
+ * @param {string} userNickname (optional)
+ */
+function setLiveFooter(footer, userNickname){
+    let data;
+    if(userNickname == null){
+        data = {footer: footer};
+    }else{
+        data = {userFooter: [userNickname, footer]};
+    }
+    let dataJSON = JSON.stringify(data);
+
+    wsSendData(dataJSON);
+}
+
+/**
+ * Called by game
+ * Clear live footer
+ * If userNickname specified send to specific user, else send to everyone
+ * @param {String} userNickname 
+ */
+function clearLiveFooter(userNickname){
+    let data;
+    if(userNickname == null){
+        data = {footer: ""};
+    }else{
+        data = {userFooter: [userNickname, ""]};
+    }
+    let dataJSON = JSON.stringify(data);
+
+    wsSendData(dataJSON);
+}
+
+/**
+ * The action a clients receives after pressing a button
+ * @param {String} action wait or again
+ */
+function setAction(action){
+    let data = {action: action};
     let dataJSON = JSON.stringify(data);
 
     wsSendData(dataJSON);
@@ -205,7 +261,7 @@ function forceStop(){
     try{
         gameForceStop();
     }catch(error){
-        log("Gamerunner: received force stop, but no game is listening");
+        log("Gamerunner: received force stop, but no game is listening :(");
     }
 }
 
@@ -236,6 +292,30 @@ function stopGame(){
     wsSendData(dataJSON);
 }
 
+/**
+ * Set status on status screen
+ * @param {String} status
+ * @param {String} userNickname (optional) show status to user
+ */
+function showStatus(status, userNickname){
+    let data;
+    if(userNickname == null){
+        data = {status: status};
+    }else{
+        data = {userStatus: [userNickname, status]};
+    }
+    let dataJSON = JSON.stringify(data);
+
+    wsSendData(dataJSON);
+}
+
+function switchScreen(screen){
+    let data = {switchScreen: screen};
+    let dataJSON = JSON.stringify(data);
+
+    wsSendData(dataJSON);
+}
+
 function loadGame(htmlFile){
     log("Gamerunner: Loading html file '" + htmlFile + "'");
 
@@ -251,23 +331,23 @@ function loadGame(htmlFile){
         loadOutTransition();
 
         setTimeout(() => {
-            hideAllTransitions();
-        }, 1000);
+            //hideAllTransitions();
+        }, 2000);
 
     }, 500);
 
 }
 
 var loadInTransition = function(){
+    $transitionClose.src='/transition-close.gif';
     $transitionOpen.style.visibility='hidden';
     $transitionClose.style.visibility='visible';
-    $transitionClose.src='/transition-close.gif';
 }
 
 var loadOutTransition = function(){
+    $transitionOpen.src='/transition-open.gif';
     $transitionClose.style.visibility='hidden';
     $transitionOpen.style.visibility='visible';
-    $transitionOpen.src='/transition-open.gif';
 }
 
 var hideAllTransitions = function(){
@@ -291,4 +371,5 @@ var log = function(message){
 
 $(document).ready(function(){
     grinit();
+    connect();
 });
