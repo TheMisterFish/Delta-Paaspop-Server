@@ -1,9 +1,11 @@
 const socketurl = "ws://localhost:9000";
 const wsgametoken = "klw0xrls0yHEmvdyZnWhrRRCsEjlD7mk";
-const debug = true;
+const logMessages = true;
+const debugMode = true;
 
 var socket;
 var footerEnabled = true;
+var state = 0;
 
 var $transitionOpen, $transitionClose;
 
@@ -166,6 +168,17 @@ function nextRound( buttons){
     let dataJSON = JSON.stringify(data);
 
     wsSendData(dataJSON);
+
+    if(state == 0){
+        state = 1;
+        log("Sending POST request to panel 'round_start'");
+        if(debugMode){
+            $.post("http://localhost:5454/game/round_start", wsgametoken);
+        }else{
+            $.post("/game/round_start", wsgametoken); // production
+        }
+        log("Sent POST request");
+    }
 }
 
 /**
@@ -290,6 +303,15 @@ function stopGame(){
     let dataJSON = JSON.stringify(data);
 
     wsSendData(dataJSON);
+
+    state = 2;
+    log("Sending POST request to panel 'stop_game'");
+    if(debugMode){
+        $.post("http://localhost:5454/game/stop_game", wsgametoken);
+    }else{
+        $.post("/game/stop_game", wsgametoken); // production
+    }
+    log("Sent POST request");
 }
 
 /**
@@ -364,12 +386,17 @@ var disableFooter = function(){
 }
 
 var log = function(message){
-    if(debug){
+    if(logMessages){
         console.log(message);
     }
 }
 
 $(document).ready(function(){
+    if(debugMode){
+        log("DEBUG MODE -- DONT USE FOR PRODUCTION")
+    }
+
     grinit();
     connect();
+    
 });
