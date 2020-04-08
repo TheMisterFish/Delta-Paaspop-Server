@@ -60,7 +60,8 @@ function calculatePaaspopPoints(pointsArray)
 	const participationPercentage = 10;
 	const participationPoints = paaspopMaxPoints / 100 * participationPercentage;
 
-	var multipliedPointsArray = reduceCeil(pointsArray);
+	//Multiplies all user points by 100 to prevent miscalculation of the percentages  
+	var multipliedPointsArray = pointsArray.forEach(user => user.points = user.points * 100);
 
 	//Get the highest amount of points any user has recieved. (Score of the winner)
 	var maxPoints = multipliedPointsArray.reduce((previous,current) => (previous.points > current.points) ? previous : current).points;
@@ -75,12 +76,6 @@ function calculatePaaspopPoints(pointsArray)
 	});
 
 	return multipliedPointsArray;
-}
-
-function reduceCeil(pointsArray)
-{
-	pointsArray.forEach(user => user.points = user.points * 100);
-	return pointsArray;
 }
 
 function convertToPointObjectArray(gameId, reason, userPointArray)
