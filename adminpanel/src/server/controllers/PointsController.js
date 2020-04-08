@@ -64,29 +64,54 @@ function calculatePaaspopPoints(pointsArray)
 	{
 		user.points += participationPoints;//Add 10% of participation points to the user.
 
+	if (!history)
+		return res.status(409).send("No game is running."); //Error: No game is running.
+
+	if (!reason)
+		reason = "Points for game " + history.game.name
+	//TODO: Check if input is correctly formatted
+
+	let pointPercentage, fullPoints;
+	points.forEach(user => {
 		pointPercentage = user.points * 100 / maxPoints;
 		user.paaspopPoints = Math.ceil(pointPercentage / 100 * paaspopMaxPoints);
 	});
-	
-	return multipliedPointsArray;
+	var pointArray = convertToPointObjectArray(history, reason, points)
+
+	for (let y = 0; y < pointArray.length; y++) {
+		const point = pointArray[y];
+		let user = await User.findById(point.user);
+		if (!user) {
+			pointArray.splice(y, 1);
+		} else {
+			user.points.push(point._id);
+			user.save();
+		}
+	}
+	Point.insertMany(pointArray)
+		.then(async function (doc) {
+			history.points.push(pointArray.map(p => p._id));
+			history.users.push(pointArray.map(p => p.user));
+			let game = await Game.findOne({
+				_id: history.game._id
+			});
+			game.points.push(pointArray.map(p => p._id));
+			history.save();
+			game.save();
+			res.status(200).send(doc);
+		}).catch((error) => {
+			res.status(500).send(error);
+		})
 }
 
-function reduceCeil(pointsArray)
-{
-	pointsArray.forEach(user => user.points = user.points * 100);
-	return pointsArray;
-}
-
-function convertToPointObjectArray(gameId, reason, userPointArray)
-{
+function convertToPointObjectArray(history, reason, userPointArray) {
 	var output = [];
 
 	let newPoint;
-	userPointArray.forEach(el =>
-	{
-		newPoint = new Point(
-		{
-			game: gameId,
+	userPointArray.forEach(el => {
+		newPoint = new Point({
+			game: history.game._id,
+			history: history._id,
 			reason: reason,
 			points: el.paaspopPoints,
 			user: el.user_id

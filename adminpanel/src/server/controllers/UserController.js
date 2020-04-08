@@ -144,9 +144,7 @@ exports.leaderboard = async function (req, res) {
 	 * @param { any } res
 	 * @return { res } json of usenickname & points rs sorted by amount of points
 	 */
-	User.find({}, {}, {
-		$sortByCount: 'points'
-	}).select('nickname').select('points').populate('point').then(function (users) {
+	User.find().select('nickname').select('points').populate('points').then(function (users) {
 		let data = [];
 		for (let u = 0; u < users.length; u++) {
 			let user = users[u];
@@ -161,9 +159,14 @@ exports.leaderboard = async function (req, res) {
 			};
 			data.push(thisUser);
 		}
+		data.sort((a, b) => {
+			return a.points < b.points
+		})
 		res.send({
 			data
 		});
+	}).catch((error) => {
+		res.status(500).send(error);
 	})
 }
 exports.points = async function (req, res) {
