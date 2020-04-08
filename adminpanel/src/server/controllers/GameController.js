@@ -91,6 +91,36 @@ exports.stop_game = async function (req, res) {
 		}
 	});
 }
+exports.stop_game_game = async function (req, res) {
+	/**
+	 * Post /start  endpoint for starting a game.
+	 * @export *
+	 * @param { any } req
+	 * @param { any } res
+	 * @returns { res } game started true/false
+	 */
+	History.findOne({
+		gameEnded: null
+	}).populate('game').then(function (current_game) {
+		if (!current_game) {
+			return res.status(500).send('Geen spel gestart.');
+		} else {
+			axios.post('http://' + url + '/stop_game', {
+					token: process.env.ADMIN_TOKEN,
+					game_name: current_game.game.name
+				})
+				.then(function (response) {
+					current_game.gameEnded = new Date();
+					current_game.save();
+					websocket_connections.disconnect();
+					res.send("Spel is gestopt.");
+				})
+				.catch(function (error) {
+					res.status(500).send(error);
+				});
+		}
+	});
+}
 exports.start_round = async function (req, res) {
 	console.log("?");
 	History.findOne({
