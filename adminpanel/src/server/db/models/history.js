@@ -25,12 +25,19 @@ const HistorySchema = mongoose.Schema({
 		type: Date,
 		default: null
 	},
-	roundStarted:{
+	roundStarted: {
 		type: Boolean,
 		default: false
 	}
 }, {
 	timestamps: true
 });
+
+HistorySchema.options.toJSON = {
+	transform: function (doc, ret, options) {
+		delete ret.__v;
+		return ret;
+	}
+};
 
 module.exports = mongoose.model('History', HistorySchema);

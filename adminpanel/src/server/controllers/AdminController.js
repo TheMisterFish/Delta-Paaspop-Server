@@ -123,7 +123,7 @@ exports.get_users = async function (req, res) {
 	 */
 	User.find({}, {}, {
 		$sortByCount: 'points'
-	}).populate('points').exec().then(function (users) {
+	}).populate('points').then(function (users) {
 		var transformedUsers = users.map(function (user) {
 			return user.toJSON();
 		});
@@ -135,7 +135,6 @@ exports.get_users = async function (req, res) {
 			});
 			transformedUsers[q].totalPoints = total_points;
 		}
-		console.log(transformedUsers);
 
 		res.render('index', {
 			screen: 'users',
@@ -153,13 +152,32 @@ exports.get_user = async function (req, res) {
 	 */
 	User.findOne({
 		_id: req.params.id
+	}).populate({
+		path: 'points',
+		populate: {
+			path: 'history',
+			model: 'History',
+			populate: {
+				path: 'game',
+				model: 'Game'
+			}
+		},
 	}).then(function (user) {
+		var transformedUsers = user.toJSON();
+		console
+		let total_points = 0;
+		transformedUsers.points.forEach(points => {
+			total_points += points.points;
+		});
+
+		transformedUsers.totalPoints = total_points;
+		console.log(transformedUsers);
 		if (!user) {
 			res.send("no user found?")
 		} else {
 			res.render('index', {
 				screen: 'user',
-				user: user,
+				user: transformedUsers,
 				breadcrumbs: [
 					['gebruikers', 'users'],
 					[user.email]

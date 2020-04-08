@@ -49,7 +49,7 @@ exports.apply_points = async function (req, res) {
 		return res.status(409).send("No game is running."); //Error: No game is running.
 
 	if (!reason)
-		reason = "Points for game" + history.game.name
+		reason = "Points for game " + history.game.name
 	//TODO: Check if input is correctly formatted
 
 	let pointPercentage, fullPoints;
@@ -59,7 +59,7 @@ exports.apply_points = async function (req, res) {
 		fullPoints += participationPoints;
 		user.paaspopPoints = Math.ceil(fullPoints)
 	});
-	var pointArray = convertToPointObjectArray(history.game._id, reason, points)
+	var pointArray = convertToPointObjectArray(history, reason, points)
 
 	for (let y = 0; y < pointArray.length; y++) {
 		const point = pointArray[y];
@@ -71,10 +71,10 @@ exports.apply_points = async function (req, res) {
 			user.save();
 		}
 	}
-
 	Point.insertMany(pointArray)
 		.then(async function (doc) {
 			history.points.push(pointArray.map(p => p._id));
+			history.users.push(pointArray.map(p => p.user));
 			let game = await Game.findOne({
 				_id: history.game._id
 			});
@@ -87,12 +87,13 @@ exports.apply_points = async function (req, res) {
 		})
 }
 
-function convertToPointObjectArray(gameId, reason, userPointArray) {
+function convertToPointObjectArray(history, reason, userPointArray) {
 	var output = [];
 	let newPoint;
 	userPointArray.forEach(el => {
 		newPoint = new Point({
-			game: gameId,
+			game: history.game._id,
+			history: history._id,
 			reason: reason,
 			points: el.paaspopPoints,
 			user: el.user_id

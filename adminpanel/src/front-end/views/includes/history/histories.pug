@@ -14,8 +14,11 @@ div(class="col col-4")
 					tr
 						td= history._id
 						td= history.game.name
-						td= history.gameStarted
-						td= history.gameEnded
-						td= history.points.length
+						td= moment(history.gameStarted).format("DD/MM/YYYY HH:mm")
+						if history.gameEnded
+							td= moment(history.gameEnded).format("DD/MM/YYYY HH:mm")
+						else
+							td nog bezig
+						td= history.totalPoints
 						td 
 							a(class="button button-warning button-small" href="/history/"+history._id) details

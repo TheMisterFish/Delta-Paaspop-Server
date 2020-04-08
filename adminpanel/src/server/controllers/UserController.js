@@ -163,6 +163,8 @@ exports.leaderboard = async function (req, res) {
 		res.send({
 			data
 		});
+	}).catch((error) => {
+		res.status(500).send(error);
 	})
 }
 exports.points = async function (req, res) {
