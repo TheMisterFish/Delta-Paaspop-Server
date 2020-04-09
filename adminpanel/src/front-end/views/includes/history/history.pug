@@ -7,13 +7,35 @@ div(class="col col-4")
 					th Game naam
 					th Geeindigd op
 					th Gestart op
-					th Punten uitgegeven
 					th Aantal keer gespeeld
 			tbody
-					tr
-						td= history._id
-						td= history.game.name
-						td= history.gameStarted
+				tr
+					td= history._id
+					td= history.game.name
+					td= moment(history.gameStarted).format("DD/MM/YYYY HH:mm")
+					if history.gameEnded
 						td= history.gameEnded
-						td= history.points.length
-						td= histories.length
+					else
+						td Nog bezig.
+					td= histories.length
+		script(type='text/javascript' src='/js/filter_points.js')
+		h3.card-title.float-left Punten
+		h6.float-right Totaal:
+			span=history.totalPoints
+
+		input(type="text" placeholder="Zoeken..." id="filter_input" onkeyup="filterPoints()")
+		table(id="points_table")
+			thead
+				tr
+					th Gebruiker
+					th Email
+					th Aantal punten
+					th Gebruiker bekijken
+			tbody
+				each point, index in history.points
+					tr
+						td= point.user.nickname
+						td= point.user.email
+						td= point.points
+						td
+							a(class="button button-warning button-small" href="/users/"+point.user._id) details

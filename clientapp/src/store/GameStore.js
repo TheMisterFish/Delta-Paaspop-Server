@@ -14,7 +14,6 @@ const GameStore = {
 			state.game = game;
 		},
 		exited_game(state) {
-			console.log("exit?");
 			state.in_game = false;
 			state.current_game = {};
 		}

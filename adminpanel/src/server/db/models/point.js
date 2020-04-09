@@ -5,6 +5,10 @@ const PointsSchema = mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Game'
 	},
+	history: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'History'
+	},
 	reason: {
 		type: String
 	},

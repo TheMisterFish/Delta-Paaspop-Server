@@ -19,6 +19,7 @@ module.exports = function (app) {
 	app.post('/game/start', adminChecker, GameController.start_game);
 	app.post('/game/stop', adminChecker, GameController.stop_game);
 	app.post('/game/round_start', gameTokenChecker, GameController.start_round);
+	app.post('/game/stop_game', gameTokenChecker, GameController.stop_game_game); //for game only
 	app.post('/game/admin_round_start', adminChecker, GameController.start_round);
 	app.get('/game/currently', adminChecker, GameController.get_current);
 	

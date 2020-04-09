@@ -91,6 +91,36 @@ exports.stop_game = async function (req, res) {
 		}
 	});
 }
+exports.stop_game_game = async function (req, res) {
+	/**
+	 * Post /start  endpoint for starting a game.
+	 * @export *
+	 * @param { any } req
+	 * @param { any } res
+	 * @returns { res } game started true/false
+	 */
+	History.findOne({
+		gameEnded: null
+	}).populate('game').then(function (current_game) {
+		if (!current_game) {
+			return res.status(500).send('Geen spel gestart.');
+		} else {
+			axios.post('http://' + url + '/stop_game', {
+					token: process.env.ADMIN_TOKEN,
+					game_name: current_game.game.name
+				})
+				.then(function (response) {
+					current_game.gameEnded = new Date();
+					current_game.save();
+					websocket_connections.disconnect();
+					res.send(true);
+				})
+				.catch(function (error) {
+					res.status(500).send(error);
+				});
+		}
+	});
+}
 exports.start_round = async function (req, res) {
 	console.log("?");
 	History.findOne({
@@ -151,10 +181,21 @@ exports.histories = async function (req, res) {
 		sort: {
 			'createdAt': -1
 		}
-	}).populate('game').then(function (histories) {
+	}).populate('game').populate('points').then(function (histories) {
+		var transformedHistories = histories.map(function (history) {
+			return history.toJSON();
+		});
+		for (let q = 0; q < transformedHistories.length; q++) {
+			const element = transformedHistories[q];
+			let total_points = 0;
+			element.points.forEach(points => {
+				total_points += points.points;
+			});
+			transformedHistories[q].totalPoints = total_points;
+		}
 		res.render('index', {
 			screen: 'histories',
-			histories: histories
+			histories: transformedHistories
 		})
 	})
 }
@@ -168,13 +209,29 @@ exports.history = async function (req, res) {
 	 */
 	History.findOne({
 		_id: req.params.id
-	}).populate('game').populate('points').then(function (history) {
+	}).populate('game').populate({
+		path: 'points',
+		populate: {
+			path: 'user',
+			model: 'User'
+		},
+	}).then(function (history) {
+		var transformedHistory = history.toJSON()
+		const element = transformedHistory;
+		let total_points = 0;
+		element.points.forEach(points => {
+			total_points += points.points;
+		});
+		transformedHistory.totalPoints = total_points;
+
+		console.log(transformedHistory);
+
 		History.find({
 			game: history.game
 		}).then(function (histories) {
 			res.render('index', {
 				screen: 'history',
-				history: history,
+				history: transformedHistory,
 				histories: histories,
 				breadcrumbs: [
 					['geschiedenis', 'history'],

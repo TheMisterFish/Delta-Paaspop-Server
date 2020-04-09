@@ -6,23 +6,36 @@ div(class="col col-4")
 					th ID
 					th Bijnaam
 					th Email
+					th Gemaakt op
 			tbody
 				tr
 					td= user._id
 					td= user.nickname
 					td= user.email
+					td= moment(user.createdAt).format("DD/MM/YYYY HH:mm")
 
 		script(type='text/javascript' src='/js/filter_points.js')
-		h3.card-title.float-left punten
+		h3.card-title.float-left Punten
 		h6.float-right Totaal:
-			span=user.points.length
+			span=user.totalPoints
 
 		input(type="text" placeholder="Zoeken..." id="filter_input" onkeyup="filterPoints()")
 		table(id="points_table")
 			thead
 				tr
-					th ID
+					th Game
+					th Game eind datum
+					th Geschiedenis _id
+					th Datum
+					th Punten
 			tbody
 				each point, index in user.points
 					tr
-						th Punten
+						td= point.history.game.name
+						if point.history.gameEnded
+							td= moment(point.history.gameEnded).format("DD/MM/YYYY HH:mm")
+						else
+							td Nog bezig.
+						td= point.history._id
+						td= moment(point.updatedAt).format("DD/MM/YYYY HH:mm")
+						td= point.points
