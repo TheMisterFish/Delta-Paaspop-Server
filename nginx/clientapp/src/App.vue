@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     logout: function() {
-			this.$store.dispatch("exitGame");
+      this.$store.dispatch("exitGame");
       this.$store.dispatch("logout").then(() => {
         this.$router.go();
       });
@@ -84,7 +84,9 @@ export default {
 #app {
   width: 100vw;
   height: 100vh;
+  max-width: 800px;
   overflow: hidden;
+	margin: 0 auto;
 }
 // @import('./assets/styles/transitions');
 .slide-left-enter-active,
