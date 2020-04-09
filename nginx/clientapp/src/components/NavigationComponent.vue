@@ -1,6 +1,6 @@
 <template>
   <div class="nav-outer">
-		<router-link
+    <router-link
       to="/account"
       class="nav-button-outer"
     >
@@ -11,7 +11,7 @@
         ></span>
       </div>
     </router-link>
-		
+
     <router-link
       to="/"
       class="nav-button-outer"
@@ -46,11 +46,25 @@ export default {
     currentRouteName() {
       return this.$route.name;
     }
-  },
+  }
 };
 </script>
 
 <style lang="scss" scoped>
+a:visited {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
+}
+a:focus {
+  text-decoration: none;
+}
+a:hover,
+a:active {
+  text-decoration: none;
+}
+
 .nav-outer {
   height: $navHeight;
   position: absolute;
