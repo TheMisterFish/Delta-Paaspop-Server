@@ -1,7 +1,7 @@
-# FROM node:lts-alpine as build-stage
-# WORKDIR /app
-# COPY . .
-# WORKDIR /app/clientapp
+FROM node:lts-alpine as build-stage
+WORKDIR /app
+COPY . .
+WORKDIR /app/clientapp
 # RUN npm install
 # RUN npm run build
 
