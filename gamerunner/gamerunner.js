@@ -357,13 +357,19 @@ function loadGame(htmlFile){
             log("Gamerunner: Loaded html file");
         });
         loadOutTransition();
-
-        setTimeout(() => {
-            //hideAllTransitions();
-        }, 2000);
-
     }, 500);
 
+}
+
+function unloadGame(){
+    loadInTransition();
+
+    setTimeout(() => {
+        let $game = $("#gr-game");
+        $game.empty();
+
+        loadOutTransition();
+    }, 500);
 }
 
 var loadInTransition = function(){
