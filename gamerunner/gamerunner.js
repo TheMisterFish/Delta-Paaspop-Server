@@ -16,6 +16,8 @@ var grinit = function(){
 }
 
 function connect(){
+    log("Websocket: initializing....");
+
     closeConnection();
 
     log("Websocket: opening connection to '" + socketurl + "'....");
@@ -58,8 +60,7 @@ var wsMessage = function(event){
         let answer = messageJSON.data.answer;
 
         userInput(nickname, answer);
-    }else if(messageJSON.stopGame != null 
-        && messageJSON.stopGame == true){
+    }else if(messageJSON.stopGame != null){
         forceStop();
     }else if(messageJSON.startGame != null){
         let game = messageJSON.startGame;
@@ -346,6 +347,8 @@ function loadGame(htmlFile){
 
     loadInTransition();
 
+    state = 0;
+
     setTimeout(() => {
 
         let $game = $("#gr-game");
@@ -396,7 +399,7 @@ var log = function(message){
 
 $(document).ready(function(){
     if(debugMode){
-        log("DEBUG MODE -- DONT USE FOR PRODUCTION")
+        log("DEBUG MODE -- DONT USE FOR PRODUCTION");
     }
 
     grinit();
