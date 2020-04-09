@@ -22,7 +22,6 @@ services:
     container_name: "ps_adminpanel"
     depends_on:
       - db
-      - nginx
     networks:
       - paaspop_bridge
     expose:
@@ -54,3 +53,5 @@ services:
       - '80:80'
       - '5454:5454'
     restart: on-failure
+    depends_on:
+      - ps_adminpanel
