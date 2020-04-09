@@ -150,7 +150,7 @@ exports.leaderboard = async function (req, res) {
 	 * @param { any } res
 	 * @return { res } json of usenickname & points rs sorted by amount of points
 	 */
-	User.find().select('nickname').select('points').populate('points').then((user) => {
+	User.find().select('nickname').select('points').populate('points').then((users) => {
 		let data = [];
 		for (let u = 0; u < users.length; u++) {
 			let user = users[u];
