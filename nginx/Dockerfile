@@ -1,14 +1,14 @@
-FROM node:lts-alpine as build-stage
-WORKDIR /app
-COPY . .
-run ls -a
-WORKDIR /app/clientapp
-run ls -a
-RUN npm install
-RUN npm run build
+# FROM node:lts-alpine as build-stage
+# WORKDIR /app
+# COPY . .
+# run ls -a
+# WORKDIR /app/clientapp
+# run ls -a
+# RUN npm install
+# RUN npm run build
 
-WORKDIR /app
-run ls -a
+# WORKDIR /app
+# run ls -a
 
 FROM nginx
 RUN echo "soft nofile 1024000" >> /etc/security/limits.conf
