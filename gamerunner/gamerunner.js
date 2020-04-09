@@ -353,7 +353,7 @@ function loadGame(htmlFile){
 
         let $game = $("#gr-game");
         $game.empty();
-        $game.load(htmlFile, function(){
+        $game.load("games/" + htmlFile, function(){
             log("Gamerunner: Loaded html file");
         });
         loadOutTransition();
