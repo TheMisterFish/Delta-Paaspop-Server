@@ -3,6 +3,7 @@ WORKDIR /app/clientapp
 COPY clientapp/package*.json ./
 RUN npm install
 COPY . .
+RUN ls -a
 RUN npm run build
 
 FROM nginx
