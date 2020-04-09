@@ -54,7 +54,8 @@ exports.start_game = async function (req, res) {
 
 					res.status(200).send("Started game");
 				})
-				.catch(function (error) {
+				.catch((error) => {
+					console.log(error)
 					res.status(500).send(error);
 				});
 		})
@@ -85,7 +86,8 @@ exports.stop_game = async function (req, res) {
 					websocket_connections.disconnect();
 					res.send("Spel is gestopt.");
 				})
-				.catch(function (error) {
+				.catch((error) => {
+					console.log(error)
 					res.status(500).send(error);
 				});
 		}
@@ -115,7 +117,8 @@ exports.stop_game_game = async function (req, res) {
 					websocket_connections.disconnect();
 					res.send(true);
 				})
-				.catch(function (error) {
+				.catch((error) => {
+					console.log(error)
 					res.status(500).send(error);
 				});
 		}
@@ -124,20 +127,24 @@ exports.stop_game_game = async function (req, res) {
 exports.start_round = async function (req, res) {
 	console.log("?");
 	History.findOne({
-		gameEnded: null
-	}).then(function (current_game) {
-		if (current_game && current_game.game) {
-			current_game.roundStarted = true;
-			current_game.save().then(() => {
-				return res.status(200).send('Eerste ronde is gestart');
-			}).catch(() => {
-				console.log("Something whent wrong at 'game_started'");
-				return res.status(500).send('Iets ging fout.');
-			});
-		} else {
-			return res.status(500).send('Er geen spel gestart.');
-		}
-	});
+			gameEnded: null
+		}).then(function (current_game) {
+			if (current_game && current_game.game) {
+				current_game.roundStarted = true;
+				current_game.save().then(() => {
+					return res.status(200).send('Eerste ronde is gestart');
+				}).catch(() => {
+					console.log("Something whent wrong at 'game_started'");
+					return res.status(500).send('Iets ging fout.');
+				});
+			} else {
+				return res.status(500).send('Er geen spel gestart.');
+			}
+		})
+		.catch((error) => {
+			console.log(error)
+			res.status(500).send(error);
+		});
 }
 exports.get_current = async function (req, res) {
 	/**
@@ -148,12 +155,16 @@ exports.get_current = async function (req, res) {
 	 * @returns { object } current_game
 	 */
 	History.find({
-		gameEnded: null
-	}).then(function (game) {
-		if (!game)
-			res.send(false);
-		res.send(game);
-	});
+			gameEnded: null
+		}).then(function (game) {
+			if (!game)
+				res.send(false);
+			res.send(game);
+		})
+		.catch((error) => {
+			console.log(error)
+			res.status(500).send(error);
+		});
 }
 exports.if_game_connect = async function () {
 	/**
@@ -163,11 +174,14 @@ exports.if_game_connect = async function () {
 	 * @param  { any } res
 	 */
 	History.findOne({
-		gameEnded: null
-	}).then(function (game) {
-		if (game)
-			websocket_connections.connect();
-	});
+			gameEnded: null
+		}).then(function (game) {
+			if (game)
+				websocket_connections.connect();
+		})
+		.catch((error) => {
+			console.log(error)
+		});
 }
 exports.histories = async function (req, res) {
 	/**
@@ -178,26 +192,30 @@ exports.histories = async function (req, res) {
 	 * @returns { res } send all game histories
 	 */
 	History.find({}, {}, {
-		sort: {
-			'createdAt': -1
-		}
-	}).populate('game').populate('points').then(function (histories) {
-		var transformedHistories = histories.map(function (history) {
-			return history.toJSON();
-		});
-		for (let q = 0; q < transformedHistories.length; q++) {
-			const element = transformedHistories[q];
-			let total_points = 0;
-			element.points.forEach(points => {
-				total_points += points.points;
+			sort: {
+				'createdAt': -1
+			}
+		}).populate('game').populate('points').then(function (histories) {
+			var transformedHistories = histories.map(function (history) {
+				return history.toJSON();
 			});
-			transformedHistories[q].totalPoints = total_points;
-		}
-		res.render('index', {
-			screen: 'histories',
-			histories: transformedHistories
+			for (let q = 0; q < transformedHistories.length; q++) {
+				const element = transformedHistories[q];
+				let total_points = 0;
+				element.points.forEach(points => {
+					total_points += points.points;
+				});
+				transformedHistories[q].totalPoints = total_points;
+			}
+			res.render('index', {
+				screen: 'histories',
+				histories: transformedHistories
+			})
 		})
-	})
+		.catch((error) => {
+			console.log(error)
+			res.status(500).send(error);
+		});
 }
 exports.history = async function (req, res) {
 	/**
@@ -208,39 +226,43 @@ exports.history = async function (req, res) {
 	 * @returns { res } send all histories of one game
 	 */
 	History.findOne({
-		_id: req.params.id
-	}).populate('game').populate({
-		path: 'points',
-		populate: {
-			path: 'user',
-			model: 'User'
-		},
-	}).then(function (history) {
-		var transformedHistory = history.toJSON()
-		const element = transformedHistory;
-		let total_points = 0;
-		element.points.forEach(points => {
-			total_points += points.points;
-		});
-		transformedHistory.totalPoints = total_points;
+			_id: req.params.id
+		}).populate('game').populate({
+			path: 'points',
+			populate: {
+				path: 'user',
+				model: 'User'
+			},
+		}).then(function (history) {
+			var transformedHistory = history.toJSON()
+			const element = transformedHistory;
+			let total_points = 0;
+			element.points.forEach(points => {
+				total_points += points.points;
+			});
+			transformedHistory.totalPoints = total_points;
 
-		console.log(transformedHistory);
+			console.log(transformedHistory);
 
-		History.find({
-			game: history.game
-		}).then(function (histories) {
-			res.render('index', {
-				screen: 'history',
-				history: transformedHistory,
-				histories: histories,
-				breadcrumbs: [
-					['geschiedenis', 'history'],
-					[history.game.name]
-				]
+			History.find({
+				game: history.game
+			}).then(function (histories) {
+				res.render('index', {
+					screen: 'history',
+					history: transformedHistory,
+					histories: histories,
+					breadcrumbs: [
+						['geschiedenis', 'history'],
+						[history.game.name]
+					]
+				})
 			})
-		})
 
-	})
+		})
+		.catch((error) => {
+			console.log(error)
+			res.status(500).send(error);
+		});
 }
 
 exports.osc_start_game = async function () {

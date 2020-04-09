@@ -16,24 +16,26 @@ exports.login = async function (req, res) {
 		return;
 	}
 	User.findOne({
-		email: email
-	}).then(function (user) {
-		if (!user) {
-			res.status(403).send("Cannot log in");
-		} else if (!user.comparePassword(password)) {
-			res.status(403).send("Wrong password");
-		} else {
-			req.session.user = user._id;
-			let this_user = {
-				email: user.email,
-				nickname: user.nickname,
-				id: user._id
-			};
-			res.send(this_user);
-		}
-	}).catch((err) => {
-		console.log(err);
-	});
+			email: email
+		}).then(function (user) {
+			if (!user) {
+				res.status(403).send("Cannot log in");
+			} else if (!user.comparePassword(password)) {
+				res.status(403).send("Wrong password");
+			} else {
+				req.session.user = user._id;
+				let this_user = {
+					email: user.email,
+					nickname: user.nickname,
+					id: user._id
+				};
+				res.send(this_user);
+			}
+		})
+		.catch((error) => {
+			console.log(error)
+			res.status(500).send(error);
+		});
 }
 exports.register = async function (req, res) {
 	/**
@@ -60,9 +62,9 @@ exports.register = async function (req, res) {
 			req.session.user = user._id;
 			res.status(201).send("User registered")
 		})
-		.catch(error => {
-			console.log(error);
-			res.status(400).send("Register error");
+		.catch((error) => {
+			console.log(error)
+			res.status(500).send(error);
 		});
 }
 exports.checkEmail = async function (req, res) {
@@ -86,9 +88,10 @@ exports.checkEmail = async function (req, res) {
 			console.log(user);
 			res.status(200).send(false)
 		}
-	}).catch((error) => {
-		res.status(500).send("error?");
+	}).
+	catch((error) => {
 		console.log(error)
+		res.status(500).send(error);
 	});
 
 }
@@ -134,6 +137,9 @@ exports.game_status = async function (req, res) {
 		} else {
 			res.send(false);
 		}
+	}).catch((error) => {
+		console.log(error)
+		res.status(500).send(error);
 	});
 }
 exports.leaderboard = async function (req, res) {
@@ -159,13 +165,16 @@ exports.leaderboard = async function (req, res) {
 			};
 			data.push(thisUser);
 		}
-		data.sort((a, b) => { return a.points < b.points })
+		data.sort((a, b) => {
+			return a.points < b.points
+		})
 		res.send({
 			data
 		});
 	}).catch((error) => {
+		console.log(error)
 		res.status(500).send(error);
-	})
+	});
 }
 exports.points = async function (req, res) {
 	/**
@@ -191,8 +200,9 @@ exports.points = async function (req, res) {
 			}
 			res.send(data);
 		}
-	}).catch((err) => {
-		console.log(err);
+	}).catch((error) => {
+		console.log(error)
+		res.status(500).send(error);
 	});
 }
 exports.random_name = async function (req, res) {

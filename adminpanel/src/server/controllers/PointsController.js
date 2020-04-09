@@ -15,7 +15,10 @@ exports.game = async function (req, res) {
 		game: req.params.id
 	}).populate('game').then(function (points) {
 		res.send(points);
-	})
+	}).catch((error) => {
+		console.log(error)
+		res.status(500).send(error);
+	});
 }
 exports.apply_points = async function (req, res) {
 	/**
@@ -83,8 +86,9 @@ exports.apply_points = async function (req, res) {
 			game.save();
 			res.status(200).send(doc);
 		}).catch((error) => {
+			console.log(error)
 			res.status(500).send(error);
-		})
+		});
 }
 
 function convertToPointObjectArray(history, reason, userPointArray) {
