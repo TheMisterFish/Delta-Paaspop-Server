@@ -1,12 +1,10 @@
 FROM node:lts-alpine as build-stage
 WORKDIR /app
-RUN ls -a
 COPY . .
 run ls -a
-
 WORKDIR /app/clientapp
+run ls -a
 RUN npm install
-RUN ls -a
 RUN npm run build
 
 FROM nginx
