@@ -113,7 +113,7 @@ exports.stop_game_game = async function (req, res) {
 					current_game.gameEnded = new Date();
 					current_game.save();
 					websocket_connections.disconnect();
-					res.send("Spel is gestopt.");
+					res.send(true);
 				})
 				.catch(function (error) {
 					res.status(500).send(error);
