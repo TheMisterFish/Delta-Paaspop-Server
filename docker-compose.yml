@@ -26,19 +26,6 @@ services:
       - paaspop_bridge
     expose:
       - "8080"
-  # Client side app & games
-  client_app:
-    build:
-      context: ./clientapp
-    container_name: client_app
-    depends_on:
-      - db
-      - nginx
-    networks:
-      - paaspop_bridge
-    expose:
-      - "8080"
-  # maria DB & Adminner for database
   db:
     image: mongo:latest
     container_name: "mongodb"
