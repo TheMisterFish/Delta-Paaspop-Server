@@ -1,10 +1,16 @@
+FROM node:lts-alpine as build-stage
+WORKDIR /app/clientapp
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
 FROM nginx
 RUN echo "soft nofile 1024000" >> /etc/security/limits.conf
 RUN echo "hard nofile 1024000" >> /etc/security/limits.conf
 
-# RUN rm /etc/nginx/nginx.conf
-# COPY adminpanel.conf /etc/nginx/sites-available/adminpanel.com
-# COPY clientapp.conf /etc/nginx/sites-available/clientapp.com
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+
 RUN rm /etc/nginx/nginx.conf
 COPY nginx.conf /etc/nginx/nginx.conf
 # COPY .htpasswd /etc/nginx/.htpasswd
