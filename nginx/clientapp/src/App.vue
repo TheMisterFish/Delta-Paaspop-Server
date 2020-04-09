@@ -85,7 +85,7 @@ export default {
 <style lang="scss">
 #app {
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   max-width: 800px;
   overflow: hidden;
   margin: 0 auto;
