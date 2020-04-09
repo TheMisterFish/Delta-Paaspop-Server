@@ -7,7 +7,7 @@ networks:
 
 services:
   # uwebsockets for socket connections
-  websocket_server:
+  ps_uwebsockets:
     container_name: "ps_uwebsockets"
     build:
       context: ./uwebsockets
@@ -16,7 +16,7 @@ services:
     networks:
       - paaspop_bridge
   # Admin panel vor VJ crew
-  admin_panel:
+  ps_adminpanel:
     build:
       context: ./adminpanel
     container_name: "ps_adminpanel"
