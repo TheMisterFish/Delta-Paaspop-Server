@@ -1,4 +1,3 @@
-const adminport = process.env.VUE_APP_ADMINPORT;
 import axios from 'axios'
 import {
 	ErrorBus
