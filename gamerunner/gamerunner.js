@@ -1,5 +1,6 @@
 const socketurl = "ws://localhost:9000";
 const wsgametoken = "klw0xrls0yHEmvdyZnWhrRRCsEjlD7mk";
+const pointstoken = "CJ3avghqang2OY22YE6ca6ikwzzdk6mP";
 const logMessages = true;
 const debugMode = true;
 
@@ -173,9 +174,9 @@ function nextRound( buttons){
         state = 1;
         log("Sending POST request to panel 'round_start'");
         if(debugMode){
-            $.post("http://localhost:5454/game/round_start", wsgametoken);
+            $.post("http://localhost:5454/game/round_start", {token: pointstoken});
         }else{
-            $.post("/game/round_start", wsgametoken); // production
+            $.post("/game/round_start", {token: pointstoken}); // production
         }
         log("Sent POST request");
     }
@@ -307,9 +308,9 @@ function stopGame(){
     state = 2;
     log("Sending POST request to panel 'stop_game'");
     if(debugMode){
-        $.post("http://localhost:5454/game/stop_game", wsgametoken);
+        $.post("http://localhost:5454/game/stop_game", {token: pointstoken});
     }else{
-        $.post("/game/stop_game", wsgametoken); // production
+        $.post("/game/stop_game", {token: pointstoken}); // production
     }
     log("Sent POST request");
 }
