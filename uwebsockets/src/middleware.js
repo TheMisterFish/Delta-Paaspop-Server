@@ -10,10 +10,12 @@ module.exports = {
 			role = "admin";
 		} else if(client.token == game_token){
 			role = "game";
+			console.log(game_token);
 		} else if (client['sec-websocket-protocol'] != undefined) {
 			let token;
 			try {
 				token = client['sec-websocket-protocol'].split(".");
+				console.log(token);
 				if (token[0] == "token" && token[1] == game_token) {
 					role = "game"
 				} else if (token[0] == "token" && token[1] == await storage.get_value('game_token')) {
