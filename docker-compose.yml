@@ -8,7 +8,7 @@ networks:
 services:
   # uwebsockets for socket connections
   websocket_server:
-    container_name: uwebsockets
+    container_name: "ps_uwebsockets"
     build:
       context: ./uwebsockets
     ports:
@@ -19,7 +19,7 @@ services:
   admin_panel:
     build:
       context: ./adminpanel
-    container_name: adminpanel
+    container_name: "ps_adminpanel"
     depends_on:
       - db
       - nginx
@@ -29,7 +29,7 @@ services:
       - "8080"
   db:
     image: mongo:latest
-    container_name: "mongodb"
+    container_name: "ps_mongodb"
     networks:
       - paaspop_bridge
     command: [--auth]
@@ -42,6 +42,7 @@ services:
     ports:
         - 27018:27018
   nginx:
+    container_name: "ps_nginx"
     build:
       context: ./nginx
     logging:
