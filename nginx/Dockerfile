@@ -12,10 +12,11 @@ RUN echo "soft nofile 1024000" >> /etc/security/limits.conf
 RUN echo "hard nofile 1024000" >> /etc/security/limits.conf
 
 # COPY --from=build-stage /app/clientapp/dist /var/www/html/clientapp
-ADD /gamerunner/ /var/www/html
+ADD /gamerunner/ /var/www/html/gamerunner
 
 RUN ls -a
 RUN cd /var/www/html && ls -a
+RUN cd /var/www/html/gamerunner && ls -a
 
 RUN rm /etc/nginx/nginx.conf
 COPY nginx.conf /etc/nginx/nginx.conf
