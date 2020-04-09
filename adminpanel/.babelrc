@@ -4,5 +4,8 @@
     ["@babel/transform-runtime", {
       "regenerator": true
     }]
-  ]
+	],
+	"ignore": [
+		"./src/front-end/"
+]
 }
