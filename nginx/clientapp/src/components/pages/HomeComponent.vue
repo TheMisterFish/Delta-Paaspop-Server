@@ -63,8 +63,7 @@ export default {
     getStatus() {
       UserApi.game_status()
         .then(data => {
-					console.log(data);
-          if (data != false) {
+          if (data != false || data == undefined) {
             this.game = data;
             this.game_found = true;
             if (this.game.cannot_join) {
