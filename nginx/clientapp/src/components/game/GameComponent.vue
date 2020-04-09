@@ -128,6 +128,7 @@ export default {
   watch: {
     SocketConnect(connected) {
       if (!connected) {
+				this.$store.dispatch("exitGame");
         this.$router.push("/");
       } else {
         let data = {
