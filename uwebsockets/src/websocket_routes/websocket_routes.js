@@ -13,6 +13,7 @@ module.exports = function (app) {
 			let client = funcs.getHeaderObject(req);
 			middleware.game_running().then((game) => {
 				middleware.ws_check_role(ws, client).then(role => {
+					console.log(role);
 					if (role == "admin") {
 						if (debug)
 							console.log("A admin joined the /admin channel");
