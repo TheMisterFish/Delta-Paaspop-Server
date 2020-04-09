@@ -2,7 +2,7 @@ var token = document.getElementById('token').innerText;
 var route = document.getElementById('route').innerText;
 var textbox = document.getElementById('socketChannel');
 var message = document.getElementById('message');
-let socket = new WebSocket('ws://' + location.hostname + ': 9000 ', ["token", token]);
+let socket = new WebSocket('ws://' + location.hostname + ':9000', ["token", token]);
 
 		var input = document.getElementById("message");
 
