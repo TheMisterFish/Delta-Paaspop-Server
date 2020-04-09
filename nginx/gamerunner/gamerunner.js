@@ -1,9 +1,12 @@
 const socketurl = "ws://localhost:9000";
 const wsgametoken = "klw0xrls0yHEmvdyZnWhrRRCsEjlD7mk";
-const debug = true;
+const pointstoken = "CJ3avghqang2OY22YE6ca6ikwzzdk6mP";
+const logMessages = true;
+const debugMode = true;
 
 var socket;
 var footerEnabled = true;
+var state = 0;
 
 var $transitionOpen, $transitionClose;
 
@@ -13,6 +16,8 @@ var grinit = function(){
 }
 
 function connect(){
+    log("Websocket: initializing....");
+
     closeConnection();
 
     log("Websocket: opening connection to '" + socketurl + "'....");
@@ -42,8 +47,10 @@ var registerEventListeners = function(socket){
 
 var wsMessage = function(event){
     let message = event.data;
+    log("Raw message received: " + message);
+
     let messageJSON = JSON.parse(message);
-    log(messageJSON);
+    log("JSON message: " + messageJSON);
 
     if(messageJSON.data != null 
         && messageJSON.data.user != null 
@@ -53,8 +60,7 @@ var wsMessage = function(event){
         let answer = messageJSON.data.answer;
 
         userInput(nickname, answer);
-    }else if(messageJSON.stopGame != null 
-        && messageJSON.stopGame == true){
+    }else if(messageJSON.stopGame != null){
         forceStop();
     }else if(messageJSON.startGame != null){
         let game = messageJSON.startGame;
@@ -166,6 +172,17 @@ function nextRound( buttons){
     let dataJSON = JSON.stringify(data);
 
     wsSendData(dataJSON);
+
+    if(state == 0){
+        state = 1;
+        log("Sending POST request to panel 'round_start'");
+        if(debugMode){
+            $.post("http://localhost:5454/game/round_start", {token: pointstoken});
+        }else{
+            $.post("/game/round_start", {token: pointstoken}); // production
+        }
+        log("Sent POST request");
+    }
 }
 
 /**
@@ -290,6 +307,15 @@ function stopGame(){
     let dataJSON = JSON.stringify(data);
 
     wsSendData(dataJSON);
+
+    state = 2;
+    log("Sending POST request to panel 'stop_game'");
+    if(debugMode){
+        $.post("http://localhost:5454/game/stop_game", {token: pointstoken});
+    }else{
+        $.post("/game/stop_game", {token: pointstoken}); // production
+    }
+    log("Sent POST request");
 }
 
 /**
@@ -321,21 +347,29 @@ function loadGame(htmlFile){
 
     loadInTransition();
 
+    state = 0;
+
     setTimeout(() => {
 
         let $game = $("#gr-game");
         $game.empty();
-        $game.load(htmlFile, function(){
+        $game.load("games/" + htmlFile, function(){
             log("Gamerunner: Loaded html file");
         });
         loadOutTransition();
-
-        setTimeout(() => {
-            //hideAllTransitions();
-        }, 2000);
-
     }, 500);
 
+}
+
+function unloadGame(){
+    loadInTransition();
+
+    setTimeout(() => {
+        let $game = $("#gr-game");
+        $game.empty();
+
+        loadOutTransition();
+    }, 500);
 }
 
 var loadInTransition = function(){
@@ -364,12 +398,17 @@ var disableFooter = function(){
 }
 
 var log = function(message){
-    if(debug){
+    if(logMessages){
         console.log(message);
     }
 }
 
 $(document).ready(function(){
+    if(debugMode){
+        log("DEBUG MODE -- DONT USE FOR PRODUCTION");
+    }
+
     grinit();
     connect();
+    
 });
