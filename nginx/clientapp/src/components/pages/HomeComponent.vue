@@ -63,6 +63,7 @@ export default {
     getStatus() {
       UserApi.game_status()
         .then(data => {
+					console.log(data);
           if (data != false) {
             this.game = data;
             this.game_found = true;
