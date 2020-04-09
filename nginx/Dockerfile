@@ -1,6 +1,9 @@
 FROM node:lts-alpine as build-stage
+WORKDIR /app
+RUN ls -a
+COPY clientapp/package*.json ./clientapp
 WORKDIR /app/clientapp
-COPY clientapp/package*.json ./
+run ls -a
 RUN npm install
 COPY . .
 RUN ls -a
