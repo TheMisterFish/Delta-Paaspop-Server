@@ -3,19 +3,17 @@
     id="app"
     v-touch:swipe="swipeHandler"
   >
-    <div id="inner">
-      <transition
-        :name="transitionName"
-        mode="out-in"
-      >
-        <router-view></router-view>
-      </transition>
-      <div v-if="isLoggedIn && $route.name != 'game'">
-        <bottom-nav></bottom-nav>
-      </div>
-
-      <errorComponent></errorComponent>
+    <transition
+      :name="transitionName"
+      mode="out-in"
+    >
+      <router-view></router-view>
+    </transition>
+    <div v-if="isLoggedIn && $route.name != 'game'">
+      <bottom-nav></bottom-nav>
     </div>
+
+    <errorComponent></errorComponent>
   </div>
 </template>
 
@@ -89,9 +87,6 @@ export default {
   max-width: 800px;
   overflow: hidden;
   margin: 0 auto;
-}
-.inner{
-	position: relative;
 }
 // @import('./assets/styles/transitions');
 .slide-left-enter-active,
