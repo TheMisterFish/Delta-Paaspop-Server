@@ -3,7 +3,7 @@ var route = document.getElementById('route').innerText;
 var textbox = document.getElementById('socketChannel');
 var message = document.getElementById('message');
 
-let socket = new WebSocket('ws://ps_websockets:9000', ["token", token]);
+let socket = new WebSocket('ws://127.0.0.1:9000', ["token", token]);
 
 var input = document.getElementById("message");
 
@@ -15,7 +15,7 @@ input.addEventListener("keyup", function(event) {
 }); 
 
 socket.onopen = function (e) {
-	addText("[status] Connected to ws://ps_websockets:9000");
+	addText("[status] Connected to ws://127.0.0.1:9000");
 };
 socket.onmessage = function (event) {
 	addText(`[message] Data received from server: ${event.data}`);
