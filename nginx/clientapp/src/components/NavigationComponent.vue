@@ -71,6 +71,7 @@ a:active {
   bottom: 0px;
   z-index: 1000;
   width: 100vw;
+	max-width: 800px;
   display: flex;
   flex-wrap: wrap;
 }
