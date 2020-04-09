@@ -7,6 +7,9 @@ run ls -a
 RUN npm install
 RUN npm run build
 
+WORKDIR /app
+run ls -a
+
 FROM nginx
 RUN echo "soft nofile 1024000" >> /etc/security/limits.conf
 RUN echo "hard nofile 1024000" >> /etc/security/limits.conf
