@@ -45,8 +45,10 @@ var registerEventListeners = function(socket){
 
 var wsMessage = function(event){
     let message = event.data;
+    log("Raw message received: " + message);
+
     let messageJSON = JSON.parse(message);
-    log(messageJSON);
+    log("JSON message: " + messageJSON);
 
     if(messageJSON.data != null 
         && messageJSON.data.user != null 
