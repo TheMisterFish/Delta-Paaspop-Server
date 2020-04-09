@@ -8,6 +8,7 @@ networks:
 services:
   # uwebsockets for socket connections
   websocket_server:
+    container_name: uwebsockets
     build:
       context: ./uwebsockets
     ports:
@@ -18,7 +19,7 @@ services:
   admin_panel:
     build:
       context: ./adminpanel
-    container_name: admin_panel
+    container_name: adminpanel
     depends_on:
       - db
       - nginx
