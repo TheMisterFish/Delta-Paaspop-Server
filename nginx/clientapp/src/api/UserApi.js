@@ -7,14 +7,19 @@ axios.defaults.withCredentials = true
 
 const debug_mode = process.env.VUE_APP_DEBUG_MODE == "true";
 var url = ""
-if (debug_mode == true){
+if (debug_mode == true) {
 	url = "http://localhost:5454";
 }
 const UserApi = {
 	game_status() {
 		return axios
 			.get(url + '/api/game_status')
-			.then(response => response.data)
+			.then((response) => {
+				if (response && response.data) {
+					return response.data;
+				}
+				return false;
+			})
 			.catch(err => {
 				ErrorBus.$emit('Error', err);
 			})

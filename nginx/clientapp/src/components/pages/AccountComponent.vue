@@ -75,7 +75,7 @@ export default {
 <style lang="scss" scoped>
 #bg-image {
   background-image: url("./../../assets/backgrounds/account_bg.png");
-  height: 100vh;
+  height: 100%;
 }
 
 .text-group {

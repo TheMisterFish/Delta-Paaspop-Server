@@ -60,7 +60,7 @@ export default {
 $maxHeight: calc(100vh - 180px - #{$navHeight});
 #bg-image {
   background-image: url("./../../assets/backgrounds/leaderboard_bg.png");
-  height: 100vh;
+  height: 100%;
 }
 .card {
   height: $maxHeight;
