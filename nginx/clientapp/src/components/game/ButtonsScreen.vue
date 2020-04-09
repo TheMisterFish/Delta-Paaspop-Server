@@ -104,15 +104,15 @@ export default {
 <style lang="scss" scoped>
 #bg-image_1 {
   background-image: url("./../../assets/backgrounds/game_bg_1.png");
-  height: 100vh;
+  height: 100%;
 }
 #bg-image_2 {
   background-image: url("./../../assets/backgrounds/game_bg_2.png");
-  height: 100vh;
+  height: 100%;
 }
 #bg-image_3 {
   background-image: url("./../../assets/backgrounds/game_bg_3.png");
-  height: 100vh;
+  height: 100%;
 }
 
 .item {

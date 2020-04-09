@@ -266,7 +266,7 @@ export default {
 <style lang="scss" scoped>
 #bg-image {
   background-image: url("./../../assets/backgrounds/register_bg.png");
-  height: 100vh;
+  height: 100%;
 }
 .btn {
   margin-top: 20px !important;
