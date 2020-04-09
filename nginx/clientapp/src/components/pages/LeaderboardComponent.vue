@@ -57,7 +57,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$maxHeight: calc(100vh - 140px - #{$navHeight});
+$maxHeight: calc(100vh - 180px - #{$navHeight});
 #bg-image {
   background-image: url("./../../assets/backgrounds/leaderboard_bg.png");
   height: 100vh;

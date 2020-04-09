@@ -125,7 +125,6 @@ exports.stop_game_game = async function (req, res) {
 	});
 }
 exports.start_round = async function (req, res) {
-	console.log("?");
 	History.findOne({
 			gameEnded: null
 		}).then(function (current_game) {

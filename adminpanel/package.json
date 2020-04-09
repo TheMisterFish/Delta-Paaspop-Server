@@ -33,6 +33,7 @@
     "osc-js": "^2.1.0",
     "pug": "^2.0.4",
     "random-token": "0.0.8",
+    "serve-favicon": "^2.5.0",
     "websocket": "^1.0.31"
   },
   "devDependencies": {

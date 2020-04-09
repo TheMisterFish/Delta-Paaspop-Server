@@ -6,12 +6,16 @@ const app = express()
 const port = process.env.PORT;
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const favicon = require('serve-favicon')
 var cors = require('cors')
 
+// Use cors
 app.use(cors({
 	credentials: true,
 	origin: true
 }))
+
+
 
 // Import all database related things (models and stuff)
 import db from './server/db'
@@ -36,6 +40,8 @@ require('./server/db')(app);
 
 // Set momentJS
 app.locals.moment = require('moment');
+// Use favicon
+app.use(favicon(path.join(__dirname, '/front-end/public', 'favicon.ico')))
 // Set frontend things
 app.set('view engine', 'pug')
 app.set('public', path.join(__dirname, '/front-end/public'));

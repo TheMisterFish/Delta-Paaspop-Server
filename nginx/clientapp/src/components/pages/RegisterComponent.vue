@@ -8,12 +8,13 @@
         <div class="page_title">Regristreren</div>
       </div>
       <div class="row">
-        <div class="card">
-          <transition name="fade">
-            <div
-              class="content"
-              v-if="show == 'register'"
-            >
+        <transition name="fade">
+          <div
+            class="card"
+            v-if="show == 'register'"
+          >
+
+            <div class="content">
               <form @submit.prevent="register">
                 <div class="card-body">
                   <div class="form-group">
@@ -146,12 +147,15 @@
                 </div>
               </form>
             </div>
-          </transition>
-          <transition name="fade">
-            <div
-              class="content"
-              v-if="show == 'success'"
-            >
+          </div>
+        </transition>
+        <transition name="fade">
+          <div
+            class="card"
+            v-if="show == 'success'"
+          >
+
+            <div class="content">
               <div class="card-body">
                 <h1>Je hebt als het goed is een e-mail gekregen.</h1>
                 <div class="mail_icon ">
@@ -165,9 +169,8 @@
                 </div>
               </div>
             </div>
-          </transition>
-
-        </div>
+          </div>
+        </transition>
       </div>
     </div>
   </div>
@@ -249,7 +252,10 @@ export default {
 
       AuthApi.register({ email, password, nickname })
         .then(() => {
-          this.show = "success";
+          this.show = "";
+          setTimeout(() => {
+            this.show = "success";
+          }, 500);
         })
         .catch((this.sending = false));
     }
