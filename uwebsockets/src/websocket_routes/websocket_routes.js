@@ -12,32 +12,35 @@ module.exports = function (app) {
 		open: (ws, req) => {
 			let client = funcs.getHeaderObject(req);
 			middleware.game_running().then((game) => {
-				if (middleware.ws_is_admin(ws, client)) {
-					if (debug)
-						console.log("A admin joined the /admin channel");
-					ws.role = "admin";
-					ws.subscribe('admin_channel');
-				} else if (game != undefined) {
-					if (middleware.ws_is_user(ws, client)) {
-						ws.role = "user";
-						ws.subscribe('user_channel');
+				middleware.ws_check_role(ws, client).then(role => {
+					if (role == "admin") {
 						if (debug)
-							console.log("User joinend user channel '/users' for the game: ", game)
-						ws.publish('admin', "User joined user channel: ", game);
-					} else if (middleware.ws_is_game(ws, client)) {
+							console.log("A admin joined the /admin channel");
+						ws.role = "admin";
+						ws.subscribe('admin_channel');
+					} else if (role == "game") {
 						ws.role = "game";
 						ws.subscribe('game_channel');
 						if (debug)
 							console.log("Game joinend user channel '/game' for the game: ", game)
 						ws.publish('admin', "User joined user channel: ", game);
+					} else if (game != undefined) {
+						if (role == "user") {
+							ws.role = "user";
+							ws.subscribe('user_channel');
+							if (debug)
+								console.log("User joinend user channel '/users' for the game: ", game)
+							ws.publish('admin', "User joined user channel: ", game);
+						} else {
+							if (debug)
+								console.log("Client tried to join but failed");
+							ws.close();
+						}
 					} else {
-						if (debug)
-							console.log("Client tried to join /user but failed");
 						ws.close();
 					}
-				} else {
-					ws.close();
-				}
+				})
+
 			});
 		},
 		/* For brevity we skip the other events */

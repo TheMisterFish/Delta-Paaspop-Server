@@ -117,7 +117,6 @@ tbody tr {
   width: 100%;
   table-layout: fixed;
   td {
-    border-bottom: 0.25px solid white;
     padding-top: 7.5px;
 		word-wrap: break-word;         /* All browsers since IE 5.5+ */
     overflow-wrap: break-word;     /* Renamed property in CSS3 draft spec */

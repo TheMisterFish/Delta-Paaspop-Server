@@ -86,14 +86,14 @@ export default {
     } else if (this.$route.params.game) {
       this.game = this.$route.params.game;
       this.$connect("ws://localhost:9000/", {
-        protocol: "token:" + this.game.game_token,
+        protocol: "token." + this.game.game_token,
         store: this.$store
       });
 			this.$store.dispatch("joinGame", this.game);
     } else if (this.$store.getters.inGame) {
       this.game = this.$store.getters.game;
       this.$connect("ws://localhost:9000/", {
-        protocol: "token:" + this.game.game_token,
+        protocol: "token." + this.game.game_token,
         store: this.$store
       });
     }
@@ -148,6 +148,12 @@ export default {
       }
       if ("status" in message) {
         this.game_data.status = message.status;
+			}
+			if ("userStatus" in message) {
+				let me = this.$store.getters.user.nickname;
+        if (message.userStatus[0] == me) {
+					this.game_data.status = message.userStatus[1];
+				}
       }
       if ("header" in message) {
         this.game_data.header = message.header;
