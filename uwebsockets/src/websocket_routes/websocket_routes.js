@@ -13,6 +13,7 @@ module.exports = function (app) {
 			let client = funcs.getHeaderObject(req);
 			middleware.game_running().then((game) => {
 				middleware.ws_check_role(ws, client).then(role => {
+					console.log(role);
 					if (role == "admin") {
 						if (debug)
 							console.log("A admin joined the /admin channel");
@@ -21,8 +22,10 @@ module.exports = function (app) {
 					} else if (role == "game") {
 						ws.role = "game";
 						ws.subscribe('game_channel');
-						if (debug)
+						if (debug & game != undefined)
 							console.log("Game joinend user channel '/game' for the game: ", game)
+						if (debug & game == undefined)
+							console.log("Game joinend user channel '/game' (no game running")
 						ws.publish('admin', "User joined user channel: ", game);
 					} else if (game != undefined) {
 						if (role == "user") {

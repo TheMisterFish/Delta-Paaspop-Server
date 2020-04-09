@@ -38,6 +38,9 @@ exports.login = async function (req, res) {
 			req.session.admin = admin._id;
 			res.redirect('/');
 		}
+	}).catch((error) => {
+		console.log(error)
+		res.status(500).send(error);
 	});
 }
 exports.logout = async function (req, res) {
@@ -89,28 +92,32 @@ exports.get_home = async function (req, res) {
 		}),
 	]);
 	History.findOne({
-		_id: {
-			$exists: true
-		}
-	}, {}, {
-		sort: {
-			'createdAt': -1
-		}
-	}).populate('game').then(function (history) {
-		if (history && history.game) {
-			data.last_game = history;
-			if (history.gameEnded == null)
-				data.current_game = true;
-			for (var i = 0; i < data.games.length; i++)
-				if (data.games[i].name === history.game.name)
-					data.next_game = data.games[i + 1] != undefined ? data.games[i + 1] : data.games[0];
-		} else {
-			data.next_game = data.games[Object.keys(data.games)[0]];
-		}
-		data.osc_status = osc_connection.osc_status();
+			_id: {
+				$exists: true
+			}
+		}, {}, {
+			sort: {
+				'createdAt': -1
+			}
+		}).populate('game').then(function (history) {
+			if (history && history.game) {
+				data.last_game = history;
+				if (history.gameEnded == null)
+					data.current_game = true;
+				for (var i = 0; i < data.games.length; i++)
+					if (data.games[i].name === history.game.name)
+						data.next_game = data.games[i + 1] != undefined ? data.games[i + 1] : data.games[0];
+			} else {
+				data.next_game = data.games[Object.keys(data.games)[0]];
+			}
+			data.osc_status = osc_connection.osc_status();
 
-		res.render('index', data);
-	})
+			res.render('index', data);
+		})
+		.catch((error) => {
+			console.log(error)
+			res.status(500).send(error);
+		});
 
 }
 exports.get_users = async function (req, res) {
@@ -122,25 +129,29 @@ exports.get_users = async function (req, res) {
 	 * @return { res } render index with users screen
 	 */
 	User.find({}, {}, {
-		$sortByCount: 'points'
-	}).populate('points').then(function (users) {
-		var transformedUsers = users.map(function (user) {
-			return user.toJSON();
-		});
-		for (let q = 0; q < transformedUsers.length; q++) {
-			const element = transformedUsers[q];
-			let total_points = 0;
-			element.points.forEach(points => {
-				total_points += points.points;
+			$sortByCount: 'points'
+		}).populate('points').then(function (users) {
+			var transformedUsers = users.map(function (user) {
+				return user.toJSON();
 			});
-			transformedUsers[q].totalPoints = total_points;
-		}
+			for (let q = 0; q < transformedUsers.length; q++) {
+				const element = transformedUsers[q];
+				let total_points = 0;
+				element.points.forEach(points => {
+					total_points += points.points;
+				});
+				transformedUsers[q].totalPoints = total_points;
+			}
 
-		res.render('index', {
-			screen: 'users',
-			users: transformedUsers
+			res.render('index', {
+				screen: 'users',
+				users: transformedUsers
+			})
 		})
-	})
+		.catch((error) => {
+			console.log(error)
+			res.status(500).send(error);
+		});
 }
 exports.get_user = async function (req, res) {
 	/**
@@ -151,38 +162,42 @@ exports.get_user = async function (req, res) {
 	 * @return { res } render index with user screen
 	 */
 	User.findOne({
-		_id: req.params.id
-	}).populate({
-		path: 'points',
-		populate: {
-			path: 'history',
-			model: 'History',
+			_id: req.params.id
+		}).populate({
+			path: 'points',
 			populate: {
-				path: 'game',
-				model: 'Game'
-			}
-		},
-	}).then(function (user) {
-		var transformedUsers = user.toJSON();
-		console
-		let total_points = 0;
-		transformedUsers.points.forEach(points => {
-			total_points += points.points;
-		});
+				path: 'history',
+				model: 'History',
+				populate: {
+					path: 'game',
+					model: 'Game'
+				}
+			},
+		}).then(function (user) {
+			var transformedUsers = user.toJSON();
+			console
+			let total_points = 0;
+			transformedUsers.points.forEach(points => {
+				total_points += points.points;
+			});
 
-		transformedUsers.totalPoints = total_points;
-		console.log(transformedUsers);
-		if (!user) {
-			res.send("no user found?")
-		} else {
-			res.render('index', {
-				screen: 'user',
-				user: transformedUsers,
-				breadcrumbs: [
-					['gebruikers', 'users'],
-					[user.email]
-				]
-			})
-		}
-	})
+			transformedUsers.totalPoints = total_points;
+			console.log(transformedUsers);
+			if (!user) {
+				res.send("no user found?")
+			} else {
+				res.render('index', {
+					screen: 'user',
+					user: transformedUsers,
+					breadcrumbs: [
+						['gebruikers', 'users'],
+						[user.email]
+					]
+				})
+			}
+		})
+		.catch((error) => {
+			console.log(error)
+			res.status(500).send(error);
+		});
 }

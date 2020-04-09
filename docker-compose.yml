@@ -7,7 +7,8 @@ networks:
 
 services:
   # uwebsockets for socket connections
-  websocket_server:
+  ps_uwebsockets:
+    container_name: "ps_uwebsockets"
     build:
       context: ./uwebsockets
     ports:
@@ -15,64 +16,43 @@ services:
     networks:
       - paaspop_bridge
   # Admin panel vor VJ crew
-  admin_panel:
+  ps_adminpanel:
     build:
       context: ./adminpanel
-    container_name: admin_panel
+    container_name: "ps_adminpanel"
     depends_on:
       - db
-      - nginx
     networks:
       - paaspop_bridge
     expose:
-      - "8080"
-  # Client side app & games
-  client_app:
-    build:
-      context: ./clientapp
-    container_name: client_app
-    depends_on:
-      - db
-      - nginx
-    networks:
-      - paaspop_bridge
-    expose:
-      - "8080"
-  # maria DB & Adminner for database
+      - "5454"
   db:
-    image: mariadb
-    restart: always
-    ports:
-      - 3306:3306
+    image: mongo:latest
+    container_name: "ps_mongodb"
     networks:
       - paaspop_bridge
-    depends_on:
-      - nginx
+    command: [--auth]
     environment:
-      MYSQL_ROOT_PASSWORD: Q*+wGDhC8N_@Kw!7Vuw9b=YDwgeubm^z
-      MYSQL_DATABASE: paaspop
-      MYSQL_USER: mariadb
-      MYSQL_PASSWORD: mmEEEaQ*a%q!p89&szsa^bg9fBrD_#rt
-
-  adminer:
-    image: adminer
-    restart: always
-    depends_on:
-      - db
-      - nginx
+      MONGO_INITDB_ROOT_USERNAME: paaspopadminaccount
+      MONGO_INITDB_ROOT_PASSWORD: J836jlXcJW2JgLDQdiBz
+      MONGO_INITDB_DATABASE: paaspopserver
+    volumes:
+      - ./data/db:/data/db
     ports:
-      - 5876:5876
-  # Nginx as firewall + port control?
+        - 27017:27017
   nginx:
+    container_name: "ps_nginx"
     build:
       context: ./nginx
     logging:
-      driver: syslog
       options:
         tag: "{{.DaemonName}}(image={{.ImageName}};name={{.Name}};id={{.ID}})"
     networks:
       - paaspop_bridge
     ports:
       - '80:80'
+      - '6942:6942'
       - '5454:5454'
     restart: on-failure
+    depends_on:
+      - ps_adminpanel

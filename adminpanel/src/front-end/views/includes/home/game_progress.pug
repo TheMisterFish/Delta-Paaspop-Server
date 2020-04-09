@@ -6,7 +6,6 @@ div.card(class=current_game==true ? "display-none" : "")
 		div.col.col-lg-6 
 			h6 Acties
 			button(onClick="start_game('"+next_game._id+"')").button.button-success.button-small spel starten
-			button(onClick="osc_toggle()").button.button-warning.button-small OSC uitzetten
 		div.col.col-lg-6
 			div Volgende spel: 
 				b=next_game.name
@@ -30,7 +29,6 @@ if last_game.game
 				h6 Acties
 				button(onClick="start_round()", disabled=last_game.roundStarted).button.button-success.button-small Start eerste ronde
 				button(onClick="openModal('stop_game')").button.button-danger.button-small Snel stoppen
-				button(onClick="osc_toggle()").button.button-warning.button-small OSC uitzetten
 
 			div.col.col-lg-8
 				h6 Progress

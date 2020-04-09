@@ -23,7 +23,7 @@ async function closeModal() {
 
 	model_mask.classList.add("fadeOut");
 
-	await wait(500).then(function (nothing) {
+	await wait(500).then(function () {
 		model_title.innerHTML = "";
 		model_text.innerHTML = "";
 		model_footer.innerHTML = "";
