@@ -26,7 +26,7 @@ services:
     networks:
       - paaspop_bridge
     expose:
-      - "8080"
+      - "5454"
   db:
     image: mongo:latest
     container_name: "ps_mongodb"
