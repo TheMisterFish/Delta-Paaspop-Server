@@ -2,8 +2,7 @@ var token = document.getElementById('token').innerText;
 var route = document.getElementById('route').innerText;
 var textbox = document.getElementById('socketChannel');
 var message = document.getElementById('message');
-
-let socket = new WebSocket('ws://' + location.host + ': 9000 ', ["token", token]);
+let socket = new WebSocket('ws://' + location.hostname + ': 9000 ', ["token", token]);
 
 		var input = document.getElementById("message");
 
@@ -15,7 +14,7 @@ let socket = new WebSocket('ws://' + location.host + ': 9000 ', ["token", token]
 		});
 
 		socket.onopen = function (e) {
-			addText("[status] Connected to ws://" + location.host + ":9000");
+			addText("[status] Connected to ws://" + location.hostname + ":9000");
 		}; socket.onmessage = function (event) {
 			addText(`[message] Data received from server: ${event.data}`);
 		};
