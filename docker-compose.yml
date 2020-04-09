@@ -51,6 +51,7 @@ services:
       - paaspop_bridge
     ports:
       - '80:80'
+      - '6942:6942'
       - '5454:5454'
     restart: on-failure
     depends_on:
