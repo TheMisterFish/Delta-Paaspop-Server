@@ -12,7 +12,7 @@ services:
     build:
       context: ./uwebsockets
     ports:
-      - 9000:9000
+      - "9000"
     networks:
       - paaspop_bridge
   # Admin panel vor VJ crew
@@ -51,6 +51,7 @@ services:
       - '80:80'
       - '6942:6942'
       - '5454:5454'
+      - '9000:9000'
     restart: on-failure
     depends_on:
       - ps_adminpanel
