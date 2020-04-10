@@ -65,10 +65,6 @@ var wsMessage = function (event) {
 	} else if (messageJSON.startGame != null) {
 		let game = messageJSON.startGame;
 
-		if (game.includes(".html") === false) {
-			game += ".html";
-		}
-
 		loadGame(game);
 	}
 }
