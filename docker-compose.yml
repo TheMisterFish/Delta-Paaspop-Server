@@ -36,8 +36,6 @@ services:
       MONGO_INITDB_ROOT_USERNAME: paaspopadminaccount
       MONGO_INITDB_ROOT_PASSWORD: J836jlXcJW2JgLDQdiBz
       MONGO_INITDB_DATABASE: paaspopserver
-    volumes:
-      - ./data/db:/data/db
     ports:
         - 27017:27017
   nginx:
