@@ -1,7 +1,7 @@
 const wsgametoken = "klw0xrls0yHEmvdyZnWhrRRCsEjlD7mk";
 const pointstoken = "CJ3avghqang2OY22YE6ca6ikwzzdk6mP";
 const logMessages = true;
-const debugMode = true;
+const debugMode = false;
 const socketurl = "ws://" + location.hostname + ":9000";
 
 var socket;
@@ -189,12 +189,33 @@ function nextRound(buttons) {
 				token: pointstoken
 			});
 		} else {
-			$.post("/game/round_start", {
+			$.post("http://" + location.hostname + ":6942/game/round_start", {
 				token: pointstoken
 			}); // production
 		}
 		log("Sent POST request");
 	}
+}
+
+/**
+ * Send user won points in array
+ * Points = array with JSON data [{'user_id':id, 'points':points}]
+ * @param {*} points 
+ */
+function sendPoints(points){
+	log("Sending POST request to panel 'points apply'");
+	if (debugMode) {
+		$.post("http://localhost:5454/points/apply", {
+			token: pointstoken,
+			points: points
+		});
+	} else {
+		$.post("http://" + location.hostname + ":6942/points/apply", {
+			token: pointstoken,
+			points: points
+		}); // production
+	}
+	log("Sent POST request");
 }
 
 /**
@@ -347,7 +368,7 @@ function stopGame() {
 			token: pointstoken
 		});
 	} else {
-		$.post("/game/stop_game", {
+		$.post("http://" + location.hostname + ":6942/game/stop_game", {
 			token: pointstoken
 		}); // production
 	}
