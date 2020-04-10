@@ -127,7 +127,7 @@ export default {
 <style lang="scss" scoped>
 #bg-image {
   background-image: url("./../../assets/backgrounds/login_bg.png");
-  height: 100vh;
+  height: 100%;
 }
 .error-message {
   text-align: center;
