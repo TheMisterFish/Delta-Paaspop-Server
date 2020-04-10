@@ -65,10 +65,6 @@ var wsMessage = function (event) {
 	} else if (messageJSON.startGame != null) {
 		let game = messageJSON.startGame;
 
-		if (game.includes(".html") === false) {
-			game += ".html";
-		}
-
 		loadGame(game);
 	}
 }
@@ -189,12 +185,33 @@ function nextRound(buttons) {
 				token: pointstoken
 			});
 		} else {
-			$.post("/game/round_start", {
+			$.post("http://" + location.hostname + ":6942/game/round_start", {
 				token: pointstoken
 			}); // production
 		}
 		log("Sent POST request");
 	}
+}
+
+/**
+ * Send user won points in array
+ * Points = array with JSON data [{'user_id':id, 'points':points}]
+ * @param {*} points 
+ */
+function sendPoints(points){
+	log("Sending POST request to panel 'points apply'");
+	if (debugMode) {
+		$.post("http://localhost:5454/points/apply", {
+			token: pointstoken,
+			points: points
+		});
+	} else {
+		$.post("http://" + location.hostname + ":6942/points/apply", {
+			token: pointstoken,
+			points: points
+		}); // production
+	}
+	log("Sent POST request");
 }
 
 /**
@@ -347,7 +364,7 @@ function stopGame() {
 			token: pointstoken
 		});
 	} else {
-		$.post("/game/stop_game", {
+		$.post("http://" + location.hostname + ":6942/game/stop_game", {
 			token: pointstoken
 		}); // production
 	}
