@@ -1,0 +1,25 @@
+{
+  "name": "paaspopquiz",
+  "version": "1.0.0",
+  "description": "## Usage",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-css": "node-sass --include-path scss styles/main.scss styles/main.min.css --output-style compressed",
+    "watch-css": "nodemon -e scss -x \"npm run build-css\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://git.fhict.nl/I412182/paaspopquiz.git"
+  },
+  "author": "Sven Jeurgens",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://git.fhict.nl/I412182/paaspopquiz/issues"
+  },
+  "homepage": "https://git.fhict.nl/I412182/paaspopquiz#readme",
+  "dependencies": {
+    "node-sass": "^4.13.1",
+    "nodemon": "^2.0.2"
+  }
+}
