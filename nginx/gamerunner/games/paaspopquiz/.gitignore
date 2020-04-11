@@ -1,0 +1,5 @@
+# Node modules
+/node_modules
+
+# SASS mapping
+styles/main.min.css.map
