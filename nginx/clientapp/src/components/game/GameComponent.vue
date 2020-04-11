@@ -1,11 +1,12 @@
 <template>
-  <div>
+  <div class="container">
     <transition name="fade">
       <component
         :is="currentScreen"
         :game_data="game_data"
         :key="componentKey"
         ref="actionRef"
+				style="position: absolute;"
       ></component>
     </transition>
 

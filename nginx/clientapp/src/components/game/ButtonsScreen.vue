@@ -3,47 +3,48 @@
     class="bg-image container"
     :id="'bg-image_'+background_id"
   >
-    <div class="header-container">
-      <span class="header">{{ game_data.header }}</span>
-    </div>
+    <div class="container">
 
-    <div class="button-container">
-      <div
-        v-for="button in game_data.buttons"
-        :key="button.id"
-      >
-        <div class="item">
-          <button
-            class="big-btn"
-            @click="send(button)"
-            :disabled="disableButtons"
-            :class="[{ 'big-btn-pressed': button == buttonPressed }, 
+      <div class="header-container">
+        <span class="header">{{ game_data.header }}</span>
+      </div>
+
+      <div class="button-container">
+        <div
+          v-for="button in game_data.buttons"
+          :key="button.id"
+        >
+          <div class="item">
+            <button
+              class="big-btn"
+              @click="send(button)"
+              :disabled="disableButtons"
+              :class="[{ 'big-btn-pressed': button == buttonPressed }, 
 						{'correct': button == correctAnswer &&  correctAnswer != null},
 						{'incorrect': button != correctAnswer && button == buttonPressed  && correctAnswer != null},
 						{'single-btn': game_data.buttons.length == 1}
 						]"
-          >
-            {{ button }}
+            >
+              {{ button }}
 
-          </button>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
 
-		<div class="footer-container">
-      <span class="footer">{{ game_data.footer }}</span>
-    </div>
+      <div class="footer-container">
+        <span class="footer">{{ game_data.footer }}</span>
+      </div>
 
+    </div>
   </div>
 </template>
 
 <script>
-import {
-	ActionBus
-} from '../../busses/ActionBus';
+import { ActionBus } from "../../busses/ActionBus";
 
 export default {
-	name: 'buttonScreen',
+  name: "buttonScreen",
   props: {
     game_data: {
       type: Object,
@@ -59,33 +60,33 @@ export default {
     };
   },
   mounted() {
-		this.background_id = Math.floor(Math.random() * 3) + 1;
-		ActionBus.$on('action', action => {
-			this.action(action);
-		})
+    this.background_id = Math.floor(Math.random() * 3) + 1;
+    ActionBus.$on("action", action => {
+      this.action(action);
+    });
   },
   methods: {
     send(button) {
       this.disableButtons = true;
       this.buttonPressed = button;
       let data = {
-				user: this.$store.getters.user.nickname,
-				id: this.$store.getters.user.id,
+        user: this.$store.getters.user.nickname,
+        id: this.$store.getters.user.id,
         answer: button
       };
       this.$store.dispatch("sendMessage", { data });
-		},
-		action(action){
-			if (action && this.buttonPressed != null) {
-          if (action == "again") {
-            this.game_data.action = "";
-            setTimeout(() => {
-              this.disableButtons = false;
-              this.buttonPressed = "";
-            }, 200);
-          }
+    },
+    action(action) {
+      if (action && this.buttonPressed != null) {
+        if (action == "again") {
+          this.game_data.action = "";
+          setTimeout(() => {
+            this.disableButtons = false;
+            this.buttonPressed = "";
+          }, 200);
         }
-		}
+      }
+    }
   }
 };
 </script>
@@ -157,10 +158,10 @@ export default {
   -webkit-box-shadow: -5px 5px 0px 2px rgba(0, 0, 0, 1);
   -moz-box-shadow: -5px 5px 0px 2px rgba(0, 0, 0, 1);
   box-shadow: -5px 5px 0px 2px rgba(0, 0, 0, 1);
-	&.single-btn{
-		width: 80vw!important;
-		height: 80vw!important;
-	}
+  &.single-btn {
+    width: 80vw !important;
+    height: 80vw !important;
+  }
 }
 
 .big-btn-pressed {

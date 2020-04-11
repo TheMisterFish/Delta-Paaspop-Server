@@ -47,7 +47,7 @@
               </div>
               <div class="card-footer">
                 Nog geen account?
-                <router-link to="/register">Regristreren</router-link>
+                <router-link to="/register">Registreren</router-link>
               </div>
             </div>
           </form>
