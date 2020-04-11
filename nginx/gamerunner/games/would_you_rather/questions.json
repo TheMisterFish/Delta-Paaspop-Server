@@ -1,0 +1,354 @@
+[
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "moeten zingen voor vreemden",
+            "moeten zingen voor bekenden"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "slecht optreden favoriete band",
+            "optreden van favoriete band afgelast"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "the beatles",
+            "queen"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "de hele dag crocs aan",
+            "de hele dag geen schoenen aan"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "max. 1 festival per jaar, maar gratis",
+            "2 keer zoveel betalen voor festivals"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "eerst de cornflakes",
+            "eerst de melk"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "kauwgom in mijn haar",
+            "haar in mijn kauwgom"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "Geen wifi thuis",
+            "geen verwarming thuis"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "tijdreizen",
+            "teleporteren"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "YouTube",
+            "Netflix"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "geen social media",
+            "geen Google"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "gedachten kunnen lezen",
+            "door dingen heen kunnen zien"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "eerst het goede nieuws",
+            "eerst het slechte nieuws"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "een week niet douchen",
+            "een week niet tanden poetsen"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "Een verstopte neus",
+            "Een loopneus"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "Volledig zichtverlies",
+            "Volledig gehoorverlies"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "een dagje naar een pretpark",
+            "een dagje naar het strand"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "een extra weekenddag",
+            "een extra maand zomervakantie"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "Onzichtbaar kunnen zijn",
+            "Onhoorbaar kunnen zijn"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "enkel muziek van favoriete act",
+            "nooit meer muziek van deze act"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "een hond",
+            "een kat"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "Niet meer kunnen lezen",
+            "Niet meer kunnen spreken"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "werk dat erg goed verdient",
+            "Werk waar je van houdt"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "alles zeggen wat je denkt",
+            "niets meer kunnen zeggen"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "pizza",
+            "friet"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "de loterij winnen",
+            "2 keer zo lang leven"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "Bekendheid inclusief de paparazzi",
+            "een gewoon leven inclusief de privacy"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "een talent voor zingen",
+            "een talent voor dansen"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "geen korte- termijngeheugen",
+            "geen lange- termijngeheugen"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "IOS (Apple)",
+            "Android"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "Disney films",
+            "Marvel films"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "question" : "What would you rather?",
+        "answers" : [
+            "Constant doorweekte kleding",
+            "2 keer zo lang leven"
+        ],
+        "ButtonText": [
+            "A",
+            "B"
+        ]
+    }
+]
