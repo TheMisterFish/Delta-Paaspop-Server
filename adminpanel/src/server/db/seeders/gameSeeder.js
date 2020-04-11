@@ -13,6 +13,19 @@ async function seedGames() {
 			responseAnswer: "again",
 			image: "default.jpg"
 		},
+		{
+			name: 'paaspopquiz',
+			joinMidGame: true,
+			responseAnswer: "wait",
+			image: "default.jpg"
+		},
+		{
+			name: 'Knikkerbaan',
+			joinMidGame: false,
+			responseAnswer: "wait",
+			image: "default.jpg"
+		},
+
 	];
 	for (let index = 0; index < games.length; index++) {
 

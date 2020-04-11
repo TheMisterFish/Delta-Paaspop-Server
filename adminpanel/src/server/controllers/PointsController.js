@@ -40,10 +40,8 @@ exports.apply_points = async function (req, res) {
 		return res.status(400).send("No points."); //Error: No game is running.
 	if (!Array.isArray(points))
 		return res.status(405).send("Points are not in array format")
-	console.log(points);
-	const maxPoints = Math.max.apply(Math, points.map(function (o) {
-		return o.points;
-	}))
+
+	const maxPoints = points.reduce((previous, current) => (previous.points > current.points) ? previous : current).points;
 
 	//Find active game
 	var history = await History.findOne({
@@ -56,6 +54,7 @@ exports.apply_points = async function (req, res) {
 	if (!reason)
 		reason = "Points for game " + history.game.name
 	//TODO: Check if input is correctly formatted
+
 	let pointPercentage, fullPoints;
 	points.forEach(user => {
 		pointPercentage = user.points * 100 / maxPoints;
@@ -64,7 +63,6 @@ exports.apply_points = async function (req, res) {
 		user.paaspopPoints = Math.ceil(fullPoints)
 	});
 	var pointArray = convertToPointObjectArray(history, reason, points)
-	console.log(pointArray);
 
 	for (let y = 0; y < pointArray.length; y++) {
 		const point = pointArray[y];
@@ -78,13 +76,12 @@ exports.apply_points = async function (req, res) {
 	}
 	Point.insertMany(pointArray)
 		.then(async function (doc) {
-			console.log(pointArray)
-			history.points.push.apply(Array.from(pointArray.map(p => p._id)));
-			history.users.push.apply(Array.from((pointArray.map(p => p.user))));
+			history.points.push(pointArray.map(p => p._id));
+			history.users.push(pointArray.map(p => p.user));
 			let game = await Game.findOne({
 				_id: history.game._id
 			});
-			game.points.push.apply(Array.from((pointArray.map(p => p._id))));
+			game.points.push(pointArray.map(p => p._id));
 			history.save();
 			game.save();
 			res.status(200).send(doc);

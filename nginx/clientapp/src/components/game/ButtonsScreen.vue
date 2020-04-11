@@ -86,17 +86,6 @@ export default {
           }
         }
 		}
-  },
-  watch: {
-    game_data: {
-      deep: true,
-      handler(gameData) {
-        if ("answer" in gameData) {
-          this.correctAnswer = gameData.answer;
-          this.disableButtons = true;
-        }
-      }
-    }
   }
 };
 </script>

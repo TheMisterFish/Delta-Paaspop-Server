@@ -54,12 +54,14 @@ var wsMessage = function (event) {
 
 	if (messageJSON.data != null &&
 		messageJSON.data.user != null &&
-		messageJSON.data.answer != null) {
+		messageJSON.data.answer != null &&
+		messageJSON.data.id != null) {
 
 		let nickname = messageJSON.data.user;
 		let answer = messageJSON.data.answer;
+		let userid = messageJSON.data.id;
 
-		userInput(nickname, answer);
+		userInput(nickname, userid, answer);
 	} else if (messageJSON.stopGame != null) {
 		forceStop();
 	} else if (messageJSON.startGame != null) {
@@ -124,13 +126,14 @@ var startGame = function (name) {
  * Called by websockets
  * Sends user input to game
  * @param {String} user nickname
+ * @param {int} userId id of user
  * @param {int} data button pressed
  */
-var userInput = function (user, data) {
+var userInput = function (user, userId, data) {
 	try {
-		gameUserInput(user, data);
+		gameUserInput(user, userId, data);
 	} catch (error) {
-		log("Gamerunner: sent data '" + data + "' from user '" + user + "' to game, but noones listening :(");
+		log("Gamerunner: sent data '" + data + "' from user '" + user + "'(" + userId + ") to game, but noones listening :(");
 	}
 }
 

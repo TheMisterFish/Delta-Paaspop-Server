@@ -146,6 +146,7 @@ export default {
         this.componentKey = this.componentKey + 1;
         this.currentScreen = "ButtonsScreen";
         this.game_data.answer = null;
+        this.game_data.action = "";
       }
       if ("status" in message) {
         this.game_data.status = message.status;
