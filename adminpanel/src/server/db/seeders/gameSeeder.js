@@ -8,10 +8,10 @@ async function seedGames() {
 		image: "default.jpg"
 	},
 	{
-		name: 'Knikkerbaan',
+		name: 'knikkerbaan',
 		joinMidGame: false,
 		responseAnswer: "wait",
-		image: "Knikkerbaan.jpg"
+		image: "knikkerbaan.jpg"
 	},
 	{
 		name: 'horserace',
