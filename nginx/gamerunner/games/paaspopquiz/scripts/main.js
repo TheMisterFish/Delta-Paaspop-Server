@@ -213,7 +213,7 @@ async function loadData() {
 
     console.log('1) Loading JSON data');
 
-    var response = await fetch('data/quiz_data.json');
+    var response = await fetch('games/paaspopquiz/data/quiz_data.json');
     var json = await response.json();
     return json;
 
