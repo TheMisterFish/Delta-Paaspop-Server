@@ -31,7 +31,7 @@
                   placeholder="Wachtwoord"
                   :disabled="sending"
                 >
-                <label for="password">Vul je email adress in</label>
+                <label for="password">Vul je wachtwoord in</label>
               </div>
               <div
                 class="error-message"
