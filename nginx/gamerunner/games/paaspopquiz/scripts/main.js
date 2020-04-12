@@ -300,19 +300,18 @@ async function quizItemActive(data, quizNumber, quizItemNumber, seconds) {
 
                 // If the correct answer is A, display it
                 if (correctQuizAnswer == 0) {
-                    document.getElementById("answer-a").style.backgroundColor = "#00ff80"
-                    sendAnswer("A")
+                    document.getElementById("answer-a").style.backgroundColor = "#00ff80";
+                    sendAnswer("A");
                 }
                 // If the correct answer is B, display it
                 else if (correctQuizAnswer == 1) {
-                    document.getElementById("answer-b").style.backgroundColor = "#00ff80"
-                    sendAnswer("B")
+                    document.getElementById("answer-b").style.backgroundColor = "#00ff80";
+                    sendAnswer("B");
                 }
                 // If the correct answer is C, display it 
                 else if (correctQuizAnswer == 2) {
-                    document.getElementById("answer-c").style.backgroundColor = "#00ff80"
-                    sendAnswer("C")
-
+                    document.getElementById("answer-c").style.backgroundColor = "#00ff80";
+                    sendAnswer("C");
                 }
 
                 // Add the user the awarded points to the user score list.
