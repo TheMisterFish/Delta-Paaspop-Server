@@ -96,7 +96,7 @@ var wsOpen = function () {
 
 var wsClose = function () {
 	log('Websocket: connection closed');
-	if(autoConnect)
+	if (autoConnect)
 		connect()
 }
 
@@ -245,7 +245,7 @@ function sendPoints(points) {
  * @param {string} header 
  * @param {string} userNickname (optional)
  */
-function setLiveHeader(header, userNickname) {
+function setLiveHeader(header, userNickname = null) {
 	let data;
 	if (userNickname == null) {
 		data = {
@@ -254,6 +254,36 @@ function setLiveHeader(header, userNickname) {
 	} else {
 		data = {
 			userHeader: [userNickname, header]
+		};
+	}
+	let dataJSON = JSON.stringify(data);
+
+	wsSendData(dataJSON);
+}
+
+function setScreen(screen) {
+	if (screen != "status" || screen != "exit" || screen != "buttons") {
+		return "Wrong screens";
+	} else {
+		let data = {
+			switchScreen: screen,
+		};
+
+		let dataJSON = JSON.stringify(data);
+
+		wsSendData(dataJSON);
+	}
+}
+
+function setStatus(status, userNickname = null) {
+	let data;
+	if (userNickname == null) {
+		data = {
+			status: header
+		};
+	} else {
+		data = {
+			userStatus: [userNickname, status]
 		};
 	}
 	let dataJSON = JSON.stringify(data);
