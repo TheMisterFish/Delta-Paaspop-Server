@@ -1,4 +1,4 @@
-const baseUrl = windows.location + "/games/paaspop/";
+const baseUrl = location.hostname + ":6942/games/paaspop/";
 // Variables
 var $transitionOpen,
 	$transitionClose,
