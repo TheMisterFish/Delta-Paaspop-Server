@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     send(button) {
-      if (this.correctAnswer == null) {
+      if (this.correctAnswer == null && this.buttonPressed == null) {
         this.disableButtons = true;
         this.buttonPressed = button;
         let data = {
@@ -87,7 +87,7 @@ export default {
           this.game_data.action = "";
           setTimeout(() => {
             this.disableButtons = false;
-            this.buttonPressed = "";
+            this.buttonPressed = null;
           }, 200);
         }
       }
