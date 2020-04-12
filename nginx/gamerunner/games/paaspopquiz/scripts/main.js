@@ -263,7 +263,7 @@ function applyData(data, quizNumber, quizItemNumber) {
 	// Update DOM elements with values from data
 	$artistText.innerHTML = quiz.quizName;
 	$questionText.innerHTML = quizItem.question;
-	$artistImage.style.backgroundImage = `url('${baseUrl}${quizItem.imagePath}')`;
+	$artistImage.style.backgroundImage = `url('${baseUrl}/${quizItem.imagePath}')`;
 	$answerA.innerHTML = "A) " + quizItem.answers[0];
 	$answerB.innerHTML = "B) " + quizItem.answers[1];
 	$answerC.innerHTML = "C) " + quizItem.answers[2];
