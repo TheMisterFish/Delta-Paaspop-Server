@@ -71,7 +71,7 @@ World.add(world, [
 
 
 //Create Finish
-var finish = Bodies.rectangle(0, Height - 195, 500, 20, { isStatic: true, isSensor: true, render: { sprite: { texture: "Textures/finish.jpg", yScale: 0.2, xScale: 0.8 }} })
+var finish = Bodies.rectangle(0, Height - 195, 500, 20, { isStatic: true, isSensor: true, render: { sprite: { texture: "textures/finish.jpg", yScale: 0.2, xScale: 0.8 }} })
 World.add(world, [
     //Left Holder
     Bodies.rectangle(-150, Height - 95, 250, 20, { isStatic: true, angle: Math.PI * 0.3 ,render: { fillStyle: "#FFFFFF" } }),

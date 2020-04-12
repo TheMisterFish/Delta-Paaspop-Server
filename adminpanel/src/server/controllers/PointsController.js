@@ -79,7 +79,7 @@ exports.apply_points = async function (req, res) {
 			history.points.push(pointArray.map(p => p._id));
 			history.users.push(pointArray.map(p => p.user));
 			let game = await Game.findOne({
-				_id: history.game._id
+				_id: history.game._id 
 			});
 			game.points.push(pointArray.map(p => p._id));
 			history.save();
@@ -94,13 +94,14 @@ exports.apply_points = async function (req, res) {
 function convertToPointObjectArray(history, reason, userPointArray) {
 	var output = [];
 	let newPoint;
-	userPointArray.forEach(el => {
+	userPointArray.forEach(user => {
 		newPoint = new Point({
 			game: history.game._id,
 			history: history._id,
 			reason: reason,
-			points: el.paaspopPoints,
-			user: el.user_id
+			gamePoints: user.points,
+			points: user.paaspopPoints,
+			user: user.user_id
 		});
 		output.push(newPoint);
 	});
