@@ -6,6 +6,15 @@
     z-index: 20;
     visibility: hidden;
 
+    .main{
+        position: relative;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        height: calc(100vh - 150px);
+        width: calc(100vw - 150px);
+    }
+
     .header{
         height: 250px;
         display: block;

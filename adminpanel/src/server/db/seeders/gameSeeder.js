@@ -2,29 +2,23 @@ import Game from '../models/game'
 
 async function seedGames() {
 	var games = [{
-			name: 'test_game',
-			joinMidGame: true,
-			responseAnswer: "wait",
-			image: "default.jpg"
-		},
-		{
-			name: 'test_game2',
-			joinMidGame: false,
-			responseAnswer: "again",
-			image: "default.jpg"
-		},
-		{
-			name: 'paaspopquiz',
-			joinMidGame: true,
-			responseAnswer: "wait",
-			image: "default.jpg"
-		},
-		{
-			name: 'Knikkerbaan',
-			joinMidGame: false,
-			responseAnswer: "wait",
-			image: "default.jpg"
-		},
+		name: 'paaspopquiz',
+		joinMidGame: true,
+		responseAnswer: "wait",
+		image: "default.jpg"
+	},
+	{
+		name: 'knikkerbaan',
+		joinMidGame: false,
+		responseAnswer: "wait",
+		image: "knikkerbaan.jpg"
+	},
+	{
+		name: 'horserace',
+		joinMidGame: false,
+		responseAnswer: "wait",
+		image: "horserace.jpg"
+	}
 
 	];
 	for (let index = 0; index < games.length; index++) {

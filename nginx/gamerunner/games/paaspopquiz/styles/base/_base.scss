@@ -37,15 +37,6 @@ body {
     width: 100vw;
     height: 100vh;
 
-    .main{
-      position: relative;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%,-50%);
-      height: calc(100vh - 150px);
-      width: calc(100vw - 150px);
-    }
-
   }
 
   // Background

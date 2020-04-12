@@ -1,18 +1,20 @@
-const baseUrl = "/games/paaspop/";
 // Variables
 var $transitionOpen, 
     $transitionClose, 
     $screenStarting, 
     $screenQuestions, 
-    $screenEnding, 
+	$screenEnding, 
+	
+	baseUrl,			// The base URL for the paths
 
     quiz,               // The quiz number (index)
     quizItemStart,      // The quiz duration (seconds)
-    quizDuration,       // The quiz question duration (seconds)
+	quizDuration,       // The quiz question duration (seconds)
 
     users = [],         // All connected users
     minStartUsers,      // The minimum amount of users needed to start the game
-    isFirstStart,       // Whether this is the first time starting
+	isFirstStart,       // Whether this is the first time starting
+	extraStartTime,		// The time the start-screen will be displayed after the required minimum user amount is reached (seconds)
 
     userAnswers = [],   // stores all the answers given by users  | Example: {user:"username",userId:"Id",data:"A"}
     userScore = [],     // stores all the userIds and scores to be send to the API | Example: {user_Id:"id",points:80}
@@ -22,9 +24,6 @@ var $transitionOpen,
 
 // Initialize
 quizInit();
-
-// Toggle the footer of the gamerunner
-disableFooter();
 
 
 // Quiz init
@@ -37,13 +36,19 @@ function quizInit(){
 	$screenQuestions = document.getElementById('screen-questions');
 	$screenEnding = document.getElementById('screen-ending');
 
+	// Set the base URL for the paths
+	baseUrl = "/games/paaspopquiz";
+
     // Start the first quiz at the first item, and set the duration to 10 seconds
     quiz = 0;
     quizItemStart = 0;
-    quizDuration = 10;
+    quizDuration = 20;
 
     // Define the minimum amount of users needed to start the game
-    minStartUsers = 1;
+	minStartUsers = 1;
+	
+	// Define the amount of time the start-screen will be displayed after the minimum required user amount is reached
+	extraStartTime = 10000;
 
     // Define whether this is the first time starting the quiz
     isFirstStart = true;
@@ -53,6 +58,9 @@ function quizInit(){
 
 	// Switch the screen to the starting screen
 	switchScreens(1);
+
+	// Disable the footer of the gamerunner
+	disableFooter();
 
 }
 
@@ -92,6 +100,9 @@ async function quizEnd() {
 
 	// Trigger the open animation
 	openTransition();
+
+	// Disable the footer of the gamerunner
+	disableFooter();
 
 	// Send the scored points to the clients
 	sendPoints(userScore);
@@ -161,6 +172,9 @@ async function quizItemNext(data, quizNumber, quizItemNumber, quizDuration) {
 
 	// Apply data
 	applyData(data, quizNumber, quizItemNumber);
+
+	// Enable the footer of the gamerunner
+	enableFooter();
 
 	// Trigger the open animation
 	openTransition();
@@ -249,7 +263,7 @@ function applyData(data, quizNumber, quizItemNumber) {
 	// Update DOM elements with values from data
 	$artistText.innerHTML = quiz.quizName;
 	$questionText.innerHTML = quizItem.question;
-	$artistImage.style.backgroundImage = "url('" + quizItem.imagePath + "')";
+	$artistImage.style.backgroundImage = `url('${baseUrl}/${quizItem.imagePath}')`;
 	$answerA.innerHTML = "A) " + quizItem.answers[0];
 	$answerB.innerHTML = "B) " + quizItem.answers[1];
 	$answerC.innerHTML = "C) " + quizItem.answers[2];
@@ -351,7 +365,7 @@ function quizItemReset() {
 	// Update DOM elements with default placeholder values
 	$artistText.innerHTML = "Placeholder";
 	$questionText.innerHTML = "Placeholder";
-	$artistImage.style.backgroundImage = `url(${baseUrl}'/images/placeholder.png')`;
+	$artistImage.style.backgroundImage = `url('${baseUrl}/images/placeholder.png')`;
 	$answerA.innerHTML = "Placeholder";
 	$answerB.innerHTML = "Placeholder";
 	$answerC.innerHTML = "Placeholder";
@@ -393,10 +407,8 @@ function switchScreens(screen) {
 
 // Lets the game know when the game has been forced to stop (from i.e. the admin panel). Your game has 10 seconds to handle this event.
 function gameForceStop(){
-    allowedToRun = false;
     console.warn("[GAME FORCE STOPPED!]")
     quizEnd();
-    stopGame();
 }
 
 // Information that has been sent from web sockets to the game runner, and that gets passed on to the game.
@@ -416,7 +428,7 @@ function gameUserJoined(user, userId){
 
         // Add the user to the users array
         users.push({user, userId});
-        console.log(`User joined: ${userId}`);
+        console.log(`User '${userId}' joined`);
 
     }
     
@@ -425,7 +437,9 @@ function gameUserJoined(user, userId){
 
         // The next time starting won't be considered the first time starting
         // Used to prevent the quiz from starting twice when the minimum amount of required users is reached twice due to disconnects 
-        isFirstStart = false;
+		isFirstStart = false;
+		
+		console.log(`Minimum amount of required players reached. Starting in ${extraStartTime} ms.`);
 
         // After 10 seconds, start the quiz
         setTimeout(() => {
@@ -433,7 +447,7 @@ function gameUserJoined(user, userId){
             // Start a quiz item 
             quizStart(quiz, quizItemStart, quizDuration);
 
-        }, 10000);
+        }, extraStartTime);
 
     }
 
