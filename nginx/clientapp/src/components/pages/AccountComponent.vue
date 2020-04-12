@@ -108,6 +108,7 @@ export default {
   margin-top: -28px;
   margin-right: 42.5px;
   font-family: TTTunnels-Black;
+	text-transform: uppercase;
   font-weight: lighter;
   font-size: 20px;
   color: $yellow;

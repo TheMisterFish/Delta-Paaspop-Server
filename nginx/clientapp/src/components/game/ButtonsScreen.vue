@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import GameBus from "../../busses/GameBus";
+import { GameBus } from '../../busses/GameBus';
 
 export default {
   name: "buttonScreen",
@@ -65,7 +65,7 @@ export default {
       this.action(action);
     });
     GameBus.$on("answer", answer => {
-      this.action(answer);
+      this.answer(answer);
     });
   },
   methods: {
@@ -133,6 +133,7 @@ export default {
   flex-wrap: wrap;
   text-align: center;
   justify-content: center;
+	text-transform: uppercase;
 }
 .header {
   margin: auto;

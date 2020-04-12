@@ -1,21 +1,22 @@
 <template>
-  <div>
+  <div class="bg-image container">
     <div class="status-container">
-			<div class="status">
-      <div
-        class="status-inner"
-        v-html="game_data.status"
-      >
-      </div>
-			</div>
-
-      <div class="logo">
-        <img
-          src="../../assets/logo.png"
-          alt=""
-          :class="rotate"
-          srcset=""
+      <div class="status">
+        <div
+          class="status-inner"
+          v-html="game_data.status"
         >
+        </div>
+      </div>
+      <div class="logo-outer">
+        <div class="logo">
+          <img
+            src="../../assets/logo.png"
+            alt=""
+            :class="rotate"
+            srcset=""
+          >
+        </div>
       </div>
     </div>
 
@@ -66,27 +67,30 @@ export default {
   align-items: center;
   justify-content: flex-end;
   height: 100%;
-	flex-direction: column;
-	flex-grow: 1;
+  flex-direction: column;
+  flex-grow: 1;
 }
 .status {
   font-size: 40px;
   padding: 20px;
   font-family: TTTunnels-Black;
   color: white;
-	text-align: center;
-	flex-grow: 3;
-	display: flex;
+  text-align: center;
+  flex-grow: 2;
+  display: flex;
+	text-transform: uppercase;
 }
-.status-inner{
-	align-self: center;
+.status-inner {
+  align-self: center;
+}
+.logo-outer {
+  flex-grow: 1;
+  min-height: 100px;
 }
 .logo {
-	flex-grow: 1;
-
   img {
-		width: 80px;
-		max-width: 30vw!important;
+    width: 80px;
+    max-width: 30vw !important;
   }
 }
 </style>

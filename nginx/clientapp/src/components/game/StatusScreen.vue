@@ -77,6 +77,7 @@ export default {
   text-align: center;
   flex-grow: 1;
   display: flex;
+	text-transform: uppercase;
 }
 .status-inner {
   align-self: center;

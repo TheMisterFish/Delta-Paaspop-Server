@@ -1,3 +1,2 @@
 import Vue from 'vue';
-const GameBus = new Vue();
-export default GameBus
+export const GameBus = new Vue();

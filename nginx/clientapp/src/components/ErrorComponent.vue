@@ -118,6 +118,7 @@ export default {
     display: inline-block;
     font-size: 45px;
     font-family: TTTunnels-Black;
+		text-transform: uppercase;
     padding-top: 0px;
     padding-left: 5px;
     padding-right: 5px;

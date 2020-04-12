@@ -45,7 +45,7 @@ import ExitingScreen from "./ExitingScreen";
 import ButtonsScreen from "./ButtonsScreen";
 import StatusScreen from "./StatusScreen";
 
-import GameBus from '../../busses/GameBus';
+import { GameBus } from '../../busses/GameBus';
 
 export default {
   computed: {
@@ -164,7 +164,7 @@ export default {
         this.game_data.action = message.action;
       }
       if ("answer" in message) {
-				GameBus.$emit('answer', message.action)
+				GameBus.$emit('answer', message.answer)
         this.game_data.answer = message.answer;
       }
       if ("userHeader" in message) {
