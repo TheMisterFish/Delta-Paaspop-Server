@@ -14,8 +14,6 @@ RUN echo "hard nofile 1024000" >> /etc/security/limits.conf
 COPY --from=build-stage /app/clientapp/dist /var/www/html/clientapp
 ADD /gamerunner/ /var/www/html/gamerunner
 
-RUN cd /var/www/html && ls -a
-
 RUN rm /etc/nginx/nginx.conf
 COPY nginx.conf /etc/nginx/nginx.conf
 # COPY .htpasswd /etc/nginx/.htpasswd

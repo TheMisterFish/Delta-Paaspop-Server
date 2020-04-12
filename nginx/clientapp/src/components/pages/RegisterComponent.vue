@@ -5,7 +5,7 @@
   >
     <div class="container">
       <div class="row">
-        <div class="page_title">Regristreren</div>
+        <div class="page_title">Registreren</div>
       </div>
       <div class="row">
         <transition name="fade">
@@ -138,7 +138,7 @@
                       class="btn button-primary center"
                       type="submit"
                       :disabled="sending"
-                    >Regristreer</button>
+                    >Registreren</button>
                   </div>
                   <div class="card-footer">
                     Toch al een account?
