@@ -81,7 +81,10 @@ var wsMessage = function (event) {
 		let userid = messageJSON.data.id;
 
 		userInput(nickname, userid, answer);
-	} else if ("userJoined" in messageJSON.data && "nickname" in messageJson.data.userJoined && "id" in messageJson.data.userJoined) {
+	} else if (messageJSON.data != null &&
+		messageJSON.data.userJoined != null &&
+		messageJSON.data.id != null &&
+		messageJSON.data.nickname != null) {
 		let nickname = messageJSON.data.userJoined.nickname;
 		let userid = messageJSON.data.userJoined.id;
 
