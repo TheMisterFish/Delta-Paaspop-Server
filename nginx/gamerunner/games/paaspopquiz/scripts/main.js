@@ -407,10 +407,8 @@ function switchScreens(screen) {
 
 // Lets the game know when the game has been forced to stop (from i.e. the admin panel). Your game has 10 seconds to handle this event.
 function gameForceStop(){
-    allowedToRun = false;
     console.warn("[GAME FORCE STOPPED!]")
     quizEnd();
-    stopGame();
 }
 
 // Information that has been sent from web sockets to the game runner, and that gets passed on to the game.
