@@ -1,13 +1,24 @@
 const baseUrl = "/games/paaspop/";
 // Variables
-var $transitionOpen,
-	$transitionClose,
-	$screenStarting,
-	$screenQuestions,
-	$screenEnding,
-	userAnswers = [], // stores all the answers given by users  | Example: {user:"username",userId:"Id",data:"A"}
-	userScore = [], // stores all the userIds and scores to be send to the API | Example: {user_Id:"id",points:80}
-	allowedToRun;
+var $transitionOpen, 
+    $transitionClose, 
+    $screenStarting, 
+    $screenQuestions, 
+    $screenEnding, 
+
+    quiz,               // The quiz number (index)
+    quizItemStart,      // The quiz duration (seconds)
+    quizDuration,       // The quiz question duration (seconds)
+
+    users = [],         // All connected users
+    minStartUsers,      // The minimum amount of users needed to start the game
+    isFirstStart,       // Whether this is the first time starting
+
+    userAnswers = [],   // stores all the answers given by users  | Example: {user:"username",userId:"Id",data:"A"}
+    userScore = [],     // stores all the userIds and scores to be send to the API | Example: {user_Id:"id",points:80}
+
+    allowedToRun;       // Whether the game is allowed to run or not once started
+
 
 // Initialize
 quizInit();
@@ -16,31 +27,8 @@ quizInit();
 disableFooter();
 
 
-//////////////////////////////////////////////////////////////////////////////
-/////                     START TEMPORARY DUMMY CODE                     /////
-//////////////////////////////////////////////////////////////////////////////
-
-// After 10 seconds, start the quiz
-setTimeout(() => {
-
-	// Start a quiz item 
-	var quiz = 0; // Quiz: 0 
-	var quizItemStart = 0; // Start at quiz item: 0
-	var quizDuration = 10; // Duration: 10 seconds
-	quizStart(quiz, quizItemStart, quizDuration);
-
-}, 10000);
-
-//////////////////////////////////////////////////////////////////////////////
-/////                      END TEMPORARY DUMMY CODE                      /////
-//////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
 // Quiz init
-function quizInit() {
+function quizInit(){
 
 	// Define DOM elements
 	$transitionOpen = document.getElementById('transition-open');
@@ -49,8 +37,19 @@ function quizInit() {
 	$screenQuestions = document.getElementById('screen-questions');
 	$screenEnding = document.getElementById('screen-ending');
 
-	// Define whether the quiz is allowed to run or not
-	allowedToRun = true;
+    // Start the first quiz at the first item, and set the duration to 10 seconds
+    quiz = 0;
+    quizItemStart = 0;
+    quizDuration = 10;
+
+    // Define the minimum amount of users needed to start the game
+    minStartUsers = 1;
+
+    // Define whether this is the first time starting the quiz
+    isFirstStart = true;
+
+    // Define whether the quiz is allowed to run or not once started
+    allowedToRun = true;
 
 	// Switch the screen to the starting screen
 	switchScreens(1);
@@ -393,23 +392,53 @@ function switchScreens(screen) {
 // Callable events
 
 // Lets the game know when the game has been forced to stop (from i.e. the admin panel). Your game has 10 seconds to handle this event.
-function gameForceStop() {
-	allowedToRun = false;
-	console.warn("[GAME FORCE STOPPED!]")
-	quizEnd();
-	stopGame();
+function gameForceStop(){
+    allowedToRun = false;
+    console.warn("[GAME FORCE STOPPED!]")
+    quizEnd();
+    stopGame();
 }
 
 // Information that has been sent from web sockets to the game runner, and that gets passed on to the game.
 // data contains integer that correlates to the buttons of the game.
-function gameUserInput(user, userId, data) {
-	userAnswers.push({
-		user: user,
-		userId: userId,
-		input: data
-	});
-	// userAnswers[0] = {user:"name",userId:"id",input:"A"}
+function gameUserInput(user, userId, data){
+    userAnswers.push({ user: user, userId: userId, input: data });
+    // userAnswers[0] = {user:"name",userId:"id",input:"A"}
 }
+
+
+
+// When a user joins the game
+function gameUserJoined(user, userId){
+
+    // If the user has already joined during this same quiz (in the event of getting disconnected)
+    if(!users.includes({user, userId})){
+
+        // Add the user to the users array
+        users.push({user, userId});
+        console.log(`User joined: ${userId}`);
+
+    }
+    
+    // If there is at least 1 user in the game and this is the first time starting
+    if(users.length >= minStartUsers && isFirstStart){
+
+        // The next time starting won't be considered the first time starting
+        // Used to prevent the quiz from starting twice when the minimum amount of required users is reached twice due to disconnects 
+        isFirstStart = false;
+
+        // After 10 seconds, start the quiz
+        setTimeout(() => {
+
+            // Start a quiz item 
+            quizStart(quiz, quizItemStart, quizDuration);
+
+        }, 10000);
+
+    }
+
+}
+
 //////////////////////////////////////////////////////////////////////////////
 /////                      END GAMERUNNER FUNCTIONS                      /////
 //////////////////////////////////////////////////////////////////////////////
