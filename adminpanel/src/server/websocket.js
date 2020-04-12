@@ -35,7 +35,8 @@ admin.on('connect', function (connection) {
 	connection.on('close', function () {
 		admin.connection = connection;
 		console.log('admin Connection Closed');
-
+		if (reconnect)
+			retryAdminConnection()
 	});
 
 	connection.on('message', function (message) {

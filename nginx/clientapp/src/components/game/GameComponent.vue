@@ -1,11 +1,12 @@
 <template>
-  <div>
+  <div class="container">
     <transition name="fade">
       <component
         :is="currentScreen"
         :game_data="game_data"
         :key="componentKey"
         ref="actionRef"
+				style="position: absolute;"
       ></component>
     </transition>
 
@@ -44,9 +45,7 @@ import ExitingScreen from "./ExitingScreen";
 import ButtonsScreen from "./ButtonsScreen";
 import StatusScreen from "./StatusScreen";
 
-import {
-	ActionBus
-} from '../../busses/ActionBus';
+import { GameBus } from '../../busses/GameBus';
 
 export default {
   computed: {
@@ -161,10 +160,11 @@ export default {
         this.game_data.header = message.header;
       }
       if ("action" in message) {
-				ActionBus.$emit('action', message.action)
+				GameBus.$emit('action', message.action)
         this.game_data.action = message.action;
       }
       if ("answer" in message) {
+				GameBus.$emit('answer', message.answer)
         this.game_data.answer = message.answer;
       }
       if ("userHeader" in message) {

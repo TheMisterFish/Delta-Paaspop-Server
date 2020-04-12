@@ -1,24 +1,24 @@
 <template>
-  <div>
+  <div class="bg-image container">
     <div class="status-container">
       <div class="status">
         <div
           class="status-inner"
           v-html="game_data.status"
         >
-				</div>
+        </div>
       </div>
-
-      <div class="logo">
-        <img
-          src="../../assets/logo.png"
-          alt=""
-          :class="rotate"
-          srcset=""
-        >
+      <div class="logo-outer">
+        <div class="logo">
+          <img
+            src="../../assets/logo.png"
+            alt=""
+            :class="rotate"
+            srcset=""
+          >
+        </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -64,9 +64,10 @@ export default {
 .status-container {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: flex-end;
   height: 100%;
-  flex-direction: column;
+	flex-direction: column;
+	flex-grow: 1;
 }
 .status {
   font-size: 40px;
@@ -76,16 +77,19 @@ export default {
   text-align: center;
   flex-grow: 1;
   display: flex;
+	text-transform: uppercase;
 }
 .status-inner {
   align-self: center;
 }
-
-.logo {
+.logo-outer {
 	flex-grow: 1;
+	min-height: 100px;
+}
+.logo {
   img {
-		width: 140px;
-		max-width: 40vw!important;
+    width: 140px;
+    max-width: 40vw !important;
   }
 }
 

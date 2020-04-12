@@ -1,0 +1,66 @@
+{
+    "quizzes": [
+        {
+            "quizName": "Chef’Special",
+            "quizImagePath": "data/quiz_image/ChefSpecial.jfif",
+            "quizItems": [
+                {
+                    "question": "Welk nummer is van ons?",
+                    "imagePath": "data/quiz_images/ChefSpecial-1.jpg",
+                    "answers": [
+                        "Nicotine",
+                        "Happier",
+                        "Streets"
+                    ],
+                    "correctAnswerIndex": 0
+                },
+                {
+                    "question": "Hoe heet het nieuwste album?",
+                    "imagePath": "data/quiz_images/ChefSpecial-2.jpg",
+                    "answers": [
+                        "Amigo",
+                        "Unfold",
+                        "Into The Future"
+                    ],
+                    "correctAnswerIndex": 1
+                }
+            ]
+        },
+        {
+            "quizName": "Maan",
+            "quizImagePath": "data/quiz_image/Maan.jpg",
+            "quizItems": [
+                {
+                    "question": "In welke show won ik?",
+                    "imagePath": "data/quiz_images/Maan-1.jpg",
+                    "answers": [
+                        "The Voice",
+                        "Idols",
+                        "Eurovision"
+                    ],
+                    "correctAnswerIndex": 0
+                },
+                {
+                    "question": "Welke studie zou ik gaan volgen?",
+                    "imagePath": "data/quiz_images/Maan-2.jpg",
+                    "answers": [
+                        "Taalwetenschap",
+                        "Diergeneeskunde",
+                        "Psychologie"
+                    ],
+                    "correctAnswerIndex": 2
+                },
+                {
+                    "question": "Van wie is hij?",
+                    "imagePath": "data/quiz_images/Maan-3.jpg",
+                    "answers": [
+                        "Hij is van mij",
+                        "Hij is van jou",
+                        "Hij is van haar"
+                    ],
+                    "correctAnswerIndex": 0
+                }
+            ]
+        }
+    ]
+}

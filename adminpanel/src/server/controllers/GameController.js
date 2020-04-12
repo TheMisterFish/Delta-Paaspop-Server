@@ -23,6 +23,14 @@ exports.start_game = async function (req, res) {
 	 * @param { any } res
 	 * @returns { boolean } game started true/false
 	 */
+
+	//  Check if websocket connection is connected
+	if (!websocket_connections.connected('admin')) {
+		if (!await websocket_connections.connect('admin')) {
+			res.status(500).send("No websocket connection could be made on the admin_channel, thus: couldn't start game")
+			return;
+		}
+	}
 	let game_token = randomToken(16);
 
 	History.findOne({
@@ -49,7 +57,6 @@ exports.start_game = async function (req, res) {
 				})
 				.then(function (response) {
 					newHistory.save();
-					websocket_connections.connect();
 					websocket_connections.send("admin", "/game {\"startGame\": \"" + game.name + "\"}");
 
 					res.status(200).send("Started game");
@@ -69,6 +76,15 @@ exports.stop_game = async function (req, res) {
 	 * @param { any } res
 	 * @returns { res } game started true/false
 	 */
+	var websocket = false;
+	if (!websocket_connections.connected('admin')) {
+		if (await websocket_connections.connect('admin')) {
+			websocket = true
+		}
+	} else {
+		websocket = true
+	}
+
 	History.findOne({
 		gameEnded: null
 	}).populate('game').then(function (current_game) {
@@ -82,13 +98,19 @@ exports.stop_game = async function (req, res) {
 				.then(function (response) {
 					current_game.gameEnded = new Date();
 					current_game.save();
-					websocket_connections.send("admin", "/game {\"stopGame\": \""+current_game.game.name+"\"}");
-					websocket_connections.disconnect();
-					res.send("Spel is gestopt.");
+					if (websocket) {
+						websocket_connections.send("admin", "/game {\"stopGame\": \"" + current_game.game.name + "\"}");
+						websocket_connections.disconnect();
+						res.send("Spel is gestopt.");
+					} else {
+						res.send("Spel is in admin panel gestopt, maar kon geen stop signaal naar de websocket server sturen.")
+					}
 				})
 				.catch((error) => {
+					current_game.gameEnded = new Date();
+					current_game.save();
 					console.log(error)
-					res.status(500).send(error);
+					res.status(500).send("Spel is gestopt in admin panel, maar kon geen verbinding maken met de websocket server.");
 				});
 		}
 	});
@@ -118,8 +140,10 @@ exports.stop_game_game = async function (req, res) {
 					res.send(true);
 				})
 				.catch((error) => {
+					current_game.gameEnded = new Date();
+					current_game.save();
 					console.log(error)
-					res.status(500).send(error);
+					res.status(500).send("Spel is gestopt in admin panel, maar kon geen verbinding maken met de websocket server.");
 				});
 		}
 	});

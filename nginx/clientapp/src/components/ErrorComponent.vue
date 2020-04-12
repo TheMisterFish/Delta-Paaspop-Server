@@ -118,6 +118,7 @@ export default {
     display: inline-block;
     font-size: 45px;
     font-family: TTTunnels-Black;
+		text-transform: uppercase;
     padding-top: 0px;
     padding-left: 5px;
     padding-right: 5px;
@@ -130,33 +131,4 @@ export default {
     font-weight: bolder;
   }
 }
-
-// .fade-enter-active,
-// .fade-leave-active {
-//   transition-duration: 0.3s;
-//   transition-property: height, opacity;
-//   transition-timing-function: ease;
-//   overflow: hidden;
-// }
-
-// .fade-enter,
-// .fade-leave-active {
-//   opacity: 0;
-// }
-
-// .expand-transition {
-//   transition: all 0.3s ease;
-//   height: 30px;
-//   padding: 10px;
-//   background-color: #eee;
-//   overflow: hidden;
-// }
-// /* .expand-enter defines the starting state for entering */
-// /* .expand-leave defines the ending state for leaving */
-// .expand-enter,
-// .expand-leave {
-//   height: 0;
-//   padding: 0 10px;
-//   opacity: 0;
-// }
 </style>

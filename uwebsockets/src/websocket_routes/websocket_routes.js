@@ -8,7 +8,7 @@ const debug = process.env.DEBUG == "true";
 
 module.exports = function (app) {
 	app.ws('/', {
-		idleTimeout: 302400,
+		idleTimeout: 999999999,
 		open: (ws, req) => {
 			let client = funcs.getHeaderObject(req);
 			middleware.game_running().then((game) => {

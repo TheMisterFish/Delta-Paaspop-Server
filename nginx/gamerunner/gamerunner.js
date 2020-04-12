@@ -1,6 +1,7 @@
 const wsgametoken = "klw0xrls0yHEmvdyZnWhrRRCsEjlD7mk";
 const pointstoken = "CJ3avghqang2OY22YE6ca6ikwzzdk6mP";
 const logMessages = true;
+const autoConnect = true;
 const debugMode = true;
 const socketurl = "ws://" + location.hostname + ":9000";
 
@@ -9,6 +10,24 @@ var footerEnabled = true;
 var state = 0;
 
 var $transitionOpen, $transitionClose;
+
+if (!debugMode) {
+	(function () {
+		try {
+			var $_console$$ = console;
+			Object.defineProperty(window, "console", {
+				get: function () {
+					if ($_console$$._commandLineAPI)
+						throw "Sorry, for security reasons, the script console is deactivated for the paaspop mini-games";
+					return $_console$$
+				},
+				set: function ($val$$) {
+					$_console$$ = $val$$
+				}
+			})
+		} catch ($ignore$$) {}
+	})();
+}
 
 var grinit = function () {
 	$transitionOpen = document.getElementById('gr-transition-open');
@@ -62,6 +81,14 @@ var wsMessage = function (event) {
 		let userid = messageJSON.data.id;
 
 		userInput(nickname, userid, answer);
+	} else if (messageJSON.data != null &&
+		messageJSON.data.userJoined != null &&
+		messageJSON.data.id != null &&
+		messageJSON.data.nickname != null) {
+		let nickname = messageJSON.data.userJoined.nickname;
+		let userid = messageJSON.data.userJoined.id;
+
+		userJoined(nickname, userid);
 	} else if (messageJSON.stopGame != null) {
 		forceStop();
 	} else if (messageJSON.startGame != null) {
@@ -77,6 +104,8 @@ var wsOpen = function () {
 
 var wsClose = function () {
 	log('Websocket: connection closed');
+	if (autoConnect)
+		connect()
 }
 
 var wsError = function (error) {
@@ -132,6 +161,14 @@ var startGame = function (name) {
 var userInput = function (user, userId, data) {
 	try {
 		gameUserInput(user, userId, data);
+	} catch (error) {
+		log("Gamerunner: sent data '" + data + "' from user '" + user + "'(" + userId + ") to game, but noones listening :(");
+	}
+}
+
+var userJoined = function (user, userId) {
+	try {
+		gameUserJoined(user, userId);
 	} catch (error) {
 		log("Gamerunner: sent data '" + data + "' from user '" + user + "'(" + userId + ") to game, but noones listening :(");
 	}
@@ -201,7 +238,7 @@ function nextRound(buttons) {
  * Points = array with JSON data [{'user_id':id, 'points':points}]
  * @param {*} points 
  */
-function sendPoints(points){
+function sendPoints(points) {
 	log("Sending POST request to panel 'points apply'");
 	if (debugMode) {
 		$.post("http://localhost:5454/points/apply", {
@@ -224,7 +261,7 @@ function sendPoints(points){
  * @param {string} header 
  * @param {string} userNickname (optional)
  */
-function setLiveHeader(header, userNickname) {
+function setLiveHeader(header, userNickname = null) {
 	let data;
 	if (userNickname == null) {
 		data = {
@@ -233,6 +270,36 @@ function setLiveHeader(header, userNickname) {
 	} else {
 		data = {
 			userHeader: [userNickname, header]
+		};
+	}
+	let dataJSON = JSON.stringify(data);
+
+	wsSendData(dataJSON);
+}
+
+function setScreen(screen) {
+	if (screen != "status" || screen != "exit" || screen != "buttons") {
+		return "Wrong screens";
+	} else {
+		let data = {
+			switchScreen: screen,
+		};
+
+		let dataJSON = JSON.stringify(data);
+
+		wsSendData(dataJSON);
+	}
+}
+
+function setStatus(status, userNickname = null) {
+	let data;
+	if (userNickname == null) {
+		data = {
+			status: header
+		};
+	} else {
+		data = {
+			userStatus: [userNickname, status]
 		};
 	}
 	let dataJSON = JSON.stringify(data);
