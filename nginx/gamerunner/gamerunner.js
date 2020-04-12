@@ -89,6 +89,7 @@ var wsMessage = function (event) {
 		let userid = messageJSON.data.userJoined.id;
 
 		userJoined(nickname, userid);
+
 	} else if (messageJSON.stopGame != null) {
 		forceStop();
 	} else if (messageJSON.startGame != null) {
