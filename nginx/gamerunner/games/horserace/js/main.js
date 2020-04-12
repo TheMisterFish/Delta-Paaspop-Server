@@ -39,28 +39,28 @@ busW = window.innerWidth / 100 * 12.65625;
 busH = window.innerHeight / 100 * 8.185975609756097;
 
 var bus = new Image(busW, busH);
-bus.src = '../games/horserace/img/download.gif';
+bus.src = 'img/download.gif';
 bus.id = busses.b1.busId;
 bus.name = busses.b1.name;
 document.getElementById('plane').appendChild(bus);
 
 
 var bus2 = new Image(busW, busH);
-bus2.src = '../games/horserace/img/download.gif';
+bus2.src = 'img/download.gif';
 bus2.id = busses.b2.busId;
 bus2.name = busses.b2.name;
 document.getElementById('plane').appendChild(bus2);
 
 
 var bus3 = new Image(busW, busH);
-bus3.src = '../games/horserace/img/download.gif';
+bus3.src = 'img/download.gif';
 bus3.id = busses.b3.busId;
 bus3.name = busses.b3.name;
 document.getElementById('plane').appendChild(bus3);
 
 
 var bus4 = new Image(busW, busH);
-bus4.src = '../games/horserace/img/download.gif';
+bus4.src = 'img/download.gif';
 bus4.id = busses.b4.busId;
 bus4.name = busses.b4.name;
 document.getElementById('plane').appendChild(bus4);
@@ -70,25 +70,25 @@ medalW = window.innerWidth / 100 * 4.661458333333333;
 medalH = window.innerHeight / 100 * 8.185975609756097;
 
 var medal = new Image(medalW, medalH);
-medal.src = '../games/horserace/img/loser.png';
+medal.src = 'img/loser.png';
 medal.id = medals.m1.medalId;
 medal.name = medals.m1.name;
 document.getElementById('medals').appendChild(medal);
 
 var medal2 = new Image(medalW, medalH);
-medal2.src = '../games/horserace/img/loser.png';
+medal2.src = 'img/loser.png';
 medal2.id = medals.m2.medalId;
 medal2.name = medals.m2.name;
 document.getElementById('medals').appendChild(medal2);
 
 var medal3 = new Image(medalW, medalH);
-medal3.src = '../games/horserace/img/loser.png';
+medal3.src = 'img/loser.png';
 medal3.id = medals.m3.medalId;
 medal3.name = medals.m3.name;
 document.getElementById('medals').appendChild(medal3);
 
 var medal4 = new Image(medalW, medalH);
-medal4.src = '../games/horserace/img/loser.png';
+medal4.src = 'img/loser.png';
 medal4.id = medals.m4.medalId;
 medal4.name = medals.m4.name;
 document.getElementById('medals').appendChild(medal4);
@@ -171,10 +171,10 @@ function SpawnTrophies() {
 
     var display = false;
 
-    if (Placing[0] == 1) { medal.src = '../games/horserace/img/gold.png'; } if (Placing[1] == 1) { medal.src = '../games/horserace/img/silver.png'; } if (Placing[2] == 1) { medal.src = '../games/horserace/img/bronze.png'; } if (Placing[3] == 1) { medal.src = '../games/horserace/img/loser.png'; }
-    if (Placing[0] == 2) { medal2.src = '../games/horserace/img/gold.png'; } if (Placing[1] == 2) { medal2.src = '../games/horserace/img/silver.png'; } if (Placing[2] == 2) { medal2.src = '../games/horserace/img/bronze.png'; } if (Placing[3] == 2) { medal2.src = '../games/horserace/img/loser.png'; }
-    if (Placing[0] == 3) { medal3.src = '../games/horserace/img/gold.png'; } if (Placing[1] == 3) { medal3.src = '../games/horserace/img/silver.png'; } if (Placing[2] == 3) { medal3.src = '../games/horserace/img/bronze.png'; } if (Placing[3] == 3) { medal3.src = '../games/horserace/img/loser.png'; }
-    if (Placing[0] == 4) { medal4.src = '../games/horserace/img/gold.png'; } if (Placing[1] == 4) { medal4.src = '../games/horserace/img/silver.png'; } if (Placing[2] == 4) { medal4.src = '../games/horserace/img/bronze.png'; } if (Placing[3] == 4) { medal4.src = '../games/horserace/img/loser.png'; }
+    if (Placing[0] == 1) { medal.src = 'img/gold.png'; } if (Placing[1] == 1) { medal.src = 'img/silver.png'; } if (Placing[2] == 1) { medal.src = 'img/bronze.png'; } if (Placing[3] == 1) { medal.src = 'img/loser.png'; }
+    if (Placing[0] == 2) { medal2.src = 'img/gold.png'; } if (Placing[1] == 2) { medal2.src = 'img/silver.png'; } if (Placing[2] == 2) { medal2.src = 'img/bronze.png'; } if (Placing[3] == 2) { medal2.src = 'img/loser.png'; }
+    if (Placing[0] == 3) { medal3.src = 'img/gold.png'; } if (Placing[1] == 3) { medal3.src = 'img/silver.png'; } if (Placing[2] == 3) { medal3.src = 'img/bronze.png'; } if (Placing[3] == 3) { medal3.src = 'img/loser.png'; }
+    if (Placing[0] == 4) { medal4.src = 'img/gold.png'; } if (Placing[1] == 4) { medal4.src = 'img/silver.png'; } if (Placing[2] == 4) { medal4.src = 'img/bronze.png'; } if (Placing[3] == 4) { medal4.src = 'img/loser.png'; }
 
     if (display = true) {
         document.getElementById('medals').style.display = "block";
