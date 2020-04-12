@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { GameBus } from '../../busses/GameBus';
+import { GameBus } from "../../busses/GameBus";
 
 export default {
   name: "buttonScreen",
@@ -133,7 +133,7 @@ export default {
   flex-wrap: wrap;
   text-align: center;
   justify-content: center;
-	text-transform: uppercase;
+  text-transform: uppercase;
 }
 .header {
   margin: auto;
@@ -167,6 +167,9 @@ export default {
   -webkit-box-shadow: -5px 5px 0px 2px rgba(0, 0, 0, 1);
   -moz-box-shadow: -5px 5px 0px 2px rgba(0, 0, 0, 1);
   box-shadow: -5px 5px 0px 2px rgba(0, 0, 0, 1);
+  -webkit-transition: background-color 100ms linear;
+  -ms-transition: background-color 100ms linear;
+  transition: background-color 100ms linear;
   &.single-btn {
     width: 80vw !important;
     height: 80vw !important;
@@ -174,6 +177,8 @@ export default {
 }
 
 .big-btn-pressed {
+	color: white;
+  background-color: $dark;
   text-transform: uppercase;
   -webkit-transition: all 0.2s ease;
   -o-transition: all 0.2s ease;
@@ -183,11 +188,25 @@ export default {
   -webkit-box-shadow: 1px 0px 0px 0px rgba(0, 0, 0, 1);
   -moz-box-shadow: 1px 0px 0px 0px rgba(0, 0, 0, 1);
   box-shadow: 1px 0px 0px 0px rgba(0, 0, 0, 1);
+  -webkit-transition: background-color 100ms linear;
+  -ms-transition: background-color 100ms linear;
+	transition: background-color 100ms linear;
+	-webkit-transition: color 100ms linear;
+  -ms-transition: color 100ms linear;
+  transition: color 100ms linear;
 }
 .correct {
-  background-color: rgb(0, 241, 88);
+	background-color: rgb(0, 241, 88);
+	color: $dark!important;
+	-webkit-transition: color 100ms linear;
+  -ms-transition: color 100ms linear;
+  transition: color 100ms linear;
 }
 .incorrect {
-  background-color: rgb(255, 0, 0);
+	background-color: rgb(255, 0, 0);
+	color: $dark!important;
+	-webkit-transition: color 100ms linear;
+  -ms-transition: color 100ms linear;
+  transition: color 100ms linear;
 }
 </style>
