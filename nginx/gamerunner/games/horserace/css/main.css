@@ -20,12 +20,12 @@
 }
 
 h1 {
-    font-size: 400%;
+    font-size: 350%;
     color: whitesmoke;
     background: rgb(12, 12, 104);
     width: 39%;
     font-family: TTTunnels-Bold;
-    margin-left: 28%;
+    margin-left: 30%;
     margin-top: 3%;
     z-index: 5;
     display: block;
