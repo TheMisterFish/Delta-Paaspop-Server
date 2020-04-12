@@ -81,6 +81,11 @@ var wsMessage = function (event) {
 		let userid = messageJSON.data.id;
 
 		userInput(nickname, userid, answer);
+	} else if ("userJoined" in messageJSON.data && "nickname" in messageJson.data.userJoined && "id" in messageJson.data.userJoined) {
+		let nickname = messageJSON.data.userJoined.nickname;
+		let userid = messageJSON.data.userJoined.id;
+
+		userJoined(nickname, userid);
 	} else if (messageJSON.stopGame != null) {
 		forceStop();
 	} else if (messageJSON.startGame != null) {
@@ -153,6 +158,14 @@ var startGame = function (name) {
 var userInput = function (user, userId, data) {
 	try {
 		gameUserInput(user, userId, data);
+	} catch (error) {
+		log("Gamerunner: sent data '" + data + "' from user '" + user + "'(" + userId + ") to game, but noones listening :(");
+	}
+}
+
+var userJoined = function (user, userId) {
+	try {
+		gameUserJoined(user, userId);
 	} catch (error) {
 		log("Gamerunner: sent data '" + data + "' from user '" + user + "'(" + userId + ") to game, but noones listening :(");
 	}

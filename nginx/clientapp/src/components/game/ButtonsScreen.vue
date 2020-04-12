@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { ActionBus } from "../../busses/ActionBus";
+import GameBus from "../../busses/GameBus";
 
 export default {
   name: "buttonScreen",
@@ -61,20 +61,25 @@ export default {
   },
   mounted() {
     this.background_id = Math.floor(Math.random() * 3) + 1;
-    ActionBus.$on("action", action => {
+    GameBus.$on("action", action => {
       this.action(action);
+    });
+    GameBus.$on("answer", answer => {
+      this.action(answer);
     });
   },
   methods: {
     send(button) {
-      this.disableButtons = true;
-      this.buttonPressed = button;
-      let data = {
-        user: this.$store.getters.user.nickname,
-        id: this.$store.getters.user.id,
-        answer: button
-      };
-      this.$store.dispatch("sendMessage", { data });
+      if (this.correctAnswer == null) {
+        this.disableButtons = true;
+        this.buttonPressed = button;
+        let data = {
+          user: this.$store.getters.user.nickname,
+          id: this.$store.getters.user.id,
+          answer: button
+        };
+        this.$store.dispatch("sendMessage", { data });
+      }
     },
     action(action) {
       if (action && this.buttonPressed != null) {
@@ -86,6 +91,9 @@ export default {
           }, 200);
         }
       }
+    },
+    answer(answer) {
+      this.correctAnswer = answer;
     }
   }
 };

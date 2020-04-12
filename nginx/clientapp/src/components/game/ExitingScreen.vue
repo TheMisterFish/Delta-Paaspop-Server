@@ -64,9 +64,10 @@ export default {
 .status-container {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: flex-end;
   height: 100%;
 	flex-direction: column;
+	flex-grow: 1;
 }
 .status {
   font-size: 40px;
