@@ -1,6 +1,7 @@
 const wsgametoken = "klw0xrls0yHEmvdyZnWhrRRCsEjlD7mk";
 const pointstoken = "CJ3avghqang2OY22YE6ca6ikwzzdk6mP";
 const logMessages = true;
+const autoConnect = true;
 const debugMode = true;
 const socketurl = "ws://" + location.hostname + ":9000";
 
@@ -95,6 +96,8 @@ var wsOpen = function () {
 
 var wsClose = function () {
 	log('Websocket: connection closed');
+	if(autoConnect)
+		connect()
 }
 
 var wsError = function (error) {
