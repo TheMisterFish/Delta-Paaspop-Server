@@ -1,0 +1,146 @@
+#plane {
+    width: 102.6%;
+    height: 49%;
+    background: rgb(12, 12, 104);
+    z-index: 0;
+    margin-left: -1%;
+    position: fixed;
+}
+
+#backgroundVideo{
+    position: fixed;
+    overflow: hidden;
+    width: auto;
+    height: auto;
+    min-width: 100%;
+    min-height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -2;
+}
+
+h1 {
+    font-size: 400%;
+    color: whitesmoke;
+    background: rgb(12, 12, 104);
+    width: 39%;
+    font-family: TTTunnels-Bold;
+    margin-left: 28%;
+    margin-top: 3%;
+    z-index: 5;
+    display: block;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+#timer {
+    font-size: 600%;
+    color: #ffe601;
+    background: rgb(12, 12, 104);
+    width: 830px;
+    font-family: TTTunnels-Bold;
+    /* font-style: italic; */
+    z-index: 10;
+    position: absolute;
+    display: block;
+    width: auto;
+    margin-top: 29%;
+    margin-left: 46%;
+    padding-right: 1%;
+    padding-left: 1%;
+    border-radius: 15px;
+}
+
+img  {
+    display: block;
+    margin-top: 1.8%;
+    margin-left: 4%;
+}
+
+@font-face {
+    font-family: TTTunnels-Bold;
+    src: url(fonts/TTTunnels-Bold.otf);
+    font-weight: bold;
+  }
+
+#image {z-index: 16;}
+
+#medals {position: absolute; margin-left: 45%; display: none; }
+
+#medals img {margin-top: 40%;}
+
+#vote1 {
+    font-size: 500%;
+    color: whitesmoke;
+    background: rgb(175, 2, 45);
+    width: 100px;
+    height: 80px;
+    font-family: TTTunnels-Bold;
+    /* font-style: italic; */
+    z-index: 14;
+    position: absolute;
+    display: block;
+    margin-top: 30%;
+    margin-left: 10%;
+    padding-right: 1%;
+    padding-left: 1%;
+    border-radius: 15px;
+    text-align: center;
+}
+
+#vote2 {
+    font-size: 500%;
+    color: whitesmoke;
+    background: rgb(226, 196, 24);
+    width: 100px;
+    height: 80px;
+    font-family: TTTunnels-Bold;
+    /* font-style: italic; */
+    z-index: 14;
+    position: absolute;
+    display: block;
+    margin-top: 30%;
+    margin-left: 20%;
+    padding-right: 1%;
+    padding-left: 1%;
+    border-radius: 15px;
+    text-align: center;
+}
+
+#vote3 {
+    font-size: 500%;
+    color: whitesmoke;
+    background: rgb(9, 155, 106);
+    width: 100px;
+    height: 80px;
+    font-family: TTTunnels-Bold;
+    /* font-style: italic; */
+    z-index: 14;
+    position: absolute;
+    display: block;
+    margin-top: 30%;
+    margin-left: 70%;
+    padding-right: 1%;
+    padding-left: 1%;
+    border-radius: 15px;
+    text-align: center;
+}
+
+#vote4 {
+    font-size: 500%;
+    color: whitesmoke;
+    background: rgb(160, 10, 115);
+    width: 100px;
+    height: 80px;
+    font-family: TTTunnels-Bold;
+    /* font-style: italic; */
+    z-index: 14;
+    position: absolute;
+    display: block;
+    margin-top: 30%;
+    margin-left: 80%;
+    padding-right: 1%;
+    padding-left: 1%;
+    border-radius: 15px;
+    text-align: center;
+}
