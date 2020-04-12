@@ -54,9 +54,15 @@ function stop_game() {
 		}
 		if (request.status == 500)
 			openDanger(request.responseText, 5000)
+			setTimeout(() => {
+				location.reload();
+			}, 5000);
 	};
 	request.onerror = function (err) {
 		openDanger(err, 10000)
+		setTimeout(() => {
+			location.reload();
+		}, 10000);
 	};
 	request.send();
 	event.preventDefault();
