@@ -1,4 +1,4 @@
-const baseUrl = location.hostname + ":6942/games/paaspop/";
+const baseUrl = "/games/paaspop/";
 // Variables
 var $transitionOpen,
 	$transitionClose,
