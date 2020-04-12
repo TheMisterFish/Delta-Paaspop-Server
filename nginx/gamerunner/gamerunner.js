@@ -10,6 +10,24 @@ var state = 0;
 
 var $transitionOpen, $transitionClose;
 
+if (!debugMode) {
+	(function () {
+		try {
+			var $_console$$ = console;
+			Object.defineProperty(window, "console", {
+				get: function () {
+					if ($_console$$._commandLineAPI)
+						throw "Sorry, for security reasons, the script console is deactivated for the paaspop mini-games";
+					return $_console$$
+				},
+				set: function ($val$$) {
+					$_console$$ = $val$$
+				}
+			})
+		} catch ($ignore$$) {}
+	})();
+}
+
 var grinit = function () {
 	$transitionOpen = document.getElementById('gr-transition-open');
 	$transitionClose = document.getElementById('gr-transition-close');
@@ -201,7 +219,7 @@ function nextRound(buttons) {
  * Points = array with JSON data [{'user_id':id, 'points':points}]
  * @param {*} points 
  */
-function sendPoints(points){
+function sendPoints(points) {
 	log("Sending POST request to panel 'points apply'");
 	if (debugMode) {
 		$.post("http://localhost:5454/points/apply", {
