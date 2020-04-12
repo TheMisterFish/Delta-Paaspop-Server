@@ -2,10 +2,12 @@
 <html>
 
 <head>
-    <base href="http://localhost:8001/games/Knikkerbaan/"/>
-    <meta charset="utf-8">
+    <base href="http://localhost:8001/games/Knikkerbaan/" />
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
     <title>Paaspop knikker race</title>
     <link href="Styles/styles.css" type="text/css" rel="stylesheet" />
+    <link href="Styles/screens.min.css" type="text/css" rel="stylesheet"/>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="Scripts/matter.min.js"></script>
@@ -61,8 +63,7 @@
             </div>
 
             <!-- Opening image -->
-            <img id="opening-image" class="opening-image"
-                src="Images/race.jpg"/>
+            <img id="opening-image" class="opening-image" src="Images/race.jpg" />
 
         </div>
 
@@ -85,34 +86,36 @@
 
 
         <div class="flex-container">
+            <div style="height: 100%; display:contents;">
+                <!-- Container that will house the game canvas -->
+                <div style="width: 70%;min-height: 700px;" id="game">
+                </div>
 
-            <!-- Container that will house the game canvas -->
-            <div style="width: 70%;min-height: 700px;" id="game">
-            </div>
+                <!-- Leaderboard container -->
+                <div class="leaderboard-container">
 
-            <!-- Leaderboard container -->
-            <div class="leaderboard-container">
+                    <div class="panel" style="height: 100%;">
 
-                <div class="panel">
+                        <!-- Leaderboard header -->
+                        <h2 class="text-center leaderboard-header">Ranglijst</h2>
 
-                    <!-- Leaderboard header -->
-                    <h2 class="text-center leaderboard-header">Ranglijst</h2>
+                        <!-- Leader board list -->
+                        <ul class="leaderboard-list" id="leaderboard-list">
 
-                    <!-- Leader board list -->
-                    <ul class="leaderboard-list" id="leaderboard-list">
+                            <!-- Children will be added programmaticly -->
 
-                        <!-- Children will be added programmaticly -->
-
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
             </div>
+
 
         </div>
     </div>
     <!-- End game-screen -->
 
-     <!-- Start closing page -->
-     <div id="screen-ending" class="page page-closing">
+    <!-- Start closing page -->
+    <div id="screen-ending" class="page page-closing">
 
         <!-- Main wrapper -->
         <div class="main">
@@ -135,7 +138,12 @@
                     <div class="closing-text-block">
                         <div class="text-item">
                             <p class="text-1">
-                                Knikker race!
+                                Paaspop
+                            </p>
+                        </div>
+                        <div class="text-item">
+                            <p class="text-2">
+                                Knikker race
                             </p>
                         </div>
                     </div>
@@ -154,12 +162,11 @@
                     </div>
 
                 </div>
-                
+
             </div>
 
             <!-- Closing image -->
-             <img id="opening-image" class="opening-image"
-             src="Images/race.jpg"/>
+            <img id="opening-image" class="opening-image" src="Images/race.jpg" />
 
         </div>
 

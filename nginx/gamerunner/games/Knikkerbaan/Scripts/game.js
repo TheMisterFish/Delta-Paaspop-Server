@@ -2,27 +2,27 @@
 
 //All marbles to be generated
 var colors = [
-        "#d50000",
-        "#C51162",
-        "#AA00FF",
-        "#6200EA",
-        "#304FFE",
-        "#2962FF",
-        "#0091EA",
-        "#FF00FF",
-        "#00BFA5",
-        "#00C853",
-        "#64DD17",
-        "#AEEA00",
-        "#FFD600",
-        "#FFAB00",
-        "#FF6D00",
-        "#DD2C00",
-        "#78FFFF",
-        "#F99AFF",
-        "#FF8E8E",
-        "#A0FF9A"
-    ], // list of all the colors the marbles can have.
+    "#d50000",
+    "#C51162",
+    "#AA00FF",
+    "#6200EA",
+    "#304FFE",
+    "#2962FF",
+    "#0091EA",
+    "#FF00FF",
+    "#00BFA5",
+    "#00C853",
+    "#64DD17",
+    "#AEEA00",
+    "#FFD600",
+    "#FFAB00",
+    "#FF6D00",
+    "#DD2C00",
+    "#78FFFF",
+    "#F99AFF",
+    "#FF8E8E",
+    "#A0FF9A"
+], // list of all the colors the marbles can have.
     marbles = [], // Object array containing the racing marbles | Example [{object:Matter.jsBody,players:[playerobject],position:number}].
     finishedMarbles = [], // Array of the finished marbles | Example [{Matter.jsbody}].
     updatePositionInterval, // Interval to check to current positions of the marbles during the race.
@@ -74,7 +74,7 @@ async function startGame() {
 
     // Start the Matter.js game engine
     startGameEngine();
-    
+
     // Send all the marbles to the gamerunner so that the visitors can choose a marble
     startNextRound();
 
@@ -98,9 +98,17 @@ async function gameOver() {
     //Remove the position tracker interval
     clearInterval(updatePositionInterval);
 
+    // Switch the clients screen to exit
+    switchScreen("exit");
+    showStatus("De race is afgelopen! Dankjewel voor het meespelen!");
+    // Send the end score to the users
+    postScore();
     if (forceStop) {
         //Stop the game engine
         stopGameEngine();
+    }
+    else {
+        await delay(3000)
     }
 
     await delay(3000);
@@ -117,9 +125,6 @@ async function gameOver() {
     // Trigger the open animation
     loadOutTransition();
 
-    // Send the end score to the users
-    postScore();
-
     // Let the API know the game is fully finished.
     stopGame();
 
@@ -131,10 +136,9 @@ async function gameOver() {
 
 // Add a marble to game with the playersname
 async function generateMarble(player) {
-    
+
     //  Generate marbles for each player so long the limit is not reached.
-    if(marbles.length < maxMarbles)
-    {
+    if (marbles.length < maxMarbles) {
         circle = Bodies.circle(Math.floor((Math.random() * 10) + 1), -Height + 20, 20.0, {
             label: player.user,
             friction: 0.00001,
@@ -145,33 +149,31 @@ async function generateMarble(player) {
             }
         });
         addMarbleToLeaderboard(circle.label);
-        marbles.push({object: circle, players:[player], position: marbles.length});
+        marbles.push({ object: circle, players: [player], position: marbles.length });
         World.add(world, circle);
-        setLiveHeader("team:"+circle.label, player.user)
+        setLiveHeader("team:" + circle.label, player.user)
     }
 
     // Assing the other players to the existing marbles
-    else{
-        if(playerAssignCounter <= maxMarbles)
-        {
+    else {
+        if (playerAssignCounter <= maxMarbles) {
             marbles[playerAssignCounter].players.push(player);
             playerAssignCounter++;
-            setLiveHeader("team:"+marbles[playerAssignCounter].object.label, player.user)
+            setLiveHeader("team:" + marbles[playerAssignCounter].object.label, player.user)
         }
-        else{
+        else {
             playerAssignCounter = 0;
             marbles[playerAssignCounter].players.push(player)
-            setLiveHeader("team:"+marbles[playerAssignCounter].object.label, player.user)
+            setLiveHeader("team:" + marbles[playerAssignCounter].object.label, player.user)
         }
     }
-  
+
 }
 
 // Removes the gate object preventing the marbles from going on the track
 function openMarbleGate() {
     World.remove(world, gate)
-    if(marbles.length == 0)
-    {
+    if (marbles.length == 0) {
         gameOver();
     }
 }
@@ -290,28 +292,25 @@ function displayScore() {
 }
 
 // Sends the score of the users to the API
-function postScore()
-{
+function postScore() {
     var userId = "",
         score = 1,
         userScores = [],
         tempObject;
 
-    for(var i = 0; i < finishedMarbles.length; i++)
-    {
+    for (var i = 0; i < finishedMarbles.length; i++) {
         score = (finishedMarbles.length - i);
-        tempObject = marbles.find( marble => marble.object.label == finishedMarbles[i].label);
-        if("players" in tempObject)
-        {
+        tempObject = marbles.find(marble => marble.object.label == finishedMarbles[i].label);
+        if ("players" in tempObject) {
             console.log(tempObject.players.length);
-            for(var j = 0; j < tempObject.players.length ; j++)
-            {
+            for (var j = 0; j < tempObject.players.length; j++) {
                 userId = tempObject.players[j].userId;
-                userScores.push({'user_id':userId, 'points':score});
-
+                userScores.push({ 'user_id': userId, 'points': score });
+                showStatus("Jouw team <br/> <span style='color: #FFE600'>"
+                 + tempObject.object.label + "</span> <br/> heeft de "+ (i+1).toString() + (i == 1 ? "ste " : "e") + " plek behaald", tempObject.players[j].user);
             }
         }
-       
+
     }
     console.log(userScores);
     sendPoints(userScores);
@@ -335,9 +334,9 @@ function gameForceStop() {
 // Information that has been sent from web sockets to the game runner, and that gets passed on to the game.
 // data contains integer that correlates to the buttons of the game.
 function gameUserInput(user, userId, data) {
-    console.log("player: "+user+" joined the race!")
-    var player = {user:user,userId: userId};
-    players.push({'user_id':userId, 'points':1});
+    console.log("player: " + user + " joined the race!")
+    var player = { user: user, userId: userId };
+    players.push({ 'user_id': userId, 'points': 1 });
     generateMarble(player);
 }
 //////////////////////////////////////////////////////////////////////////////

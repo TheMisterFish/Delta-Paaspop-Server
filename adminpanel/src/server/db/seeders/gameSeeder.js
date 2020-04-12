@@ -23,7 +23,7 @@ async function seedGames() {
 			name: 'Knikkerbaan',
 			joinMidGame: false,
 			responseAnswer: "wait",
-			image: "default.jpg"
+			image: "Knikkerbaan.jpg"
 		},
 
 	];
