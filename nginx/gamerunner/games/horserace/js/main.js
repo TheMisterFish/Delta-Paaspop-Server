@@ -195,7 +195,6 @@ function goToEnd() {
     // console.log(busrace)
     loadInTransition()
     window.location = endRace;
-    loadOutTransition()
 };
 
 
@@ -230,13 +229,26 @@ function race() {
         CallWinners()
         // console.log("🏁Stop Race")
         sendPoints(Placing)
-    }, 18000);
 
-    setTimeout(() => {
-        loadInTransition()
-        goToEnd()
-        loadOutTransition()
-    }, 20000);
+        setTimeout(() => {
+            loadInTransition()
+            switchScreen(exit)
+            goToEnd()
+        }, 2000);
+
+    }, 18000);
 
     Placing = [];
 }
+
+
+// TO DO
+
+// Design  
+    // Rondingen weg // andere counters zoals in design
+    // Upper case
+    // 
+
+// Technisch
+    // Game running verloop fixen
+    // Exit scherm
