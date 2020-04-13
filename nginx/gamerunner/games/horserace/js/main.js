@@ -234,6 +234,7 @@ function race() {
 
     setTimeout(() => {
         loadInTransition()
+        switchScreen(exit)
         goToEnd()
         loadOutTransition()
     }, 20000);
