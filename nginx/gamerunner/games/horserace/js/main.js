@@ -191,10 +191,10 @@ function SpawnTrophies() {
 
 
 function goToEnd() {
-    var endRace = "/games/horserace/endscreen.html"
-    // console.log(busrace)
     loadInTransition()
-    window.location = endRace;
+    toggleEnd()
+    toggleGame()
+    loadOutTransition()
 };
 
 
