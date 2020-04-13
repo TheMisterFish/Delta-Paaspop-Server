@@ -133,12 +133,16 @@ export default {
   flex-wrap: wrap;
   text-align: center;
   justify-content: center;
-  text-transform: uppercase;
+	text-transform: uppercase;
+	
 }
 .header {
   margin: auto;
   font-size: 40px;
-  padding: 20px;
+	padding: 20px;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	max-width: 90vw;
 }
 
 .button-container > div {
