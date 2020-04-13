@@ -252,6 +252,15 @@ function sendUserButtons(buttons, userNickname = null) {
 	wsSendData(dataJSON);
 }
 
+function sendButtons(buttons) {
+	let data = {
+		buttons: buttons
+	};
+	let dataJSON = JSON.stringify(data);
+
+	wsSendData(dataJSON);
+}
+
 /**
  * Send user won points in array
  * Points = array with JSON data [{'user_id':id, 'points':points}]
