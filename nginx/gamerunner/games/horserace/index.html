@@ -102,10 +102,8 @@
                 if (timeLeft == -1) {
                     clearTimeout(timerId);
                     document.getElementById('timer').style.display = "none";
-                    loadInTransition()
                     nextRound(["BUS #1", "BUS #2", "BUS #3", "BUS #4"])
                     goToRace()
-                    loadOutTransition()
                 } else {
                     elem.innerHTML = timeLeft;
                     timeLeft--;
@@ -213,7 +211,6 @@
                     if (timeLeft == -1) {
                         clearTimeout(timerId);
                         document.getElementById('timer').style.display = "none";
-                        loadInTransition()
                         stopGame()
 
                     } else {
