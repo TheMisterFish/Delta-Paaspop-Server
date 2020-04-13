@@ -235,6 +235,24 @@ function nextRound(buttons) {
 }
 
 /**
+ * Called by game
+ * Lets clients know next round has started, and show buttons given
+ * @param {String[]} buttons
+ */
+function sendUserButtons(buttons, userNickname = null) {
+	if(userNickname == null)
+		return "userNickname was null"
+	
+	let	data = {
+		userButtons: [userNickname, buttons]
+		};
+
+	let dataJSON = JSON.stringify(data);
+
+	wsSendData(dataJSON);
+}
+
+/**
  * Send user won points in array
  * Points = array with JSON data [{'user_id':id, 'points':points}]
  * @param {*} points 

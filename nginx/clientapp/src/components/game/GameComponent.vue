@@ -146,6 +146,16 @@ export default {
         this.currentScreen = "ButtonsScreen";
         this.game_data.answer = null;
         this.game_data.action = "";
+			}
+			if ("userButtons" in message) {
+				let me = this.$store.getters.user.nickname;
+        if (message.userButtons[0] == me) {
+					this.game_data.buttons = message.userButtons[1];
+					this.componentKey = this.componentKey + 1;
+					this.currentScreen = "ButtonsScreen";
+					this.game_data.answer = null;
+					this.game_data.action = "";
+				}
       }
       if ("status" in message) {
         this.game_data.status = message.status;
