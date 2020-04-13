@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <title>Horse Racing</title>
+
+    <link href="styles/main.min.css" type="text/css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+    <!-- Start questions page -->
+    <div id="screen-questions" class="page page-questions">
+
+        <!-- Main wrapper -->
+        <div class="main">
+
+            <!-- Header -->
+            <div class="header">
+
+                <!-- Logo -->
+                <div class="logo">
+                    <img class="logo-image" src="img/logogifv3.gif">
+                </div>
+
+                <!-- Header text -->
+                <div class="headtext-container">
+                    <div class="headtext-item">
+                        <p id="artist-text" class="artist-text">Bus Race</p>
+                    </div>
+                    <div class="headtext-item">
+                        <p id="question-text" class="question-text">Minigame</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Artist image -->
+            <div id="artist-image" class="artist-image"
+                style="background-image: url('img/download.gif'); width: 70%; height: 50%;  ">
+            </div>
+
+            <!-- Timer -->
+            <div class="timer-container">
+                <p id="timer" class="timer-text">!</p>
+            </div>
+
+            <!-- Time notifier -->
+            <div id="timer-message" class="time-up-notifier">De tijd is om!</div>
+
+        </div>
+
+    </div>
+
+    <!-- Background -->
+    <img class="background" src="img/headervideogif.gif" />
+
+    <!-- Transition open -->
+    <img id="transition-open" class="transition" src="img/transition-open.gif" />
+
+    <!-- Transition close -->
+    <img id="transition-close" class="transition" src="img/transition-close.gif" />
+
+    <script>
+        function goToRace() {
+            // <img id="transition-open" class="transition" src="img/transition-open.gif" />
+            window.location = 'file:///Users/daveyhurkmans/Documents/GIT/pp2/paaspop-server/nginx/gamerunner/games/horserace/race/index.html';
+            // <img id="transition-close" class="transition" src="img/transition-close.gif" />
+        };
+
+    </script>
+
+    <script>
+
+        var timeLeft = 10000;
+        var elem = document.getElementById('timer');
+
+        var timerId = setInterval(countdown, 1000);
+        var voteTime = "TRUE";
+
+        function countdown() {
+            if (timeLeft == -1) {
+                clearTimeout(timerId);
+                document.getElementById('timer').style.display = "none";
+
+
+                goToRace()
+
+            } else {
+                elem.innerHTML = timeLeft;
+                timeLeft--;
+            }
+        }
+    </script>
+
+
+
+</body>
+
+</html>
