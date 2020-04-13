@@ -32,7 +32,7 @@ async function seedGames() {
 		image: "horserace.jpg"
 	},
 	{
-		name: 'would_you_rather',
+		name: 'ikhebliever',
 		joinMidGame: true,
 		responseAnswer: "wait",
 		image: "wouldyourather.jpg"
