@@ -191,10 +191,8 @@ function SpawnTrophies() {
 
 
 function goToEnd() {
-    loadInTransition()
     toggleEnd()
     toggleGame()
-    loadOutTransition()
 };
 
 
