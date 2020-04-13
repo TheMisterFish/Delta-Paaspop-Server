@@ -59,7 +59,7 @@ img  {
 
 @font-face {
     font-family: TTTunnels-Bold;
-    src: url(fonts/TTTunnels-Bold.otf);
+    src: url(/games/horserace/fonts/TTTunnels-Bold.otf);
     font-weight: bold;
   }
 
