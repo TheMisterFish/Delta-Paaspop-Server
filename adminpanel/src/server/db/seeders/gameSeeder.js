@@ -30,6 +30,12 @@ async function seedGames() {
 		joinMidGame: false,
 		responseAnswer: "wait",
 		image: "horserace.jpg"
+	},
+	{
+		name: 'would_you_rather',
+		joinMidGame: true,
+		responseAnswer: "wait",
+		image: "wouldyourather.jpg"
 	}
 
 	];
