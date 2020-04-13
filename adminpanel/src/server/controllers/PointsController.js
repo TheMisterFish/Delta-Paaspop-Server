@@ -40,8 +40,8 @@ exports.apply_points = async function (req, res) {
 		return res.status(400).send("No points."); //Error: No game is running.
 	if (!Array.isArray(points))
 		return res.status(405).send("Points are not in array format")
-
-	const maxPoints = points.reduce((previous, current) => (previous.points > current.points) ? previous : current).points;
+		
+	const maxPoints = Math.max.apply(Math, points.map(function(o) { return o.points; }))
 
 	//Find active game
 	var history = await History.findOne({
@@ -77,16 +77,17 @@ exports.apply_points = async function (req, res) {
 	}
 	Point.insertMany(pointArray)
 		.then(async function (doc) {
-			history.points.push(pointArray.map(p => p._id));
-			history.users.push(pointArray.map(p => p.user));
+			history.points = history.points.concat(pointArray.map(p => p._id));
+			history.users = history.users.concat(pointArray.map(p => p.user));
 			let game = await Game.findOne({
-				_id: history.game._id 
+				_id: history.game._id
 			});
-			game.points.push(pointArray.map(p => p._id));
-			history.save();
-			game.save();
+			game.points = game.points.concat(pointArray.map(p => p._id));
+			await history.save();
+			await game.save();
 			res.status(200).send(doc);
 		}).catch((error) => {
+			console.log("ERROR");
 			console.log(error)
 			res.status(500).send(error);
 		});

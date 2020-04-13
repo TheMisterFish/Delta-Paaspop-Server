@@ -80,7 +80,9 @@ export default {
 	text-transform: uppercase;
 }
 .status-inner {
-  align-self: center;
+	align-self: center;
+	overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 .logo-outer {
 	flex-grow: 1;

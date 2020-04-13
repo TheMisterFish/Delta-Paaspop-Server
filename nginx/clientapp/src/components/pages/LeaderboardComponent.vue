@@ -25,9 +25,18 @@
                   v-for="(user, index) in users"
                   :key="index"
                 >
-                  <td :class="user.nickname == me.nickname ? 'bold' : ''"  class="position">{{index + 1}}</td>
-                  <td :class="user.nickname == me.nickname ? 'bold' : ''" class="user">{{user.nickname}}</td>
-                  <td :class="user.nickname == me.nickname ? 'bold' : ''"  class="last">{{user.points}}</td>
+                  <td
+                    :class="user.nickname == me.nickname ? 'bold' : ''"
+                    class="position"
+                  >{{index + 1}}</td>
+                  <td
+                    :class="user.nickname == me.nickname ? 'bold' : ''"
+                    class="user"
+                  >{{user.nickname}}</td>
+                  <td
+                    :class="user.nickname == me.nickname ? 'bold' : ''"
+                    class="last"
+                  >{{user.points}}</td>
                 </tr>
               </tbody>
             </table>
@@ -45,13 +54,13 @@ export default {
   data() {
     return {
       users: [],
-			me: this.$store.getters.user,
+      me: this.$store.getters.user
     };
   },
   mounted() {
-    UserApi.leaderboard().then((data) => {
-      this.users = data.data;
-    })
+    UserApi.leaderboard().then(data => {
+      this.users = data.data.sort((a, b) => (a.points > b.points ? -1 : 1));
+    });
   }
 };
 </script>
@@ -70,9 +79,9 @@ $maxHeight: calc(100vh - 180px - #{$navHeight});
   height: 100%;
 }
 
-.bold{
-	font-family: Montserrat;
-	font-weight: bold;
+.bold {
+  font-family: Montserrat;
+  font-weight: bold;
 }
 table {
   text-align: left;
@@ -118,8 +127,8 @@ tbody tr {
   table-layout: fixed;
   td {
     padding-top: 7.5px;
-		word-wrap: break-word;         /* All browsers since IE 5.5+ */
-    overflow-wrap: break-word;     /* Renamed property in CSS3 draft spec */
+    word-wrap: break-word; /* All browsers since IE 5.5+ */
+    overflow-wrap: break-word; /* Renamed property in CSS3 draft spec */
   }
 }
 </style>
