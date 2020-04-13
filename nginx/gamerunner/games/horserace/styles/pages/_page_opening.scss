@@ -1,0 +1,89 @@
+// -----------------------------------------------------------------------------
+// This file contains styles that are specific to the opening page.
+// -----------------------------------------------------------------------------
+
+.page-opening{
+    z-index: 20;
+    visibility: hidden;
+
+    .main{
+        position: relative;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        height: calc(100vh - 150px);
+        width: calc(100vw - 150px);
+    }
+
+    .header{
+        height: 250px;
+        display: block;
+      
+        .logo{
+            height: 250px;
+            width: 280px;
+    
+            display: inline-block;
+            vertical-align: top;
+        
+            .logo-image{
+                position: relative;
+                top: -77px;
+                left: -67px;
+                width: 340px;
+                height: auto;
+            }
+        
+        }
+    
+    }
+    
+    .opening-text{
+        width: 100%;
+        height: calc(100% - 250px);
+
+        .opening-text-content{
+            position: absolute;
+            bottom: 0;
+
+            .opening-text-block{
+                position: relative;
+                bottom: 0;
+                left: 0;
+                margin: 1.3rem 0 0 0;
+                padding: 0;
+                z-index: 5;
+
+                .text-1{
+                    @include paaspop-typo-box-1;
+                    font-size: 7rem;
+                    margin: 0;
+                    display: inline-block;
+                }
+        
+                .text-2{
+                    @include paaspop-typo-box-2;
+                    font-size: 7rem;
+                    margin: -1.3rem 0 0 0;
+                    display: inline-block;
+                }
+
+            }
+        
+        }
+
+    }
+
+    .opening-image{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 47%;
+        z-index: 4;
+        padding-top: 47%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+}
