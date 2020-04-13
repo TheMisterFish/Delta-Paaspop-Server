@@ -240,12 +240,12 @@ function nextRound(buttons) {
  * @param {String[]} buttons
  */
 function sendUserButtons(buttons, userNickname = null) {
-	if(userNickname == null)
+	if (userNickname == null)
 		return "userNickname was null"
-	
-	let	data = {
+
+	let data = {
 		userButtons: [userNickname, buttons]
-		};
+	};
 
 	let dataJSON = JSON.stringify(data);
 

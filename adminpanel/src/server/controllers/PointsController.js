@@ -58,6 +58,7 @@ exports.apply_points = async function (req, res) {
 	let pointPercentage, fullPoints;
 	points.forEach(user => {
 		pointPercentage = user.points * 100 / maxPoints;
+		user.pointsPercent = pointPercentage;
 		fullPoints = Math.ceil(pointPercentage / 100 * paaspopMaxPoints);
 		fullPoints += participationPoints;
 		user.paaspopPoints = Math.ceil(fullPoints)
@@ -100,6 +101,7 @@ function convertToPointObjectArray(history, reason, userPointArray) {
 			history: history._id,
 			reason: reason,
 			gamePoints: user.points,
+			gamePercent: user.pointsPercent,
 			points: user.paaspopPoints,
 			user: user.user_id
 		});
