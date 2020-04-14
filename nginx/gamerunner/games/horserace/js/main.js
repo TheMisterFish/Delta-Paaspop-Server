@@ -224,7 +224,7 @@ function race() {
         CallWinners()
         // console.log("🏁Stop Race")
         sendPoint(Placing)
-        switchScreen(exit)
+        switchScreen("exit")
         stopGame()
 
     }, 18000);
