@@ -224,7 +224,9 @@ function race() {
         CallWinners()
         // console.log("🏁Stop Race")
         sendPoint(Placing)
+        setStatus("Hey, hardstikke bedankt voor het spelen van <span style='color: #FFE600;'>horserace</span>. Nog een fijne dag verder")
         switchScreen("exit")
+
     }, 18000);
 
     setTimeout(() => {
