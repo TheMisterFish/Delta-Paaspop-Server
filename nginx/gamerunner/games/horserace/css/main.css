@@ -20,12 +20,12 @@
 }
 
 h1 {
-    font-size: 350%;
+    font-size: 400%;
     color: whitesmoke;
     background: rgb(12, 12, 104);
     width: 39%;
     font-family: TTTunnels-Bold;
-    margin-left: 30%;
+    margin-left: 28%;
     margin-top: 3%;
     z-index: 5;
     display: block;
@@ -59,7 +59,7 @@ img  {
 
 @font-face {
     font-family: TTTunnels-Bold;
-    src: url(/games/horserace/fonts/TTTunnels-Bold.otf);
+    src: url(fonts/TTTunnels-Bold.otf);
     font-weight: bold;
   }
 

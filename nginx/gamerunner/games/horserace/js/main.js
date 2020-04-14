@@ -171,10 +171,10 @@ function SpawnTrophies() {
 
     var display = false;
 
-    if (Placing[0] == 1) { medal.src = '/games/horserace/img/gold.png'; } if (Placing[1] == 1) { medal.src = '/games/horserace/img/silver.png'; } if (Placing[2] == 1) { medal.src = '/games/horserace/img/bronze.png'; } if (Placing[3] == 1) { medal.src = '/games/horserace/img/loser.png'; }
-    if (Placing[0] == 2) { medal2.src = '/games/horserace/img/gold.png'; } if (Placing[1] == 2) { medal2.src = '/games/horserace/img/silver.png'; } if (Placing[2] == 2) { medal2.src = '/games/horserace/img/bronze.png'; } if (Placing[3] == 2) { medal2.src = '/games/horserace/img/loser.png'; }
-    if (Placing[0] == 3) { medal3.src = '/games/horserace/img/gold.png'; } if (Placing[1] == 3) { medal3.src = '/games/horserace/img/silver.png'; } if (Placing[2] == 3) { medal3.src = '/games/horserace/img/bronze.png'; } if (Placing[3] == 3) { medal3.src = '/games/horserace/img/loser.png'; }
-    if (Placing[0] == 4) { medal4.src = '/games/horserace/img/gold.png'; } if (Placing[1] == 4) { medal4.src = '/games/horserace/img/silver.png'; } if (Placing[2] == 4) { medal4.src = '/games/horserace/img/bronze.png'; } if (Placing[3] == 4) { medal4.src = '/games/horserace/img/loser.png'; }
+    if (Placing[0] == 1) { medal.src = '../games/horserace/img/gold.png'; } if (Placing[1] == 1) { medal.src = '../games/horserace/img/silver.png'; } if (Placing[2] == 1) { medal.src = '../games/horserace/img/bronze.png'; } if (Placing[3] == 1) { medal.src = '../games/horserace/img/loser.png'; }
+    if (Placing[0] == 2) { medal2.src = '../games/horserace/img/gold.png'; } if (Placing[1] == 2) { medal2.src = '../games/horserace/img/silver.png'; } if (Placing[2] == 2) { medal2.src = '../games/horserace/img/bronze.png'; } if (Placing[3] == 2) { medal2.src = '../games/horserace/img/loser.png'; }
+    if (Placing[0] == 3) { medal3.src = '../games/horserace/img/gold.png'; } if (Placing[1] == 3) { medal3.src = '../games/horserace/img/silver.png'; } if (Placing[2] == 3) { medal3.src = '../games/horserace/img/bronze.png'; } if (Placing[3] == 3) { medal3.src = '../games/horserace/img/loser.png'; }
+    if (Placing[0] == 4) { medal4.src = '../games/horserace/img/gold.png'; } if (Placing[1] == 4) { medal4.src = '../games/horserace/img/silver.png'; } if (Placing[2] == 4) { medal4.src = '../games/horserace/img/bronze.png'; } if (Placing[3] == 4) { medal4.src = '../games/horserace/img/loser.png'; }
 
     if (display = true) {
         document.getElementById('medals').style.display = "block";
@@ -188,13 +188,6 @@ function SpawnTrophies() {
     if (Placing[0] == 4) { sendAnswer("BUS #4") };
 
 }
-
-
-function goToEnd() {
-    toggleEnd()
-    toggleGame()
-};
-
 
 function pixelsToPercent(w, h) {
     var screenW = window.innerWidth;
@@ -211,6 +204,10 @@ function pixelsToPercent(w, h) {
 //---------------------------------RACE-----------------------------------------------------------------------------------------------------------------------------------------
 
 // race function
+setTimeout(() => {
+    nextRound(["BUS #1", "BUS #2", "BUS #3", "BUS #4"])
+}, 10000);
+
 function race() {
 
     // Reset position
@@ -226,27 +223,11 @@ function race() {
     setTimeout(() => {
         CallWinners()
         // console.log("🏁Stop Race")
-        sendPoints(Placing)
-
-        setTimeout(() => {
-            loadInTransition()
-            switchScreen(exit)
-            goToEnd()
-        }, 2000);
+        sendPoint(Placing)
+        switchScreen(exit)
+        stopGame()
 
     }, 18000);
 
     Placing = [];
 }
-
-
-// TO DO
-
-// Design  
-    // Rondingen weg // andere counters zoals in design
-    // Upper case
-    // 
-
-// Technisch
-    // Game running verloop fixen
-    // Exit scherm

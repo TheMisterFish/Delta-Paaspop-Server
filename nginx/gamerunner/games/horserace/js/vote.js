@@ -16,9 +16,8 @@ elem2.innerHTML = vote2;
 elem3.innerHTML = vote3;
 elem4.innerHTML = vote4;
 
-
 function gameUserInput(user, userId, data) {
-
+  console.log("kaas1")
   if (voteTime == "TRUE") {
     players.push([user, userId, data]);
     lastItem = players.length - 1;
@@ -27,8 +26,11 @@ function gameUserInput(user, userId, data) {
 
     switch (vote) {
       case "BUS #1":
+        console.log("kaas2")
         vote1++;
+        console.log("kaas3")
         elem1.innerHTML = vote1;
+        console.log("kaas14")
         break;
       case "BUS #2":
         vote2++;
@@ -52,7 +54,7 @@ function gameUserInput(user, userId, data) {
 
 }
 
-function sendPoints(Placing) {
+function sendPoint(Placing) {
   let answer;
   players.forEach(function (player) {
     switch (player[2]) {
@@ -73,14 +75,17 @@ function sendPoints(Placing) {
     }
 
     console.log(Placing[0], answer, Placing[0] == answer);
-    if (Placing[0] == answer) { points.push([{ "user_id": player[1], "points": 4 }]) }
-    if (Placing[1] == answer) { points.push([{ "user_id": player[1], "points": 3 }]) }
-    if (Placing[2] == answer) { points.push([{ "user_id": player[1], "points": 2 }]) }
-    if (Placing[3] == answer) { points.push([{ "user_id": player[1], "points": 1 }]) }
+    if (Placing[0] == answer) { points.push({ "user_id": player[1], "points": 4 }) }
+    if (Placing[1] == answer) { points.push({ "user_id": player[1], "points": 3 }) }
+    if (Placing[2] == answer) { points.push({ "user_id": player[1], "points": 2 }) }
+    if (Placing[3] == answer) { points.push({ "user_id": player[1], "points": 1 }) }
   });
 
+  console.log(points)
   //Send points as json
-  wsSendData(JSON.stringify(points))
+  // wsSendData(JSON.stringify(points))
+
+  sendPoints(points)
 
 }
 
