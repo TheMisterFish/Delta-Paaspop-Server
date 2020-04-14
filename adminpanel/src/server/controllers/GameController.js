@@ -177,11 +177,13 @@ exports.get_current = async function (req, res) {
 	 * @param  { any } res
 	 * @returns { object } current_game
 	 */
-	History.find({
+	History.findOne({
 			gameEnded: null
 		}).then(function (game) {
-			if (!game)
+			if (!game) {
 				res.send(false);
+				return;
+			}
 			res.send(game);
 		})
 		.catch((error) => {

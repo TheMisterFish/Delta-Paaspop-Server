@@ -6,12 +6,12 @@
 
 @font-face{
     font-family: TTTunel-Regular;
-    src: url(Fonts/TTTunnels-Regular.otf);
+    src: url(fonts/TTTunnels-Regular.otf);
 }
 
 @font-face{
     font-family: TTTunel-Black;
-    src: url(Fonts/TTTunnels-Black.otf);
+    src: url(fonts/TTTunnels-Black.otf);
 }
 
 body {

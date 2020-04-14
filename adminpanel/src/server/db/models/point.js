@@ -12,6 +12,14 @@ const PointsSchema = mongoose.Schema({
 	reason: {
 		type: String
 	},
+	gamePoints: {
+		type: Number,
+		required: [true, "can't be blank"],
+	},
+	gamePercent:{
+		type: Number,
+		required: [true, "can't be blank"],
+	},
 	points: {
 		type: Number,
 		required: [true, "can't be blank"],

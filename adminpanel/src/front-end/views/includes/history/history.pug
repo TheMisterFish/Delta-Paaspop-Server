@@ -30,6 +30,8 @@ div(class="col col-4")
 					th Gebruiker
 					th Email
 					th Aantal punten
+					th Game punten
+					th Punten percentage (van die game)
 					th Gebruiker bekijken
 			tbody
 				each point, index in history.points
@@ -37,5 +39,7 @@ div(class="col col-4")
 						td= point.user.nickname
 						td= point.user.email
 						td= point.points
+						td= point.gamePoints
+						td= point.gamePercent
 						td
 							a(class="button button-warning button-small" href="/users/"+point.user._id) details

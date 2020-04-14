@@ -28,6 +28,8 @@ div(class="col col-4")
 					th Geschiedenis _id
 					th Datum
 					th Punten
+					th Game punten
+					th Punten percentage (van die game)
 			tbody
 				each point, index in user.points
 					tr
@@ -39,3 +41,5 @@ div(class="col col-4")
 						td= point.history._id
 						td= moment(point.updatedAt).format("DD/MM/YYYY HH:mm")
 						td= point.points
+						td= point.gamePoints
+						td= point.gamePercent
