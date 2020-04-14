@@ -224,11 +224,10 @@ function race() {
         CallWinners()
         // console.log("🏁Stop Race")
         sendPoint(Placing)
+        switchScreen("exit")
     }, 18000);
 
     setTimeout(() => {
-        console.log("Kaas exit!!!!")
-        switchScreen("exit")
         stopGame()
     }, 20000);
 

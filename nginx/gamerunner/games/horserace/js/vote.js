@@ -26,11 +26,8 @@ function gameUserInput(user, userId, data) {
 
     switch (vote) {
       case "BUS #1":
-        console.log("kaas2")
         vote1++;
-        console.log("kaas3")
         elem1.innerHTML = vote1;
-        console.log("kaas14")
         break;
       case "BUS #2":
         vote2++;
