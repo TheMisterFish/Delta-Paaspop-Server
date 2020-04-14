@@ -12,5 +12,5 @@ function setDeminsions() {
 }
 
 toggleFooter();
-runGame(10, false)
+runGame(30, false)
 
