@@ -6,10 +6,10 @@ var _question,
   _timerUpdateSpeed = 1000,
   _gameLoop,
   _startingNewRound = false,
-  _maxAmountOfRounds = 10,
+  _maxAmountOfRounds = 5,
   _amountOfRoundsDone = 0,
   _userJoinTime = 10000,
-  _userPoints = [],
+  _userVotingData = [],
   _endScreenTime = 10000,
   _gameStarted = false;
 
@@ -61,7 +61,11 @@ function stopGameLocal() {
   toggleEndPage();
 
   loadOutTransition();
-  sendPoints(_userPoints);
+  showMobileEndScreen();
+  var userPoints = _userVotingData.map(({ user_id, points }) => ({user_id, points}));
+
+  console.log("points are: " + JSON.stringify(userPoints));
+  sendPoints(userPoints);
 
   setTimeout(() => {
     stopGame();
@@ -82,6 +86,7 @@ function startRound() {
   _question = getRandomChoice();
 
   _timeLeft = _timeBetweenRounds + 1;
+  setLiveHeader("ronde " + _amountOfRoundsDone + " van " + _maxAmountOfRounds);
 
   //Wait for the transition to load
   setTimeout(() => {
@@ -96,9 +101,8 @@ function startRound() {
 }
 
 function updateGame() {
-
   //If time is left update the timer and detract one second
-   if (_timeLeft > 0 && !_startingNewRound) {
+  if (_timeLeft > 0 && !_startingNewRound) {
     _timeLeft -= 1;
     updateVisualTimer(_timeLeft);
   }
@@ -126,8 +130,7 @@ function updateChoices() {
 }
 
 function resetVotes() {
-  var voteNode,
-      VotePercentNode;
+  var voteNode, VotePercentNode;
   for (var i = 0; i < Object.keys(_question.answers).length; i++) {
     voteNode = document.getElementsByClassName("vote" + i)[0];
     VotePercentNode = document.getElementsByClassName("votePercent" + i)[0];
@@ -137,22 +140,23 @@ function resetVotes() {
   }
 }
 
-function gameUserInput(user, userid ,data) {
+function gameUserInput(user, userid, data) {
   if (_gameStarted && !_startingNewRound && !_paused) {
     var index = _question.ButtonText.indexOf(data);
 
     updateVotes(index);
-    saveUserVote(userid);
+    saveUserVote(userid, index, user);
   }
 }
 
-function saveUserVote(userId){
-  var currentUserPoints = _userPoints.find(usr => usr.user_id == userId);
-  if (currentUserPoints){
-    currentUserPoints.points += 1;
-  }
-  else{
-    _userPoints.push({user_id: userId, points: 1});
+function saveUserVote(userId, index, userName) {
+  var currentUserVotingData = _userVotingData.find((usr) => usr.user_id == userId);
+
+  if (currentUserVotingData) {
+      currentUserVotingData.points += 1;
+      currentUserVotingData.chosenAnswersWithRound.push({answerIndex: index, roundIndex: _amountOfRoundsDone -1});
+  } else {
+    _userVotingData.push({ user_id: userId, points: 1, username: userName, chosenAnswersWithRound: [{ answerIndex: index, roundIndex: _amountOfRoundsDone - 1}] });
   }
 }
 
@@ -196,10 +200,7 @@ function getTotalAmountOfVotes() {
 }
 
 function updateVotePercentages(totalVotes) {
-  var visualVoteNode,
-      visualVotePercentNode,
-      updatePercentage,
-      btnText;
+  var visualVoteNode, visualVotePercentNode, updatePercentage, btnText;
   for (var i = 0; i < Object.keys(_question.answers).length; i++) {
     //Get both voteNode and VotePercentNode from DOM
     visualVoteNode = document.getElementsByClassName("vote" + i)[0];
@@ -234,7 +235,24 @@ function updateBackgroundImageSizes(amountInPercent) {
 
 function updateVisualTimer(value) {
   document.getElementById("timer").innerHTML = value;
-  // console.log("timeLeft: " + value);
+}
+
+function showMobileEndScreen() {
+  // Switch the clients screen to exit
+  switchScreen("exit"); 
+  var endingText = "";
+  var random = 0;
+  var maxChoicesMadeShown = 3;
+
+  _userVotingData.forEach((user) => {
+    maxChoicesMadeShown = (user.chosenAnswersWithRound.length >= maxChoicesMadeShown) ? maxChoicesMadeShown : user.chosenAnswersWithRound.length;
+    endingText = "";
+    for(var i = 0; i < maxChoicesMadeShown; i++){
+      random = user.chosenAnswersWithRound[i];
+      endingText += "<br>" + Number(i + 1) + ". " + alreadyDoneChoices[random.roundIndex].answers[random.answerIndex];
+    }
+    showStatus("<span style='color: #FFE600'>Bedankt voor het spelen!<br><br></span> <span>Sommige keuzes die jij gemaakt hebt zijn:</span> " + "<span style='color: #FFE600'>" + endingText + "<span>", user.username); 
+  })
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
