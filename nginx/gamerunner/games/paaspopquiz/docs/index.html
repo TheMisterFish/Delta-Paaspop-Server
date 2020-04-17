@@ -1,4 +1,45 @@
-// Variables
+
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta charset='utf-8'/>
+	<title>Source: main.js - JSDoc</title>
+	<link type='text/css' rel='stylesheet' href='css/jsdoc-template.css'/>
+	<meta name="viewport" content="width=device-width,
+                        initial-scale=1"/>
+</head>
+<body data-gs='{"openPageHeader": "is-page-header-open", "searching": "is-searching"}'>
+	<div id='page-wrapper'>
+		<header id='page-header' data-gs-target='openPageHeader'>
+			
+			<h1 id='page-title'>
+				<a href="/">JSDoc</a>
+			</h1>
+			
+			<nav id='content-nav'>
+				<header>
+					<div id='search'>
+						<div class='textfield-wrapper'>
+							<input type='search' name='q' placeholder='Search...' data-internal-search='#content-nav li a' data-gs-search='searching'/>
+						</div>
+					</div>
+				</header>
+				<h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><abbr title="Global">Glo</abbr> <a href="global.html#applyData">applyData</a></li><li><abbr title="Global">Glo</abbr> <a href="global.html#CalculateUserPointsForRound">CalculateUserPointsForRound</a></li><li><abbr title="Global">Glo</abbr> <a href="global.html#closeTransition">closeTransition</a></li><li><abbr title="Global">Glo</abbr> <a href="global.html#delay">delay</a></li><li><abbr title="Global">Glo</abbr> <a href="global.html#gameForceStop">gameForceStop</a></li><li><abbr title="Global">Glo</abbr> <a href="global.html#gameUserInput">gameUserInput</a></li><li><abbr title="Global">Glo</abbr> <a href="global.html#gameUserJoined">gameUserJoined</a></li><li><abbr title="Global">Glo</abbr> <a href="global.html#loadData">loadData</a></li><li><abbr title="Global">Glo</abbr> <a href="global.html#openTransition">openTransition</a></li><li><abbr title="Global">Glo</abbr> <a href="global.html#quizEnd">quizEnd</a></li><li><abbr title="Global">Glo</abbr> <a href="global.html#quizInit">quizInit</a></li><li><abbr title="Global">Glo</abbr> <a href="global.html#quizItemActive">quizItemActive</a></li><li><abbr title="Global">Glo</abbr> <a href="global.html#quizItemNext">quizItemNext</a></li><li><abbr title="Global">Glo</abbr> <a href="global.html#quizItemReset">quizItemReset</a></li><li><abbr title="Global">Glo</abbr> <a href="global.html#quizMainLoop">quizMainLoop</a></li><li><abbr title="Global">Glo</abbr> <a href="global.html#quizStart">quizStart</a></li><li><abbr title="Global">Glo</abbr> <a href="global.html#switchScreens">switchScreens</a></li></ul>
+			</nav>
+		</header>
+		<div id='main-wrapper'>
+			<button id='page-header-opener' title='Toggle left bar' class='has-icon' data-css-icon='menu' type='button' data-gs-toggle='openPageHeader'>Toggle left bar</button>
+			<main id='content'>
+				<header>
+					<h1 id='content-title'>Source: main.js</h1>
+				</header>
+				
+
+
+
+    
+    <figure class='source-code-wrapper'>
+        <pre class="prettyprint source linenums"><code>// Variables
 var $transitionOpen, 	// Transition open DOM element
 	$transitionClose, 	// Transition close DOM element
 	$screenStarting, 	// Screen starting DOM element
@@ -509,7 +550,7 @@ function gameUserJoined(user, userId) {
 	}
 
 	// If the minimum amount of required users is reached and this is the first time starting
-	if (users.length >= minStartUsers && isFirstStart) {
+	if (users.length >= minStartUsers &amp;&amp; isFirstStart) {
 
 		// The next time starting won't be considered the first time starting
 		// Used to prevent the quiz from starting twice when the minimum amount of required users is reached twice due to disconnects 
@@ -567,7 +608,7 @@ function CalculateUserPointsForRound(correctQuizAnswer) {
 		userIndex;
 
 	// For each answer received
-	for (var i = 0; i < userAnswers.length; i++) {
+	for (var i = 0; i &lt; userAnswers.length; i++) {
 
 		// Set the points that will be awarded to the users for answering that round
 		points = 1;
@@ -614,4 +655,21 @@ function CalculateUserPointsForRound(correctQuizAnswer) {
 	// Reset the user answers
 	userAnswers = [];
 
-}
+}</code></pre>
+    </figure>
+
+
+
+
+
+			</main>
+		</div>
+	</div>
+	<script src='js/jsdoc-template.js' async></script>
+	
+	<script src='js/prettify.min.js' async></script>
+	<link rel='stylesheet' type='text/css' href='css/tomorrow.min.css'/>
+	
+	
+</body>
+</html>
