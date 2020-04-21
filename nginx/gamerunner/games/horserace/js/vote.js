@@ -31,15 +31,15 @@ function gameUserInput(user, userId, data) {
         break;
       case "BUS #2":
         vote2++;
-        elem2.innerHTML = vote1;
+        elem2.innerHTML = vote2;
         break;
       case "BUS #3":
         vote3++;
-        elem3.innerHTML = vote1;
+        elem3.innerHTML = vote3;
         break;
       case "BUS #4":
         vote4++;
-        elem4.innerHTML = vote1;
+        elem4.innerHTML = vote4;
         break;
       default:
         break;
@@ -79,9 +79,6 @@ function sendPoint(Placing) {
   });
 
   console.log(points)
-  //Send points as json
-  // wsSendData(JSON.stringify(points))
-
   sendPoints(points)
 
 }
