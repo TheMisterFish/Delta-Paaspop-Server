@@ -2,17 +2,18 @@
 <html>
 
 <head>
-    
+
     <meta charset="utf-8">
     <title>PaasPopQuiz</title>
 
+    <!-- Minified main CSS -->
     <link href="games/paaspopquiz/styles/main.min.css" type="text/css" rel="stylesheet" />
-    
+
 </head>
 
 <body>
 
-    <!-- Start opening page -->
+    <!-- Opening screen -->
     <div id="screen-starting" class="page page-opening">
 
         <!-- Main wrapper -->
@@ -30,9 +31,9 @@
 
             <!-- Opening text -->
             <div class="opening-text">
-
                 <div class="opening-text-content">
 
+                    <!-- Opening text block -->
                     <div class="opening-text-block">
                         <div class="text-item">
                             <p class="text-1">
@@ -46,6 +47,7 @@
                         </div>
                     </div>
 
+                    <!-- Opening text block -->
                     <div class="opening-text-block">
                         <div class="text-item">
                             <p class="text-1">
@@ -60,18 +62,17 @@
                     </div>
 
                 </div>
-                
             </div>
 
             <!-- Opening image -->
-            <div id="opening-image" class="opening-image" style="background-image: url('games/paaspopquiz/data/quiz_images/ChefSpecial.jfif');"></div>
+            <div id="opening-image" class="opening-image"
+                style="background-image: url('games/paaspopquiz/data/quiz_images/ChefSpecial.jfif');"></div>
 
         </div>
-
     </div>
-    <!-- Close opening page -->
 
-    <!-- Start questions page -->
+
+    <!-- Questions screen -->
     <div id="screen-questions" class="page page-questions">
 
         <!-- Main wrapper -->
@@ -100,26 +101,34 @@
             <!-- Answers -->
             <div class="answers">
                 <div class="answer-container">
+
+                    <!-- Answer -->
                     <div class="answer-item">
                         <p id="answer-a" class="answer">
                             Placeholder
                         </p>
                     </div>
+
+                    <!-- Answer -->
                     <div class="answer-item">
                         <p id="answer-b" class="answer">
                             Placeholder
                         </p>
                     </div>
+
+                    <!-- Answer -->
                     <div class="answer-item">
                         <p id="answer-c" class="answer">
                             Placeholder
                         </p>
                     </div>
+
                 </div>
             </div>
 
             <!-- Artist image -->
-            <div id="artist-image" class="artist-image" style="background-image: url('games/paaspopquiz/images/placeholder.png');"></div>
+            <div id="artist-image" class="artist-image"
+                style="background-image: url('games/paaspopquiz/images/placeholder.png');"></div>
 
             <!-- Timer -->
             <div class="timer-container">
@@ -132,9 +141,9 @@
         </div>
 
     </div>
-    <!-- End questions page -->
 
-    <!-- Start closing page -->
+
+    <!-- Closing screen -->
     <div id="screen-ending" class="page page-closing">
 
         <!-- Main wrapper -->
@@ -150,11 +159,11 @@
 
             </div>
 
-            <!-- Opening text -->
+            <!-- Closing text -->
             <div class="closing-text">
-
                 <div class="closing-text-content">
 
+                    <!-- Closing text block -->
                     <div class="closing-text-block">
                         <div class="text-item">
                             <p class="text-1">
@@ -168,6 +177,7 @@
                         </div>
                     </div>
 
+                    <!-- Closing text block -->
                     <div class="closing-text-block">
                         <div class="text-item">
                             <p class="text-1">
@@ -182,27 +192,30 @@
                     </div>
 
                 </div>
-                
+
             </div>
 
             <!-- Closing image -->
-            <div id="closing-image" class="closing-image" style="background-image: url('games/paaspopquiz/data/quiz_images/ChefSpecial.jfif');"></div>
+            <div id="closing-image" class="closing-image"
+                style="background-image: url('games/paaspopquiz/data/quiz_images/ChefSpecial.jfif');"></div>
 
         </div>
 
     </div>
-    <!-- Close closing page -->
+
 
     <!-- Background -->
-    <img class="background" src="games/paaspopquiz/images/headervideogif.gif"/>
+    <img class="background" src="games/paaspopquiz/images/headervideogif.gif" />
+
 
     <!-- Transition open -->
-    <img id="transition-open" class="transition" src="games/paaspopquiz/images/transition-open.gif"/>
-    
+    <img id="transition-open" class="transition" src="games/paaspopquiz/images/transition-open.gif" />
+
     <!-- Transition close -->
-    <img id="transition-close" class="transition" src="games/paaspopquiz/images/transition-close.gif"/>
+    <img id="transition-close" class="transition" src="games/paaspopquiz/images/transition-close.gif" />
 
 
+    <!-- Main script -->
     <script src="games/paaspopquiz/scripts/main.js"></script>
 
 </body>
