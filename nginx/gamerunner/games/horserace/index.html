@@ -1,110 +1,36 @@
-<!DOCTYPE html>
 <html>
 
 <head>
-
-    <meta charset="utf-8">
-    <title>Horse Racing</title>
-
-    <link href="/games/horserace/styles/main.min.css" type="text/css" rel="stylesheet" />
-
+    <!-- <base href="/games/horserace/"> -->
+    <title> 2D racing </title>
+    <link rel="stylesheet" href="/games/horserace/css/main.css">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
 </head>
 
 <body>
 
-    <!-- Start questions page -->
-    <div id="screen-questions" class="page page-questions">
+    <video autoplay muted loop id="backgroundVideo">
+        <source src="/games/horserace/img/minimal1.mp4" />
+    </video>
 
-        <!-- Main wrapper -->
-        <div class="main">
 
-            <!-- Header -->
-            <div class="header">
+    <h1>Welke bus komt als eerste aan?</h1>
 
-                <!-- Logo -->
-                <div class="logo">
-                    <img class="logo-image" src="/games/horserace/img/logogifv3.gif">
-                </div>
-
-                <!-- Header text -->
-                <div class="headtext-container">
-                    <div class="headtext-item">
-                        <p id="artist-text" class="artist-text">Bus Race</p>
-                    </div>
-                    <div class="headtext-item">
-                        <p id="artist-text" class="artist-text">Minigame</p>
-                    </div>
-
-                    <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
-
-                    <div class="headtext-item">
-                        <p id="question-text" class="question-text">Opgepast, Klaar? Start!</p>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Artist image -->
-            <div id="artist-image" class="artist-image"
-                style="background-image: url('/games/horserace/img/download.gif'); width: 70%; height: 50%;  ">
-            </div>
-
-            <!-- Timer -->
-            <div class="timer-container">
-                <p id="timer" class="timer-text">!</p>
-            </div>
-
-            <!-- Time notifier -->
-            <div id="timer-message" class="time-up-notifier">De tijd is om!</div>
-
-        </div>
-
+    <div id="plane">
+        <div id="medals"> </div>
     </div>
 
-    <!-- Background -->
-    <img class="background" src="/games/horserace/img/headervideogif.gif" />
+    <script src="/games/horserace/js/main.js"> </script>
 
-    <!-- Transition open -->
-    <img id="transition-open" class="transition" src="/games/horserace/img/transition-open.gif" />
+    <div id="vote1"> </div>
+    <div id="vote2"> </div>
+    <div id="vote3"> </div>
+    <div id="vote4"> </div>
+    <script src="/games/horserace/js/vote.js"> </script>
 
-    <!-- Transition close -->
-    <img id="transition-close" class="transition" src="/games/horserace/img/transition-close.gif" />
-
-    <script>
-        function goToRace() {
-            var busrace = "/games/horserace/race/index.html"
-            // console.log(busrace)
-            loadInTransition()
-            window.location = busrace;
-            loadOutTransition()
-        };
-
-    </script>
-
-    <script>
-
-        var timeLeft = 10;
-        var elem = document.getElementById('timer');
-
-        var timerId = setInterval(countdown, 1000);
-
-        nextRound(["BUS #1", "BUS #2", "BUS #3", "BUS #4"])
-
-        function countdown() {
-            if (timeLeft == -1) {
-                clearTimeout(timerId);
-                document.getElementById('timer').style.display = "none";
-                loadInTransition()
-                goToRace()
-                loadOutTransition()
-            } else {
-                elem.innerHTML = timeLeft;
-                timeLeft--;
-            }
-        }
-    </script>
-
-
+    <div id="timer"> </div>
+    <script src="/games/horserace/js/timer.js"> </script>
 
 </body>
 
